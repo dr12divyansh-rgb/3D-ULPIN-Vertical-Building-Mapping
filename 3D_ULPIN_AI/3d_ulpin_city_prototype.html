@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>3D ULPIN — Google Maps Style Cadastral Prototype</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="frontend_properties.js"></script>
+
+<style>
+  :root{
+    --map-bg:#dbe7d3;
+    --panel:#fff;
+    --panel-soft:rgba(255,255,255,.94);
+    --line:#dadce0;
+    --text:#202124;
+    --muted:#5f6368;
+    --blue:#1a73e8;
+    --blue-dark:#1557b0;
+    --gold:#f9ab00;
+    --residential:#e8a04a;
+    --commercial:#5b8def;
+    --institutional:#32a852;
+    --parking:#78909c;
+    --common:#7e9bc7;
+    --utility:#16a085;
+    --font-display:Arial, 'Segoe UI', sans-serif;
+    --font-mono:'SFMono-Regular', Consolas, monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;background:var(--map-bg);color:var(--text);font-family:var(--font-display);overflow:hidden}
+  #app{position:relative;width:100vw;height:100vh}
+  canvas{display:block}
+  #mapCanvas{position:absolute;inset:0;z-index:0}
+
+  /* Google Maps-inspired shell */
+  #mapTopbar{position:absolute;left:0;right:0;top:0;height:76px;z-index:20;display:flex;align-items:center;gap:14px;padding:10px 18px;pointer-events:none}
+  #mapTopbar>*{pointer-events:auto}
+  #mapActions{position:absolute;right:18px;top:16px;display:flex;gap:8px}
+  .mapBtn{height:42px;min-width:42px;border:0;border-radius:3px;background:#fff;box-shadow:0 2px 6px rgba(60,64,67,.3);cursor:pointer;color:#3c4043;font-size:14px;padding:0 13px}
+  .mapBtn:hover{background:#f8f9fa}
+  .mapBtn.active{color:var(--blue);font-weight:600}
+  #header{position:absolute;left:18px;top:84px;z-index:10;pointer-events:none}
+  #header .brand{background:rgba(255,255,255,.92);border-radius:4px;box-shadow:0 1px 4px rgba(60,64,67,.25);padding:10px 13px;backdrop-filter:blur(5px)}
+  #header .brand .eyebrow{font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;color:#5f6368;text-transform:uppercase}
+  #header .brand h1{font-size:16px;font-weight:600;color:#202124;margin-top:2px}
+  #header .team{display:none}
+  #stepBadge{font-family:var(--font-mono);font-size:9px;color:#1a73e8;background:#e8f0fe;border:0;border-radius:12px;padding:3px 8px;display:inline-block;margin-top:5px}
+
+
+  #header{
+    position:absolute; top:0; left:0; right:0;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 26px; z-index:10; pointer-events:none;
+    background:linear-gradient(180deg, rgba(10,18,28,0.92) 0%, rgba(10,18,28,0.0) 100%);
+  }
+  #header .brand{ display:flex; flex-direction:column; gap:2px; }
+  #header .brand .eyebrow{ font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.18em; color:var(--teal); text-transform:uppercase; }
+  #header .brand h1{ font-size:19px; font-weight:600; letter-spacing:0.01em; color:var(--text-hi); }
+  #header .team{ font-family:var(--font-mono); font-size:11px; color:var(--text-lo); text-align:right; line-height:1.5; }
+  #header .team b{ color:var(--gold); }
+  #stepBadge{
+    font-family:var(--font-mono); font-size:10px; color:var(--teal);
+    background:rgba(79,209,197,0.1); border:1px solid rgba(79,209,197,0.3);
+    border-radius:20px; padding:3px 10px; display:inline-block; margin-top:4px; letter-spacing:0.04em;
+  }
+
+  #legend{position:absolute;left:18px;top:235px;background:var(--panel-soft);border:1px solid #ddd;border-radius:3px;padding:12px 14px;z-index:10;width:205px;box-shadow:0 1px 5px rgba(60,64,67,.25)}
+  #legend h3,#citySummary h3,#info h2,#controls h2{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;font-weight:600}
+  #legend .item{display:flex;align-items:center;gap:8px;font-size:12px;margin-bottom:7px}
+  #legend .item:last-child{margin-bottom:0}
+  #legend .sw{width:12px;height:12px;border-radius:2px;flex:none;border:1px solid rgba(0,0,0,.12)}
+  #legend .hint{font-size:10px;color:var(--muted);margin-top:9px;line-height:1.35}
+
+  #citySummary{position:absolute;right:18px;top:84px;width:265px;background:var(--panel-soft);border:1px solid #ddd;border-radius:3px;padding:12px 14px;backdrop-filter:blur(5px);z-index:10;box-shadow:0 1px 5px rgba(60,64,67,.25)}
+  #citySummary .row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-top:1px solid #eee;font-size:12px}
+  #citySummary .row:first-of-type{border-top:none}
+  #citySummary .row .k{color:var(--muted)}
+  #citySummary .row .v{font-family:var(--font-mono);color:var(--text)}
+  #citySummary .row .v.hi{color:var(--blue)}
+
+  #controls{position:absolute;left:18px;bottom:24px;width:255px;background:var(--panel-soft);border:1px solid #ddd;border-radius:3px;padding:13px 14px;backdrop-filter:blur(5px);z-index:10;box-shadow:0 1px 5px rgba(60,64,67,.25)}
+  .row{margin-bottom:11px}
+  .row:last-child{margin-bottom:0}
+  .row label{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--text);margin-bottom:6px;cursor:pointer}
+  .row label span.val{font-family:var(--font-mono);color:var(--blue);font-size:11px}
+  input[type=range]{-webkit-appearance:none;width:100%;height:4px;border-radius:2px;background:#dadce0;outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--blue);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+  select{width:100%;background:#fff;color:var(--text);border:1px solid #dadce0;border-radius:2px;padding:8px;font-size:12px;font-family:var(--font-display)}
+  #backBtn{width:100%;margin-top:4px;background:#fff;border:1px solid #dadce0;color:var(--blue);border-radius:2px;padding:8px;font-size:12px;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+  #backBtn:hover{background:#f8f9fa}
+  input[type=checkbox]{accent-color:var(--blue);width:15px;height:15px}
+
+  #info{position:absolute;right:18px;bottom:24px;width:305px;background:var(--panel-soft);border:1px solid #ddd;border-radius:3px;padding:15px;backdrop-filter:blur(5px);z-index:10;max-height:calc(100vh - 245px);overflow-y:auto;box-shadow:0 1px 5px rgba(60,64,67,.25)}
+  #info .hint{font-size:12px;color:var(--muted);line-height:1.5}
+  #info .bname{font-size:15px;font-weight:600;margin:10px 0 2px;color:var(--text)}
+  #info .ulpin{font-family:var(--font-mono);font-size:11px;color:var(--blue);word-break:break-all;margin-bottom:10px}
+  .stat{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-top:1px solid #eee;font-size:12px}
+  .stat:first-of-type{border-top:none}
+  .stat .k{color:var(--muted)}
+  .stat .v{font-family:var(--font-mono);color:var(--text)}
+  #enterBtn{width:100%;margin-top:12px;background:var(--blue);color:#fff;border:none;border-radius:2px;padding:9px;font-size:12px;font-weight:600;cursor:pointer}
+  #enterBtn:hover{background:var(--blue-dark)}
+
+  #mapControls{position:absolute;right:18px;bottom:24px;z-index:11;display:flex;flex-direction:column;gap:1px;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+  .zoomBtn{width:38px;height:38px;border:0;background:#fff;color:#3c4043;font-size:20px;cursor:pointer}
+  .zoomBtn:hover{background:#f8f9fa}
+  #compass{position:absolute;right:68px;bottom:25px;width:52px;height:52px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.25);z-index:11;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;user-select:none}
+  #scaleBar{position:absolute;left:282px;bottom:20px;z-index:9;background:rgba(255,255,255,.8);padding:3px 6px;font:10px var(--font-mono);color:#3c4043;border-radius:2px}
+  #mapMode{position:absolute;right:18px;top:205px;z-index:11;display:flex;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+  #mapMode button{border:0;background:#fff;padding:8px 11px;font-size:11px;cursor:pointer}
+  #mapMode button.active{background:#e8f0fe;color:#1a73e8;font-weight:600}
+  #toast{position:absolute;left:50%;bottom:32px;transform:translateX(-50%) translateY(15px);background:#323232;color:#fff;padding:9px 14px;border-radius:3px;font-size:12px;opacity:0;pointer-events:none;transition:.2s;z-index:30}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  #loading{ position:absolute; inset:0; background:var(--bg-deep); display:flex; align-items:center; justify-content:center; z-index:50; flex-direction:column; gap:10px; }
+  #loading .dot{ font-family:var(--font-mono); font-size:12px; color:var(--teal); letter-spacing:0.1em; }
+  @media(max-width:900px){
+    #mapsLogo{display:none}
+    #searchBox{width:54vw;left:50%;transform:translateX(-50%)}
+    #citySummary{display:none}
+    #legend{top:145px;left:10px}
+    #header{top:82px;left:10px;max-width:58vw}
+    #controls{left:10px;bottom:10px;width:235px}
+    #info{right:10px;bottom:10px;width:270px;max-height:42vh}
+    #mapMode{top:145px;right:10px}
+    #mapControls{right:10px;bottom:70px}
+    #compass{right:58px;bottom:70px}
+    #scaleBar{left:250px;bottom:8px}
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="loading"><div class="dot">GENERATING 3D CADASTRAL CITY MODEL…</div></div>
+  <div id="mapTopbar">
+    <div id="mapActions">
+      <button class="mapBtn active" id="layersBtn">☷ Layers</button>
+      <button class="mapBtn" id="locateBtn">◎ My view</button>
+    </div>
+  </div>
+
+  <div id="header">
+    <div class="brand">
+      <div class="eyebrow">SIH 2026 · SIH26011 · Prototype Demo</div>
+      <h1>3D ULPIN — City-Scale Vertical Property Mapping</h1>
+      <span id="stepBadge">City view — click any building to inspect its 3D ULPIN</span>
+    </div>
+    <div class="team">Team <b>HummingBirds</b> · Smart Automation · Software<br>Drag to orbit · scroll to zoom · click a building</div>
+  </div>
+
+  <div id="mapMode"><button id="roadMode" class="active">Map</button><button id="satMode">Satellite</button></div>
+  <div id="mapControls"><button class="zoomBtn" id="zoomIn">+</button><button class="zoomBtn" id="zoomOut">−</button></div>
+  <div id="compass" title="Reset north">N</div>
+  <div id="scaleBar">100 m</div>
+  <div id="toast"></div>
+
+  <div id="legend">
+    <h3>Parcel Type</h3>
+    <div class="item"><span class="sw" style="background:var(--residential)"></span>Residential</div>
+    <div class="item"><span class="sw" style="background:var(--commercial)"></span>Commercial</div>
+    <div class="item"><span class="sw" style="background:var(--institutional)"></span>Institutional</div>
+    <div class="item"><span class="sw" style="background:var(--parking)"></span>Parking (basement)</div>
+    <div class="item"><span class="sw" style="background:var(--utility)"></span>Utility / Services</div>
+    <div class="hint">Building height = floor count. Vacant plots are roads / open space.</div>
+  </div>
+
+  <div id="citySummary">
+    <h3>City-Scale Cadastral Summary</h3>
+    <div class="row"><span class="k">Surface parcels (plots)</span><span class="v" id="cs-plots">–</span></div>
+    <div class="row"><span class="k">Buildings mapped</span><span class="v" id="cs-buildings">–</span></div>
+    <div class="row"><span class="k">Floors processed</span><span class="v" id="cs-floors">–</span></div>
+    <div class="row"><span class="k">3D ULPINs generated</span><span class="v hi" id="cs-ulpins">–</span></div>
+    <div class="row"><span class="k">Underground assets mapped</span><span class="v" id="cs-under">–</span></div>
+    <div class="row"><span class="k">Topology validated</span><span class="v hi" id="cs-valid">–</span></div>
+  </div>
+
+  <div id="controls">
+    <h2 id="ctrlTitle">City Controls</h2>
+    <div id="cityControls">
+      <div class="row">
+        <label>Filter by type</label>
+        <select id="typeFilter">
+          <option value="all">All parcel types</option>
+          <option value="residential">Residential</option>
+          <option value="commercial">Commercial</option>
+          <option value="institutional">Institutional</option>
+        </select>
+      </div>
+      <div class="row">
+        <label>Show parcel grid <input type="checkbox" id="gridToggle" checked></label>
+      </div>
+    </div>
+    <div id="buildingControls" style="display:none;">
+      <div class="row">
+        <label>Underground infrastructure <input type="checkbox" id="underToggle" checked></label>
+      </div>
+      <div class="row">
+        <label>Vertical slice <span class="val" id="clipVal">Top</span></label>
+        <input type="range" id="clipSlider" min="-1" max="12" step="1" value="12">
+      </div>
+    </div>
+    <button id="backBtn">← Back to City</button>
+  </div>
+
+  <div id="info">
+    <h2>Parcel Inspector</h2>
+    <div id="infoBody">
+      <div class="hint">Click any building to view its surface 3D ULPIN, floor count and type. From there you can enter the building to inspect each floor and unit's individual volumetric ULPIN.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xcbdcc2);
+  scene.fog = new THREE.Fog(0xcbdcc2, 120, 420);
+
+  const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 1200);
+
+  const renderer = new THREE.WebGLRenderer({antialias:true});
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  document.getElementById('app').appendChild(renderer.domElement);
+  renderer.domElement.style.touchAction = 'none';
+
+  // ---------- Lightweight orbit camera ----------
+  let camTheta=0.65, camPhi=0.95, camDist=150, camTarget=new THREE.Vector3(0,10,0);
+  let targetDist=150, targetTarget=new THREE.Vector3(0,10,0);
+  let isDragging=false, lastX=0, lastY=0, moved=0;
+  renderer.domElement.addEventListener('pointerdown', e=>{isDragging=true; lastX=e.clientX; lastY=e.clientY; moved=0;});
+  window.addEventListener('pointerup', e=>{ isDragging=false; if(moved<6) handleClick(e); });
+  window.addEventListener('pointermove', e=>{
+    if(!isDragging) return;
+    const dx=e.clientX-lastX, dy=e.clientY-lastY; moved += Math.abs(dx)+Math.abs(dy);
+    camTheta -= dx*0.006;
+    camPhi = Math.min(1.45, Math.max(0.2, camPhi - dy*0.006));
+    lastX=e.clientX; lastY=e.clientY;
+  });
+  renderer.domElement.addEventListener('wheel', e=>{
+    e.preventDefault();
+    targetDist = Math.min(320, Math.max(14, targetDist + e.deltaY*0.08));
+  }, {passive:false});
+  function updateCamera(){
+    camDist += (targetDist-camDist)*0.08;
+    camTarget.lerp(targetTarget, 0.08);
+    camera.position.x = camTarget.x + camDist*Math.sin(camPhi)*Math.sin(camTheta);
+    camera.position.z = camTarget.z + camDist*Math.sin(camPhi)*Math.cos(camTheta);
+    camera.position.y = camTarget.y + camDist*Math.cos(camPhi);
+    camera.lookAt(camTarget);
+  }
+
+  // ---------- Ground / GIS parcel grid ----------
+  const groundGeo = new THREE.PlaneGeometry(500,500);
+  const groundMat = new THREE.MeshStandardMaterial({color:0xcbdcc2, roughness:1});
+  const ground = new THREE.Mesh(groundGeo, groundMat);
+  ground.rotation.x = -Math.PI/2;
+  scene.add(ground);
+
+  const GRID_N = 9, SPACING = 16;
+  const parcelGrid = new THREE.GridHelper(GRID_N*SPACING+SPACING, GRID_N+1, 0xb9a87f, 0xd2c9ae);
+  parcelGrid.position.y = 0.02;
+  parcelGrid.material.opacity = 0.62; parcelGrid.material.transparent = true;
+  scene.add(parcelGrid);
+
+  // Map-style roads between cadastral blocks.
+  const roadMat = new THREE.MeshStandardMaterial({color:0xf4f1e7, roughness:1});
+  for(let i=0;i<GRID_N+1;i++){
+    const p=(i-GRID_N/2)*SPACING + SPACING/2;
+    const roadH=new THREE.Mesh(new THREE.PlaneGeometry(7, GRID_N*SPACING+SPACING), roadMat);
+    roadH.rotation.x=-Math.PI/2; roadH.position.set(p,0.025,0); scene.add(roadH);
+    const roadV=new THREE.Mesh(new THREE.PlaneGeometry(GRID_N*SPACING+SPACING, 7), roadMat);
+    roadV.rotation.x=-Math.PI/2; roadV.position.set(0,0.026,p); scene.add(roadV);
+  }
+
+  scene.add(new THREE.AmbientLight(0xffffff, 1.8));
+  const sun = new THREE.DirectionalLight(0xffffff, 1.15);
+  sun.position.set(60,90,40);
+  scene.add(sun);
+  const fillLight = new THREE.DirectionalLight(0x9ec5ff, 0.18);
+  fillLight.position.set(-50,30,-40);
+  scene.add(fillLight);
+
+  // ---------- ULPIN helpers ----------
+  const TYPE_COLOR = {
+    residential: 0xe0a458, commercial: 0x5c86c9, institutional: 0x4fd1c5,
+    parking: 0x6e8394, common: 0x7ea6d8, utility: 0x2a9d93
+  };
+  function checksum(str){
+    let sum=0; for(let i=0;i<str.length;i++) sum += str.charCodeAt(i)*(i+1);
+    const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    return chars[sum % chars.length];
+  }
+  function surfaceULPIN(ix,iz,id){
+    return `DL07SDR-${String(ix).padStart(2,'0')}${String(iz).padStart(2,'0')}-${String(id).padStart(3,'0')}`;
+  }
+  function buildingCode(id,type){
+    const t = type==='residential'?'R':type==='commercial'?'C':'I';
+    return `BLD-${String(id).padStart(3,'0')}${t}`;
+  }
+  function unitULPIN(surface, bcode, levelLabel, unitIndex){
+    const unit = `U${String(unitIndex+1).padStart(2,'0')}`;
+    const base = `${surface}-${bcode}-${levelLabel}-${unit}`;
+    return `${base}-${checksum(base)}`;
+  }
+  function floorDefsForBuilding(b){
+    const defs = [];
+    if(b.hasBasement) defs.push({level:-1,label:'B1',name:'Basement Parking',type:'parking',units:4});
+    defs.push({level:0,label:'G',name: b.type==='commercial' ? 'Ground — Lobby & Retail' : 'Ground — Lobby',type:'common',units:2});
+    for(let f=1; f<=b.floors; f++){
+      const isTop = f===b.floors;
+      let name, type, units;
+      if(b.type==='residential'){ name = isTop?'Residential — Penthouse':'Residential'; type='residential'; units = isTop?2:4; }
+      else if(b.type==='commercial'){ name='Commercial Office'; type='commercial'; units=2; }
+      else { name='Institutional Floor'; type='institutional'; units=2; }
+      defs.push({level:f, label:'F'+f, name, type, units});
+    }
+    return defs;
+  }
+  function unitsCountForBuilding(b){
+    return floorDefsForBuilding(b).reduce((a,f)=>a+f.units,0);
+  }
+
+  // ---------- AI / Backend Property Data ----------
+
+const buildings = [];
+
+let totalPlots = 0;
+let totalFloors = 0;
+let totalUnits = 0;
+let totalUnderground = 0;
+
+
+// ------------------------------------------------------------
+// LOAD AI-GENERATED PROPERTY DATA
+// ------------------------------------------------------------
+
+const propertyData = window.ULPIN_PROPERTIES || [];
+
+
+// ------------------------------------------------------------
+// CREATE 3D BUILDINGS FROM AI DATA
+// ------------------------------------------------------------
+
+propertyData.forEach((property, index) => {
+
+    const id = index;
+
+    const ix = index % GRID_N;
+
+    const iz = Math.floor(
+        index / GRID_N
+    );
+
+    const type =
+        property.type || "residential";
+
+    const floors =
+        Number(property.floors) || 1;
+
+    const hasBasement =
+        Boolean(property.hasBasement);
+
+    const w =
+        Number(property.w) || 6;
+
+    const d =
+        Number(property.d) || 6;
+
+    const h =
+        Number(property.h) || (floors * 3.2);
+
+    const x =
+        Number(property.x) || 0;
+
+    const z =
+        Number(property.z) || 0;
+
+
+    // --------------------------------------------------------
+    // CREATE BUILDING MESH
+    // --------------------------------------------------------
+
+    const mat =
+        new THREE.MeshStandardMaterial({
+            color: TYPE_COLOR[type],
+            roughness: 0.65,
+            metalness: 0.06
+        });
+
+
+    const geo =
+        new THREE.BoxGeometry(
+            w,
+            h,
+            d
+        );
+
+
+    const mesh =
+        new THREE.Mesh(
+            geo,
+            mat
+        );
+
+
+    mesh.position.set(
+        x,
+        h / 2,
+        z
+    );
+
+
+    scene.add(mesh);
+
+
+    // --------------------------------------------------------
+    // BUILDING OUTLINE
+    // --------------------------------------------------------
+
+    const edges =
+        new THREE.EdgesGeometry(
+            geo
+        );
+
+
+    const outline =
+        new THREE.LineSegments(
+            edges,
+            new THREE.LineBasicMaterial({
+                color: 0x0a121c,
+                transparent: true,
+                opacity: 0.45
+            })
+        );
+
+
+    mesh.add(outline);
+
+
+    // --------------------------------------------------------
+    // CREATE BUILDING RECORD
+    // --------------------------------------------------------
+
+    const b = {
+
+        id,
+
+        ix,
+        iz,
+
+        x,
+        z,
+
+        w,
+        d,
+        h,
+
+        floors,
+
+        type,
+
+        hasBasement,
+
+        mesh,
+
+        // AI / backend information
+        buildingId:
+            property.building_id,
+
+        surface:
+            property.ulpin,
+
+        bcode:
+            buildingCode(
+                id,
+                type
+            ),
+
+        areaPixels:
+            property.area_pixels,
+
+        polygon:
+            property.polygon,
+
+        validation:
+            property.validation || {},
+
+        source:
+            "AI_PIPELINE"
+    };
+
+
+    mesh.userData.building = b;
+
+    buildings.push(b);
+
+
+    // --------------------------------------------------------
+    // STATISTICS
+    // --------------------------------------------------------
+
+    const unitCount =
+        unitsCountForBuilding(b);
+
+
+    totalPlots++;
+
+    totalFloors +=
+        floors +
+        (hasBasement ? 1 : 0) +
+        1;
+
+
+    totalUnits +=
+        unitCount;
+
+
+    if(hasBasement){
+
+        totalUnderground++;
+    }
+
+});
+
+
+// ------------------------------------------------------------
+// DISPLAY SUMMARY
+// ------------------------------------------------------------
+
+document.getElementById(
+    'cs-plots'
+).textContent =
+    totalPlots;
+
+
+document.getElementById(
+    'cs-buildings'
+).textContent =
+    buildings.length;
+
+
+document.getElementById(
+    'cs-floors'
+).textContent =
+    totalFloors;
+
+
+document.getElementById(
+    'cs-ulpins'
+).textContent =
+    totalUnits +
+    buildings.length;
+
+
+document.getElementById(
+    'cs-under'
+).textContent =
+    totalUnderground;
+
+
+document.getElementById(
+    'cs-valid'
+).textContent =
+    buildings.length
+        ? 'AI'
+        : '0%';
+
+  
+  document.getElementById('cs-plots').textContent = totalPlots;
+  document.getElementById('cs-buildings').textContent = buildings.length;
+  document.getElementById('cs-floors').textContent = totalFloors;
+  document.getElementById('cs-ulpins').textContent = (totalUnits+buildings.length);
+  document.getElementById('cs-under').textContent = totalUnderground;
+  document.getElementById('cs-valid').textContent = '100%';
+
+  camTarget.set(0,10,0); targetTarget.copy(camTarget);
+  camDist = 150; targetDist = 150;
+
+  // ---------- Picking ----------
+  const raycaster = new THREE.Raycaster();
+  const pointer = new THREE.Vector2();
+  let mode = 'city'; // 'city' | 'building'
+  let selectedBuilding = null;
+  let drillMeshes = []; // unit meshes + slabs for the currently entered building
+  let selectedUnitMesh = null;
+
+  function handleClick(e){
+    const rect = renderer.domElement.getBoundingClientRect();
+    pointer.x = ((e.clientX-rect.left)/rect.width)*2-1;
+    pointer.y = -((e.clientY-rect.top)/rect.height)*2+1;
+    raycaster.setFromCamera(pointer, camera);
+    if(mode==='city'){
+      const hits = raycaster.intersectObjects(buildings.filter(b=>b.mesh.visible).map(b=>b.mesh));
+      if(hits.length>0){ selectBuilding(hits[0].object.userData.building); }
+    } else {
+      const hits = raycaster.intersectObjects(drillMeshes.filter(m=>m.visible && m.userData.unit).map(m=>m));
+      if(selectedUnitMesh){ selectedUnitMesh.material.emissive && selectedUnitMesh.material.emissive.setHex(0x000000); selectedUnitMesh=null; }
+      if(hits.length>0){
+        const mesh = hits[0].object;
+        mesh.material.emissive = new THREE.Color(0x2a2a2a);
+        selectedUnitMesh = mesh;
+        showUnitInfo(mesh.userData.unit);
+      }
+    }
+  }
+
+  function selectBuilding(b){
+    selectedBuilding = b;
+
+    const unitCount = unitsCountForBuilding(b);
+
+    document.getElementById('infoBody').innerHTML = `
+    <div class="bname">
+      ${b.buildingId || `Building #${b.id+1}`} 
+      ${b.type.charAt(0).toUpperCase()+b.type.slice(1)}
+    </div>
+
+    <div class="ulpin">${b.surface || 'ULPIN not generated'}</div>
+
+    <div class="stat">
+      <span class="k">Footprint</span>
+      <span class="v">${b.w.toFixed(1)}  ${b.d.toFixed(1)} m</span>
+    </div>
+
+    <div class="stat">
+      <span class="k">Height</span>
+      <span class="v">${b.h.toFixed(2)} m</span>
+    </div>
+
+    <div class="stat">
+      <span class="k">Floors above ground</span>
+      <span class="v">${b.floors}</span>
+    </div>
+
+    <div class="stat">
+      <span class="k">Basement</span>
+      <span class="v">${b.hasBasement ? 'Yes  parking' : 'None'}</span>
+    </div>
+
+    <div class="stat">
+      <span class="k">Est. volumetric parcels</span>
+      <span class="v">${unitCount}</span>
+    </div>
+
+    <div class="stat">
+      <span class="k">Building code</span>
+      <span class="v">${b.bcode}</span>
+    </div>
+
+    <div class="stat">
+      <span class="k">Land record</span>
+      <span class="v">${b.validation?.status || 'NOT_VALIDATED'}</span>
+    </div>
+
+    <div class="stat">
+      <span class="k">Parcel ID</span>
+      <span class="v">${b.validation?.parcel_id || ''}</span>
+    </div>
+
+    <div class="stat">
+      <span class="k">IoU Match</span>
+      <span class="v">
+        ${b.validation?.overlap_iou != null
+        ? b.validation.overlap_iou.toFixed(2)
+          : ''}
+      </span>
+    </div>
+                        
+    <div class="stat">
+      <span class="k">Building Coverage</span>
+      <span class="v">
+        ${b.validation?.building_coverage != null
+        ? (b.validation.building_coverage * 100).toFixed(1) + '%'
+        : ''}
+      </span>
+    </div>
+                          
+    <div class="stat">
+      <span class="k">Data Source</span>
+      <span class="v">${b.source || 'AI_PIPELINE'}</span>
+    </div>
+                            
+    <button id="enterBtn">Enter Building </button>
+  `;
+                          
+  document.getElementById('enterBtn')
+    .addEventListener('click', ()=> enterBuilding(b));
+}
+
+  function showUnitInfo(u){
+    document.getElementById('infoBody').innerHTML = `
+      <div class="bname">${selectedBuilding.bcode} · ${u.floorLabel}</div>
+      <div class="ulpin">${u.ulpin}</div>
+      <div class="stat"><span class="k">Floor</span><span class="v">${u.floorName}</span></div>
+      <div class="stat"><span class="k">Type</span><span class="v">${u.type}</span></div>
+      <div class="stat"><span class="k">Unit</span><span class="v">#${u.unitIndex+1}</span></div>
+      <div class="stat"><span class="k">Area</span><span class="v">${u.area} m²</span></div>
+      <div class="stat"><span class="k">Elevation</span><span class="v">${u.elevation} m (MSL)</span></div>
+    `;
+  }
+
+  function clearDrill(){
+    drillMeshes.forEach(m=>{ scene.remove(m); if(m.geometry) m.geometry.dispose(); if(m.material) m.material.dispose(); });
+    drillMeshes = [];
+    selectedUnitMesh = null;
+  }
+
+  function layoutFor(units){
+    if(units===1) return {cols:1, rows:1};
+    if(units===2) return {cols:2, rows:1};
+    if(units===4) return {cols:2, rows:2};
+    return {cols:units, rows:1};
+  }
+
+  function enterBuilding(b){
+    mode = 'building';
+    clearDrill();
+    buildings.forEach(o=> o.mesh.visible = (o.id!==b.id));
+    parcelGrid.visible = false;
+
+    const FLOOR_H = 3.2, GAP = 0.4, SLAB_GAP = 0.28;
+    const defs = floorDefsForBuilding(b);
+    const baseLat = 28.6139 + b.z*0.000003, baseLon = 77.2090 + b.x*0.000003;
+
+    defs.forEach(fd=>{
+      const y0 = fd.level*FLOOR_H;
+      const slabGeo = new THREE.BoxGeometry(b.w+1.0, 0.16, b.d+1.0);
+      const slabMat = new THREE.MeshStandardMaterial({color:0x14293a, roughness:0.9});
+      const slab = new THREE.Mesh(slabGeo, slabMat);
+      slab.position.set(b.x, y0, b.z);
+      slab.userData.level = fd.level;
+      scene.add(slab);
+      drillMeshes.push(slab);
+
+      const {cols, rows} = layoutFor(fd.units);
+      const uw = (b.w - (cols+1)*GAP)/cols;
+      const ud = (b.d - (rows+1)*GAP)/rows;
+      const uh = FLOOR_H - SLAB_GAP;
+      let idx = 0;
+      for(let r=0;r<rows;r++){
+        for(let c=0;c<cols;c++){
+          const px = b.x - b.w/2 + GAP + uw/2 + c*(uw+GAP);
+          const pz = b.z - b.d/2 + GAP + ud/2 + r*(ud+GAP);
+          const py = y0 + SLAB_GAP + uh/2;
+          const ulpin = unitULPIN(b.surface, b.bcode, fd.label, idx);
+          const geo = new THREE.BoxGeometry(uw, uh, ud);
+          const mat = new THREE.MeshStandardMaterial({color:TYPE_COLOR[fd.type], roughness:0.55, metalness:0.08, transparent:true, opacity:0.94});
+          const mesh = new THREE.Mesh(geo, mat);
+          mesh.position.set(px, py, pz);
+          mesh.userData.level = fd.level;
+          mesh.userData.unit = {
+            floorLabel: fd.label, floorName: fd.name, type: fd.type, unitIndex: idx,
+            ulpin, area: Math.round(uw*ud*10)/10, elevation: (216+y0).toFixed(1)
+          };
+          const edges = new THREE.EdgesGeometry(geo);
+          const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({color:0x0a121c, transparent:true, opacity:0.5}));
+          mesh.add(line);
+          scene.add(mesh);
+          drillMeshes.push(mesh);
+          idx++;
+        }
+      }
+    });
+
+    if(b.hasBasement){
+      const utilMat = new THREE.MeshStandardMaterial({color:0x2a9d93, roughness:0.4});
+      const tubeGeo = new THREE.CylinderGeometry(0.12,0.12, b.d+6, 8);
+      const tube = new THREE.Mesh(tubeGeo, utilMat);
+      tube.rotation.x = Math.PI/2;
+      tube.position.set(b.x, -2*FLOOR_H*0.6, b.z);
+      tube.userData.level = -2;
+      scene.add(tube);
+      drillMeshes.push(tube);
+    }
+
+    targetTarget.set(b.x, b.h*0.45, b.z);
+    targetDist = Math.max(b.w,b.d,b.h)*2.3;
+
+    document.getElementById('ctrlTitle').textContent = b.bcode + ' — Floor Controls';
+    document.getElementById('cityControls').style.display = 'none';
+    document.getElementById('buildingControls').style.display = 'block';
+    document.getElementById('backBtn').style.display = 'block';
+    document.getElementById('underToggle').checked = true;
+    const clipSlider = document.getElementById('clipSlider');
+    clipSlider.min = b.hasBasement ? -1 : 0;
+    clipSlider.max = b.floors;
+    clipSlider.value = b.floors;
+    document.getElementById('clipVal').textContent = 'Top';
+
+    document.getElementById('infoBody').innerHTML = `<div class="hint">Click any floor slab volume to reveal its individual 3D ULPIN — floor, unit, area and elevation. Use the vertical slice to peel back floors.</div>`;
+  }
+
+  function applyDrillVisibility(){
+    const showUnder = document.getElementById('underToggle').checked;
+    const clip = parseInt(document.getElementById('clipSlider').value,10);
+    drillMeshes.forEach(m=>{
+      const lvl = m.userData.level;
+      const inClip = lvl<=clip;
+      const inGround = lvl>=0 || showUnder;
+      m.visible = inClip && inGround;
+    });
+    document.getElementById('clipVal').textContent = clip===selectedBuilding.floors ? 'Top' : ('F'+clip);
+  }
+
+  function exitBuilding(){
+    mode = 'city';
+    clearDrill();
+    buildings.forEach(o=> o.mesh.visible = true);
+    parcelGrid.visible = document.getElementById('gridToggle').checked;
+    targetTarget.set(0,10,0);
+    targetDist = 150;
+    document.getElementById('ctrlTitle').textContent = 'City Controls';
+    document.getElementById('cityControls').style.display = 'block';
+    document.getElementById('buildingControls').style.display = 'none';
+    document.getElementById('backBtn').style.display = 'none';
+    document.getElementById('infoBody').innerHTML = `<div class="hint">Click any building to view its surface 3D ULPIN, floor count and type. From there you can enter the building to inspect each floor and unit's individual volumetric ULPIN.</div>`;
+    applyTypeFilter();
+  }
+
+  document.getElementById('backBtn').addEventListener('click', exitBuilding);
+  document.getElementById('underToggle').addEventListener('change', applyDrillVisibility);
+  document.getElementById('clipSlider').addEventListener('input', applyDrillVisibility);
+  document.getElementById('gridToggle').addEventListener('change', e=>{ parcelGrid.visible = e.target.checked; });
+
+  function applyTypeFilter(){
+    const f = document.getElementById('typeFilter').value;
+    buildings.forEach(b=>{
+      const match = f==='all' || b.type===f;
+      b.mesh.material.opacity = match ? 1 : 0.12;
+      b.mesh.material.transparent = !match;
+    });
+  }
+  document.getElementById('typeFilter').addEventListener('change', applyTypeFilter);
+
+  // ---------- Resize ----------
+  window.addEventListener('resize', ()=>{
+    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  document.getElementById('loading').style.display = 'none';
+
+  function animate(){
+    requestAnimationFrame(animate);
+    updateCamera();
+    renderer.render(scene, camera);
+  }
+  requestAnimationFrame(animate);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+[
+    {
+        "building_id": "B001",
+        "validation_status": "PARTIAL_MATCH",
+        "parcel_id": "P001",
+        "overlap_iou": 0.0914,
+        "building_coverage": 1.0
+    },
+    {
+        "building_id": "B002",
+        "validation_status": "PARTIAL_MATCH",
+        "parcel_id": "P002",
+        "overlap_iou": 0.2408,
+        "building_coverage": 1.0
+    },
+    {
+        "building_id": "B003",
+        "validation_status": "PARTIAL_MATCH",
+        "parcel_id": "P003",
+        "overlap_iou": 0.2768,
+        "building_coverage": 1.0
+    },
+    {
+        "building_id": "B004",
+        "validation_status": "PARTIAL_MATCH",
+        "parcel_id": "P001",
+        "overlap_iou": 0.0333,
+        "building_coverage": 1.0
+    }
+]

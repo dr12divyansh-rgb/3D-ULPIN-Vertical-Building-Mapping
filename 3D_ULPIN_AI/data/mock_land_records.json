@@ -1,0 +1,32 @@
+[
+    {
+        "parcel_id": "P001",
+        "owner_reference": "OWNER_001",
+        "polygon": [
+            [10, 15],
+            [125, 15],
+            [125, 120],
+            [10, 120]
+        ]
+    },
+    {
+        "parcel_id": "P002",
+        "owner_reference": "OWNER_002",
+        "polygon": [
+            [30, 45],
+            [65, 45],
+            [65, 80],
+            [30, 80]
+        ]
+    },
+    {
+        "parcel_id": "P003",
+        "owner_reference": "OWNER_003",
+        "polygon": [
+            [60, 20],
+            [100, 20],
+            [100, 55],
+            [60, 55]
+        ]
+    }
+]

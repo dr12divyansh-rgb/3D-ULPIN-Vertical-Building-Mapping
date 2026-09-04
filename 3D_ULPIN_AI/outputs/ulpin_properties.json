@@ -1,0 +1,194 @@
+[
+    {
+        "building_id": "B001",
+        "geometry": {
+            "coordinate_system": "PIXEL",
+            "polygon": [
+                [
+                    81,
+                    59
+                ],
+                [
+                    80,
+                    75
+                ],
+                [
+                    90,
+                    82
+                ],
+                [
+                    91,
+                    103
+                ],
+                [
+                    100,
+                    113
+                ],
+                [
+                    114,
+                    113
+                ],
+                [
+                    116,
+                    86
+                ],
+                [
+                    100,
+                    80
+                ],
+                [
+                    99,
+                    59
+                ]
+            ]
+        },
+        "measurements": {
+            "area_pixels": 1172.5,
+            "height_meters": 11.72,
+            "estimated_floors": 4
+        },
+        "data_sources": {
+            "building_detection": "AI",
+            "height": "TEMPORARY_ESTIMATE",
+            "floor_count": "ESTIMATED"
+        },
+        "validation": {
+            "status": "NOT_VALIDATED",
+            "land_record_match": false
+        },
+        "ulpin": "TN-VEL-B001-7EE89E28"
+    },
+    {
+        "building_id": "B002",
+        "geometry": {
+            "coordinate_system": "PIXEL",
+            "polygon": [
+                [
+                    37,
+                    58
+                ],
+                [
+                    37,
+                    71
+                ],
+                [
+                    56,
+                    71
+                ],
+                [
+                    57,
+                    59
+                ],
+                [
+                    55,
+                    56
+                ],
+                [
+                    42,
+                    55
+                ]
+            ]
+        },
+        "measurements": {
+            "area_pixels": 322.5,
+            "height_meters": 6.0,
+            "estimated_floors": 2
+        },
+        "data_sources": {
+            "building_detection": "AI",
+            "height": "TEMPORARY_ESTIMATE",
+            "floor_count": "ESTIMATED"
+        },
+        "validation": {
+            "status": "NOT_VALIDATED",
+            "land_record_match": false
+        },
+        "ulpin": "TN-VEL-B002-E7106EBB"
+    },
+    {
+        "building_id": "B003",
+        "geometry": {
+            "coordinate_system": "PIXEL",
+            "polygon": [
+                [
+                    66,
+                    32
+                ],
+                [
+                    67,
+                    47
+                ],
+                [
+                    90,
+                    47
+                ],
+                [
+                    90,
+                    31
+                ],
+                [
+                    68,
+                    30
+                ]
+            ]
+        },
+        "measurements": {
+            "area_pixels": 436.0,
+            "height_meters": 6.0,
+            "estimated_floors": 2
+        },
+        "data_sources": {
+            "building_detection": "AI",
+            "height": "TEMPORARY_ESTIMATE",
+            "floor_count": "ESTIMATED"
+        },
+        "validation": {
+            "status": "NOT_VALIDATED",
+            "land_record_match": false
+        },
+        "ulpin": "TN-VEL-B003-B5595421"
+    },
+    {
+        "building_id": "B004",
+        "geometry": {
+            "coordinate_system": "PIXEL",
+            "polygon": [
+                [
+                    18,
+                    25
+                ],
+                [
+                    19,
+                    41
+                ],
+                [
+                    42,
+                    40
+                ],
+                [
+                    41,
+                    23
+                ],
+                [
+                    20,
+                    23
+                ]
+            ]
+        },
+        "measurements": {
+            "area_pixels": 447.5,
+            "height_meters": 6.0,
+            "estimated_floors": 2
+        },
+        "data_sources": {
+            "building_detection": "AI",
+            "height": "TEMPORARY_ESTIMATE",
+            "floor_count": "ESTIMATED"
+        },
+        "validation": {
+            "status": "NOT_VALIDATED",
+            "land_record_match": false
+        },
+        "ulpin": "TN-VEL-B004-2526D86E"
+    }
+]

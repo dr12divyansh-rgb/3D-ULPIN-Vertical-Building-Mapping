@@ -1,0 +1,947 @@
+[
+    {
+        "image_a": "building01_front_cloud.jpg",
+        "image_b": "building01_front_day.jpg",
+        "raw_matches": 477,
+        "fundamental_inliers": 413,
+        "fundamental_ratio": 0.866,
+        "homography_inliers": 411,
+        "homography_ratio": 0.862
+    },
+    {
+        "image_a": "building01_front_noon.jpg",
+        "image_b": "building01_zoom_day.jpg",
+        "raw_matches": 294,
+        "fundamental_inliers": 233,
+        "fundamental_ratio": 0.793,
+        "homography_inliers": 201,
+        "homography_ratio": 0.684
+    },
+    {
+        "image_a": "building01_front_day.jpg",
+        "image_b": "building01_front_noon.jpg",
+        "raw_matches": 132,
+        "fundamental_inliers": 76,
+        "fundamental_ratio": 0.576,
+        "homography_inliers": 35,
+        "homography_ratio": 0.265
+    },
+    {
+        "image_a": "building01_front_noon.jpg",
+        "image_b": "building01_low_noon.jpg",
+        "raw_matches": 127,
+        "fundamental_inliers": 67,
+        "fundamental_ratio": 0.528,
+        "homography_inliers": 63,
+        "homography_ratio": 0.496
+    },
+    {
+        "image_a": "building01_right_day.jpg",
+        "image_b": "building01_right_noon.jpg",
+        "raw_matches": 114,
+        "fundamental_inliers": 59,
+        "fundamental_ratio": 0.518,
+        "homography_inliers": 45,
+        "homography_ratio": 0.395
+    },
+    {
+        "image_a": "building01_zoom_day.jpg",
+        "image_b": "building01_zoom_noon.jpg",
+        "raw_matches": 131,
+        "fundamental_inliers": 50,
+        "fundamental_ratio": 0.382,
+        "homography_inliers": 25,
+        "homography_ratio": 0.191
+    },
+    {
+        "image_a": "building01_right_day.jpg",
+        "image_b": "building01_zoom_cloud.jpg",
+        "raw_matches": 92,
+        "fundamental_inliers": 47,
+        "fundamental_ratio": 0.511,
+        "homography_inliers": 32,
+        "homography_ratio": 0.348
+    },
+    {
+        "image_a": "building01_front_cloud.jpg",
+        "image_b": "building01_front_noon.jpg",
+        "raw_matches": 90,
+        "fundamental_inliers": 43,
+        "fundamental_ratio": 0.478,
+        "homography_inliers": 23,
+        "homography_ratio": 0.256
+    },
+    {
+        "image_a": "building01_front_cloud.jpg",
+        "image_b": "building01_left_day.jpg",
+        "raw_matches": 95,
+        "fundamental_inliers": 43,
+        "fundamental_ratio": 0.453,
+        "homography_inliers": 21,
+        "homography_ratio": 0.221
+    },
+    {
+        "image_a": "building01_front_noon.jpg",
+        "image_b": "building01_right_noon.jpg",
+        "raw_matches": 70,
+        "fundamental_inliers": 38,
+        "fundamental_ratio": 0.543,
+        "homography_inliers": 14,
+        "homography_ratio": 0.2
+    },
+    {
+        "image_a": "building01_left_cloud.jpg",
+        "image_b": "building01_left_noon.jpg",
+        "raw_matches": 89,
+        "fundamental_inliers": 37,
+        "fundamental_ratio": 0.416,
+        "homography_inliers": 33,
+        "homography_ratio": 0.371
+    },
+    {
+        "image_a": "building01_front_cloud.jpg",
+        "image_b": "building01_zoom_day.jpg",
+        "raw_matches": 69,
+        "fundamental_inliers": 31,
+        "fundamental_ratio": 0.449,
+        "homography_inliers": 16,
+        "homography_ratio": 0.232
+    },
+    {
+        "image_a": "building01_front_day.jpg",
+        "image_b": "building01_zoom_day.jpg",
+        "raw_matches": 68,
+        "fundamental_inliers": 31,
+        "fundamental_ratio": 0.456,
+        "homography_inliers": 18,
+        "homography_ratio": 0.265
+    },
+    {
+        "image_a": "building01_low_noon.jpg",
+        "image_b": "building01_zoom_day.jpg",
+        "raw_matches": 74,
+        "fundamental_inliers": 29,
+        "fundamental_ratio": 0.392,
+        "homography_inliers": 24,
+        "homography_ratio": 0.324
+    },
+    {
+        "image_a": "building01_zoom_cloud.jpg",
+        "image_b": "building01_zoom_noon.jpg",
+        "raw_matches": 85,
+        "fundamental_inliers": 29,
+        "fundamental_ratio": 0.341,
+        "homography_inliers": 14,
+        "homography_ratio": 0.165
+    },
+    {
+        "image_a": "building01_front_cloud.jpg",
+        "image_b": "building01_zoom_noon.jpg",
+        "raw_matches": 82,
+        "fundamental_inliers": 28,
+        "fundamental_ratio": 0.341,
+        "homography_inliers": 18,
+        "homography_ratio": 0.22
+    },
+    {
+        "image_a": "building01_front_cloud.jpg",
+        "image_b": "building01_right_day.jpg",
+        "raw_matches": 49,
+        "fundamental_inliers": 26,
+        "fundamental_ratio": 0.531,
+        "homography_inliers": 9,
+        "homography_ratio": 0.184
+    },
+    {
+        "image_a": "building01_right_noon.jpg",
+        "image_b": "building01_zoom_cloud.jpg",
+        "raw_matches": 78,
+        "fundamental_inliers": 26,
+        "fundamental_ratio": 0.333,
+        "homography_inliers": 17,
+        "homography_ratio": 0.218
+    },
+    {
+        "image_a": "building01_left_noon.jpg",
+        "image_b": "building01_zoom_noon.jpg",
+        "raw_matches": 81,
+        "fundamental_inliers": 25,
+        "fundamental_ratio": 0.309,
+        "homography_inliers": 8,
+        "homography_ratio": 0.099
+    },
+    {
+        "image_a": "building01_right_cloud.jpg",
+        "image_b": "building01_zoom_cloud.jpg",
+        "raw_matches": 81,
+        "fundamental_inliers": 25,
+        "fundamental_ratio": 0.309,
+        "homography_inliers": 9,
+        "homography_ratio": 0.111
+    },
+    {
+        "image_a": "building01_front_day.jpg",
+        "image_b": "building01_left_cloud.jpg",
+        "raw_matches": 59,
+        "fundamental_inliers": 24,
+        "fundamental_ratio": 0.407,
+        "homography_inliers": 19,
+        "homography_ratio": 0.322
+    },
+    {
+        "image_a": "building01_front_day.jpg",
+        "image_b": "building01_left_day.jpg",
+        "raw_matches": 79,
+        "fundamental_inliers": 24,
+        "fundamental_ratio": 0.304,
+        "homography_inliers": 16,
+        "homography_ratio": 0.203
+    },
+    {
+        "image_a": "building01_front_noon.jpg",
+        "image_b": "building01_left_cloud.jpg",
+        "raw_matches": 50,
+        "fundamental_inliers": 24,
+        "fundamental_ratio": 0.48,
+        "homography_inliers": 7,
+        "homography_ratio": 0.14
+    },
+    {
+        "image_a": "building01_right_noon.jpg",
+        "image_b": "building01_zoom_day.jpg",
+        "raw_matches": 63,
+        "fundamental_inliers": 24,
+        "fundamental_ratio": 0.381,
+        "homography_inliers": 8,
+        "homography_ratio": 0.127
+    },
+    {
+        "image_a": "building01_zoom_cloud.jpg",
+        "image_b": "building01_zoom_day.jpg",
+        "raw_matches": 86,
+        "fundamental_inliers": 24,
+        "fundamental_ratio": 0.279,
+        "homography_inliers": 8,
+        "homography_ratio": 0.093
+    },
+    {
+        "image_a": "building01_front_noon.jpg",
+        "image_b": "building01_zoom_noon.jpg",
+        "raw_matches": 81,
+        "fundamental_inliers": 23,
+        "fundamental_ratio": 0.284,
+        "homography_inliers": 18,
+        "homography_ratio": 0.222
+    },
+    {
+        "image_a": "building01_left_noon.jpg",
+        "image_b": "building01_low_cloud.jpg",
+        "raw_matches": 50,
+        "fundamental_inliers": 23,
+        "fundamental_ratio": 0.46,
+        "homography_inliers": 11,
+        "homography_ratio": 0.22
+    },
+    {
+        "image_a": "building01_low_day.jpg",
+        "image_b": "building01_zoom_day.jpg",
+        "raw_matches": 49,
+        "fundamental_inliers": 22,
+        "fundamental_ratio": 0.449,
+        "homography_inliers": 9,
+        "homography_ratio": 0.184
+    },
+    {
+        "image_a": "building01_front_day.jpg",
+        "image_b": "building01_right_day.jpg",
+        "raw_matches": 58,
+        "fundamental_inliers": 21,
+        "fundamental_ratio": 0.362,
+        "homography_inliers": 7,
+        "homography_ratio": 0.121
+    },
+    {
+        "image_a": "building01_front_cloud.jpg",
+        "image_b": "building01_low_day.jpg",
+        "raw_matches": 73,
+        "fundamental_inliers": 20,
+        "fundamental_ratio": 0.274,
+        "homography_inliers": 27,
+        "homography_ratio": 0.37
+    },
+    {
+        "image_a": "building01_front_day.jpg",
+        "image_b": "building01_low_noon.jpg",
+        "raw_matches": 59,
+        "fundamental_inliers": 20,
+        "fundamental_ratio": 0.339,
+        "homography_inliers": 16,
+        "homography_ratio": 0.271
+    },
+    {
+        "image_a": "building01_front_day.jpg",
+        "image_b": "building01_zoom_noon.jpg",
+        "raw_matches": 58,
+        "fundamental_inliers": 20,
+        "fundamental_ratio": 0.345,
+        "homography_inliers": 9,
+        "homography_ratio": 0.155
+    },
+    {
+        "image_a": "building01_low_cloud.jpg",
+        "image_b": "building01_low_day.jpg",
+        "raw_matches": 41,
+        "fundamental_inliers": 20,
+        "fundamental_ratio": 0.488,
+        "homography_inliers": 12,
+        "homography_ratio": 0.293
+    },
+    {
+        "image_a": "building01_low_day.jpg",
+        "image_b": "building01_zoom_noon.jpg",
+        "raw_matches": 61,
+        "fundamental_inliers": 20,
+        "fundamental_ratio": 0.328,
+        "homography_inliers": 12,
+        "homography_ratio": 0.197
+    },
+    {
+        "image_a": "building01_front_day.jpg",
+        "image_b": "building01_right_cloud.jpg",
+        "raw_matches": 37,
+        "fundamental_inliers": 18,
+        "fundamental_ratio": 0.486,
+        "homography_inliers": 15,
+        "homography_ratio": 0.405
+    },
+    {
+        "image_a": "building01_low_day.jpg",
+        "image_b": "building01_low_noon.jpg",
+        "raw_matches": 53,
+        "fundamental_inliers": 18,
+        "fundamental_ratio": 0.34,
+        "homography_inliers": 5,
+        "homography_ratio": 0.094
+    },
+    {
+        "image_a": "building01_front_noon.jpg",
+        "image_b": "building01_zoom_cloud.jpg",
+        "raw_matches": 48,
+        "fundamental_inliers": 17,
+        "fundamental_ratio": 0.354,
+        "homography_inliers": 7,
+        "homography_ratio": 0.146
+    },
+    {
+        "image_a": "building01_left_cloud.jpg",
+        "image_b": "building01_low_noon.jpg",
+        "raw_matches": 52,
+        "fundamental_inliers": 17,
+        "fundamental_ratio": 0.327,
+        "homography_inliers": 6,
+        "homography_ratio": 0.115
+    },
+    {
+        "image_a": "building01_front_cloud.jpg",
+        "image_b": "building01_left_noon.jpg",
+        "raw_matches": 37,
+        "fundamental_inliers": 16,
+        "fundamental_ratio": 0.432,
+        "homography_inliers": 10,
+        "homography_ratio": 0.27
+    },
+    {
+        "image_a": "building01_left_cloud.jpg",
+        "image_b": "building01_right_noon.jpg",
+        "raw_matches": 37,
+        "fundamental_inliers": 16,
+        "fundamental_ratio": 0.432,
+        "homography_inliers": 6,
+        "homography_ratio": 0.162
+    },
+    {
+        "image_a": "building01_left_cloud.jpg",
+        "image_b": "building01_zoom_day.jpg",
+        "raw_matches": 41,
+        "fundamental_inliers": 16,
+        "fundamental_ratio": 0.39,
+        "homography_inliers": 7,
+        "homography_ratio": 0.171
+    },
+    {
+        "image_a": "building01_low_cloud.jpg",
+        "image_b": "building01_zoom_noon.jpg",
+        "raw_matches": 52,
+        "fundamental_inliers": 16,
+        "fundamental_ratio": 0.308,
+        "homography_inliers": 7,
+        "homography_ratio": 0.135
+    },
+    {
+        "image_a": "building01_low_day.jpg",
+        "image_b": "building01_zoom_cloud.jpg",
+        "raw_matches": 44,
+        "fundamental_inliers": 16,
+        "fundamental_ratio": 0.364,
+        "homography_inliers": 12,
+        "homography_ratio": 0.273
+    },
+    {
+        "image_a": "building01_front_day.jpg",
+        "image_b": "building01_low_day.jpg",
+        "raw_matches": 67,
+        "fundamental_inliers": 15,
+        "fundamental_ratio": 0.224,
+        "homography_inliers": 16,
+        "homography_ratio": 0.239
+    },
+    {
+        "image_a": "building01_left_cloud.jpg",
+        "image_b": "building01_low_cloud.jpg",
+        "raw_matches": 34,
+        "fundamental_inliers": 15,
+        "fundamental_ratio": 0.441,
+        "homography_inliers": 11,
+        "homography_ratio": 0.324
+    },
+    {
+        "image_a": "building01_left_day.jpg",
+        "image_b": "building01_left_noon.jpg",
+        "raw_matches": 48,
+        "fundamental_inliers": 15,
+        "fundamental_ratio": 0.312,
+        "homography_inliers": 10,
+        "homography_ratio": 0.208
+    },
+    {
+        "image_a": "building01_left_noon.jpg",
+        "image_b": "building01_low_day.jpg",
+        "raw_matches": 57,
+        "fundamental_inliers": 15,
+        "fundamental_ratio": 0.263,
+        "homography_inliers": 18,
+        "homography_ratio": 0.316
+    },
+    {
+        "image_a": "building01_low_noon.jpg",
+        "image_b": "building01_right_cloud.jpg",
+        "raw_matches": 29,
+        "fundamental_inliers": 15,
+        "fundamental_ratio": 0.517,
+        "homography_inliers": 11,
+        "homography_ratio": 0.379
+    },
+    {
+        "image_a": "building01_low_noon.jpg",
+        "image_b": "building01_right_noon.jpg",
+        "raw_matches": 36,
+        "fundamental_inliers": 15,
+        "fundamental_ratio": 0.417,
+        "homography_inliers": 7,
+        "homography_ratio": 0.194
+    },
+    {
+        "image_a": "building01_right_cloud.jpg",
+        "image_b": "building01_right_day.jpg",
+        "raw_matches": 67,
+        "fundamental_inliers": 15,
+        "fundamental_ratio": 0.224,
+        "homography_inliers": 10,
+        "homography_ratio": 0.149
+    },
+    {
+        "image_a": "building01_front_cloud.jpg",
+        "image_b": "building01_left_cloud.jpg",
+        "raw_matches": 44,
+        "fundamental_inliers": 14,
+        "fundamental_ratio": 0.318,
+        "homography_inliers": 8,
+        "homography_ratio": 0.182
+    },
+    {
+        "image_a": "building01_front_cloud.jpg",
+        "image_b": "building01_right_noon.jpg",
+        "raw_matches": 35,
+        "fundamental_inliers": 14,
+        "fundamental_ratio": 0.4,
+        "homography_inliers": 10,
+        "homography_ratio": 0.286
+    },
+    {
+        "image_a": "building01_front_day.jpg",
+        "image_b": "building01_left_noon.jpg",
+        "raw_matches": 23,
+        "fundamental_inliers": 14,
+        "fundamental_ratio": 0.609,
+        "homography_inliers": 11,
+        "homography_ratio": 0.478
+    },
+    {
+        "image_a": "building01_front_day.jpg",
+        "image_b": "building01_right_noon.jpg",
+        "raw_matches": 27,
+        "fundamental_inliers": 14,
+        "fundamental_ratio": 0.519,
+        "homography_inliers": 9,
+        "homography_ratio": 0.333
+    },
+    {
+        "image_a": "building01_left_cloud.jpg",
+        "image_b": "building01_left_day.jpg",
+        "raw_matches": 60,
+        "fundamental_inliers": 14,
+        "fundamental_ratio": 0.233,
+        "homography_inliers": 10,
+        "homography_ratio": 0.167
+    },
+    {
+        "image_a": "building01_left_day.jpg",
+        "image_b": "building01_zoom_noon.jpg",
+        "raw_matches": 43,
+        "fundamental_inliers": 14,
+        "fundamental_ratio": 0.326,
+        "homography_inliers": 5,
+        "homography_ratio": 0.116
+    },
+    {
+        "image_a": "building01_low_cloud.jpg",
+        "image_b": "building01_right_cloud.jpg",
+        "raw_matches": 22,
+        "fundamental_inliers": 14,
+        "fundamental_ratio": 0.636,
+        "homography_inliers": 9,
+        "homography_ratio": 0.409
+    },
+    {
+        "image_a": "building01_right_cloud.jpg",
+        "image_b": "building01_right_noon.jpg",
+        "raw_matches": 64,
+        "fundamental_inliers": 14,
+        "fundamental_ratio": 0.219,
+        "homography_inliers": 11,
+        "homography_ratio": 0.172
+    },
+    {
+        "image_a": "building01_front_cloud.jpg",
+        "image_b": "building01_low_noon.jpg",
+        "raw_matches": 61,
+        "fundamental_inliers": 13,
+        "fundamental_ratio": 0.213,
+        "homography_inliers": 7,
+        "homography_ratio": 0.115
+    },
+    {
+        "image_a": "building01_front_cloud.jpg",
+        "image_b": "building01_right_cloud.jpg",
+        "raw_matches": 36,
+        "fundamental_inliers": 13,
+        "fundamental_ratio": 0.361,
+        "homography_inliers": 9,
+        "homography_ratio": 0.25
+    },
+    {
+        "image_a": "building01_front_day.jpg",
+        "image_b": "building01_low_cloud.jpg",
+        "raw_matches": 38,
+        "fundamental_inliers": 13,
+        "fundamental_ratio": 0.342,
+        "homography_inliers": 9,
+        "homography_ratio": 0.237
+    },
+    {
+        "image_a": "building01_front_noon.jpg",
+        "image_b": "building01_low_day.jpg",
+        "raw_matches": 37,
+        "fundamental_inliers": 13,
+        "fundamental_ratio": 0.351,
+        "homography_inliers": 9,
+        "homography_ratio": 0.243
+    },
+    {
+        "image_a": "building01_front_noon.jpg",
+        "image_b": "building01_right_day.jpg",
+        "raw_matches": 31,
+        "fundamental_inliers": 13,
+        "fundamental_ratio": 0.419,
+        "homography_inliers": 7,
+        "homography_ratio": 0.226
+    },
+    {
+        "image_a": "building01_left_day.jpg",
+        "image_b": "building01_low_cloud.jpg",
+        "raw_matches": 34,
+        "fundamental_inliers": 13,
+        "fundamental_ratio": 0.382,
+        "homography_inliers": 6,
+        "homography_ratio": 0.176
+    },
+    {
+        "image_a": "building01_left_day.jpg",
+        "image_b": "building01_low_noon.jpg",
+        "raw_matches": 47,
+        "fundamental_inliers": 13,
+        "fundamental_ratio": 0.277,
+        "homography_inliers": 9,
+        "homography_ratio": 0.191
+    },
+    {
+        "image_a": "building01_low_cloud.jpg",
+        "image_b": "building01_low_noon.jpg",
+        "raw_matches": 29,
+        "fundamental_inliers": 13,
+        "fundamental_ratio": 0.448,
+        "homography_inliers": 9,
+        "homography_ratio": 0.31
+    },
+    {
+        "image_a": "building01_low_noon.jpg",
+        "image_b": "building01_zoom_noon.jpg",
+        "raw_matches": 52,
+        "fundamental_inliers": 13,
+        "fundamental_ratio": 0.25,
+        "homography_inliers": 9,
+        "homography_ratio": 0.173
+    },
+    {
+        "image_a": "building01_front_day.jpg",
+        "image_b": "building01_zoom_cloud.jpg",
+        "raw_matches": 27,
+        "fundamental_inliers": 12,
+        "fundamental_ratio": 0.444,
+        "homography_inliers": 4,
+        "homography_ratio": 0.148
+    },
+    {
+        "image_a": "building01_left_cloud.jpg",
+        "image_b": "building01_zoom_noon.jpg",
+        "raw_matches": 34,
+        "fundamental_inliers": 12,
+        "fundamental_ratio": 0.353,
+        "homography_inliers": 7,
+        "homography_ratio": 0.206
+    },
+    {
+        "image_a": "building01_left_day.jpg",
+        "image_b": "building01_low_day.jpg",
+        "raw_matches": 44,
+        "fundamental_inliers": 12,
+        "fundamental_ratio": 0.273,
+        "homography_inliers": 9,
+        "homography_ratio": 0.205
+    },
+    {
+        "image_a": "building01_left_day.jpg",
+        "image_b": "building01_right_cloud.jpg",
+        "raw_matches": 28,
+        "fundamental_inliers": 12,
+        "fundamental_ratio": 0.429,
+        "homography_inliers": 8,
+        "homography_ratio": 0.286
+    },
+    {
+        "image_a": "building01_left_day.jpg",
+        "image_b": "building01_right_noon.jpg",
+        "raw_matches": 26,
+        "fundamental_inliers": 12,
+        "fundamental_ratio": 0.462,
+        "homography_inliers": 8,
+        "homography_ratio": 0.308
+    },
+    {
+        "image_a": "building01_left_noon.jpg",
+        "image_b": "building01_low_noon.jpg",
+        "raw_matches": 41,
+        "fundamental_inliers": 12,
+        "fundamental_ratio": 0.293,
+        "homography_inliers": 9,
+        "homography_ratio": 0.22
+    },
+    {
+        "image_a": "building01_left_noon.jpg",
+        "image_b": "building01_right_noon.jpg",
+        "raw_matches": 25,
+        "fundamental_inliers": 12,
+        "fundamental_ratio": 0.48,
+        "homography_inliers": 9,
+        "homography_ratio": 0.36
+    },
+    {
+        "image_a": "building01_low_cloud.jpg",
+        "image_b": "building01_right_day.jpg",
+        "raw_matches": 23,
+        "fundamental_inliers": 12,
+        "fundamental_ratio": 0.522,
+        "homography_inliers": 9,
+        "homography_ratio": 0.391
+    },
+    {
+        "image_a": "building01_low_cloud.jpg",
+        "image_b": "building01_zoom_cloud.jpg",
+        "raw_matches": 34,
+        "fundamental_inliers": 12,
+        "fundamental_ratio": 0.353,
+        "homography_inliers": 8,
+        "homography_ratio": 0.235
+    },
+    {
+        "image_a": "building01_low_day.jpg",
+        "image_b": "building01_right_cloud.jpg",
+        "raw_matches": 26,
+        "fundamental_inliers": 12,
+        "fundamental_ratio": 0.462,
+        "homography_inliers": 9,
+        "homography_ratio": 0.346
+    },
+    {
+        "image_a": "building01_low_noon.jpg",
+        "image_b": "building01_right_day.jpg",
+        "raw_matches": 34,
+        "fundamental_inliers": 12,
+        "fundamental_ratio": 0.353,
+        "homography_inliers": 11,
+        "homography_ratio": 0.324
+    },
+    {
+        "image_a": "building01_right_cloud.jpg",
+        "image_b": "building01_zoom_noon.jpg",
+        "raw_matches": 47,
+        "fundamental_inliers": 12,
+        "fundamental_ratio": 0.255,
+        "homography_inliers": 0,
+        "homography_ratio": 0.0
+    },
+    {
+        "image_a": "building01_right_day.jpg",
+        "image_b": "building01_zoom_noon.jpg",
+        "raw_matches": 28,
+        "fundamental_inliers": 12,
+        "fundamental_ratio": 0.429,
+        "homography_inliers": 9,
+        "homography_ratio": 0.321
+    },
+    {
+        "image_a": "building01_front_cloud.jpg",
+        "image_b": "building01_zoom_cloud.jpg",
+        "raw_matches": 34,
+        "fundamental_inliers": 11,
+        "fundamental_ratio": 0.324,
+        "homography_inliers": 6,
+        "homography_ratio": 0.176
+    },
+    {
+        "image_a": "building01_front_noon.jpg",
+        "image_b": "building01_left_day.jpg",
+        "raw_matches": 34,
+        "fundamental_inliers": 11,
+        "fundamental_ratio": 0.324,
+        "homography_inliers": 6,
+        "homography_ratio": 0.176
+    },
+    {
+        "image_a": "building01_front_noon.jpg",
+        "image_b": "building01_left_noon.jpg",
+        "raw_matches": 26,
+        "fundamental_inliers": 11,
+        "fundamental_ratio": 0.423,
+        "homography_inliers": 8,
+        "homography_ratio": 0.308
+    },
+    {
+        "image_a": "building01_left_cloud.jpg",
+        "image_b": "building01_right_cloud.jpg",
+        "raw_matches": 37,
+        "fundamental_inliers": 11,
+        "fundamental_ratio": 0.297,
+        "homography_inliers": 7,
+        "homography_ratio": 0.189
+    },
+    {
+        "image_a": "building01_low_cloud.jpg",
+        "image_b": "building01_right_noon.jpg",
+        "raw_matches": 19,
+        "fundamental_inliers": 11,
+        "fundamental_ratio": 0.579,
+        "homography_inliers": 8,
+        "homography_ratio": 0.421
+    },
+    {
+        "image_a": "building01_low_day.jpg",
+        "image_b": "building01_right_day.jpg",
+        "raw_matches": 42,
+        "fundamental_inliers": 11,
+        "fundamental_ratio": 0.262,
+        "homography_inliers": 10,
+        "homography_ratio": 0.238
+    },
+    {
+        "image_a": "building01_right_cloud.jpg",
+        "image_b": "building01_zoom_day.jpg",
+        "raw_matches": 25,
+        "fundamental_inliers": 11,
+        "fundamental_ratio": 0.44,
+        "homography_inliers": 6,
+        "homography_ratio": 0.24
+    },
+    {
+        "image_a": "building01_right_noon.jpg",
+        "image_b": "building01_zoom_noon.jpg",
+        "raw_matches": 47,
+        "fundamental_inliers": 11,
+        "fundamental_ratio": 0.234,
+        "homography_inliers": 6,
+        "homography_ratio": 0.128
+    },
+    {
+        "image_a": "building01_front_cloud.jpg",
+        "image_b": "building01_low_cloud.jpg",
+        "raw_matches": 24,
+        "fundamental_inliers": 10,
+        "fundamental_ratio": 0.417,
+        "homography_inliers": 5,
+        "homography_ratio": 0.208
+    },
+    {
+        "image_a": "building01_front_noon.jpg",
+        "image_b": "building01_low_cloud.jpg",
+        "raw_matches": 23,
+        "fundamental_inliers": 10,
+        "fundamental_ratio": 0.435,
+        "homography_inliers": 6,
+        "homography_ratio": 0.261
+    },
+    {
+        "image_a": "building01_front_noon.jpg",
+        "image_b": "building01_right_cloud.jpg",
+        "raw_matches": 30,
+        "fundamental_inliers": 10,
+        "fundamental_ratio": 0.333,
+        "homography_inliers": 6,
+        "homography_ratio": 0.2
+    },
+    {
+        "image_a": "building01_left_cloud.jpg",
+        "image_b": "building01_low_day.jpg",
+        "raw_matches": 29,
+        "fundamental_inliers": 10,
+        "fundamental_ratio": 0.345,
+        "homography_inliers": 8,
+        "homography_ratio": 0.276
+    },
+    {
+        "image_a": "building01_left_cloud.jpg",
+        "image_b": "building01_right_day.jpg",
+        "raw_matches": 25,
+        "fundamental_inliers": 10,
+        "fundamental_ratio": 0.4,
+        "homography_inliers": 5,
+        "homography_ratio": 0.2
+    },
+    {
+        "image_a": "building01_left_day.jpg",
+        "image_b": "building01_right_day.jpg",
+        "raw_matches": 27,
+        "fundamental_inliers": 10,
+        "fundamental_ratio": 0.37,
+        "homography_inliers": 0,
+        "homography_ratio": 0.0
+    },
+    {
+        "image_a": "building01_left_day.jpg",
+        "image_b": "building01_zoom_cloud.jpg",
+        "raw_matches": 18,
+        "fundamental_inliers": 10,
+        "fundamental_ratio": 0.556,
+        "homography_inliers": 5,
+        "homography_ratio": 0.278
+    },
+    {
+        "image_a": "building01_left_day.jpg",
+        "image_b": "building01_zoom_day.jpg",
+        "raw_matches": 21,
+        "fundamental_inliers": 10,
+        "fundamental_ratio": 0.476,
+        "homography_inliers": 6,
+        "homography_ratio": 0.286
+    },
+    {
+        "image_a": "building01_left_noon.jpg",
+        "image_b": "building01_right_cloud.jpg",
+        "raw_matches": 31,
+        "fundamental_inliers": 10,
+        "fundamental_ratio": 0.323,
+        "homography_inliers": 7,
+        "homography_ratio": 0.226
+    },
+    {
+        "image_a": "building01_left_noon.jpg",
+        "image_b": "building01_zoom_day.jpg",
+        "raw_matches": 21,
+        "fundamental_inliers": 10,
+        "fundamental_ratio": 0.476,
+        "homography_inliers": 8,
+        "homography_ratio": 0.381
+    },
+    {
+        "image_a": "building01_low_day.jpg",
+        "image_b": "building01_right_noon.jpg",
+        "raw_matches": 22,
+        "fundamental_inliers": 10,
+        "fundamental_ratio": 0.455,
+        "homography_inliers": 6,
+        "homography_ratio": 0.273
+    },
+    {
+        "image_a": "building01_low_noon.jpg",
+        "image_b": "building01_zoom_cloud.jpg",
+        "raw_matches": 32,
+        "fundamental_inliers": 10,
+        "fundamental_ratio": 0.312,
+        "homography_inliers": 6,
+        "homography_ratio": 0.188
+    },
+    {
+        "image_a": "building01_right_day.jpg",
+        "image_b": "building01_zoom_day.jpg",
+        "raw_matches": 36,
+        "fundamental_inliers": 10,
+        "fundamental_ratio": 0.278,
+        "homography_inliers": 6,
+        "homography_ratio": 0.167
+    },
+    {
+        "image_a": "building01_left_cloud.jpg",
+        "image_b": "building01_zoom_cloud.jpg",
+        "raw_matches": 29,
+        "fundamental_inliers": 9,
+        "fundamental_ratio": 0.31,
+        "homography_inliers": 5,
+        "homography_ratio": 0.172
+    },
+    {
+        "image_a": "building01_left_noon.jpg",
+        "image_b": "building01_right_day.jpg",
+        "raw_matches": 21,
+        "fundamental_inliers": 9,
+        "fundamental_ratio": 0.429,
+        "homography_inliers": 5,
+        "homography_ratio": 0.238
+    },
+    {
+        "image_a": "building01_left_noon.jpg",
+        "image_b": "building01_zoom_cloud.jpg",
+        "raw_matches": 19,
+        "fundamental_inliers": 9,
+        "fundamental_ratio": 0.474,
+        "homography_inliers": 5,
+        "homography_ratio": 0.263
+    },
+    {
+        "image_a": "building01_low_cloud.jpg",
+        "image_b": "building01_zoom_day.jpg",
+        "raw_matches": 16,
+        "fundamental_inliers": 9,
+        "fundamental_ratio": 0.562,
+        "homography_inliers": 6,
+        "homography_ratio": 0.375
+    }
+]

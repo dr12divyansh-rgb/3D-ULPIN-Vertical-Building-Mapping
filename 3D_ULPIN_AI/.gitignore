@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# COLMAP / reconstruction workspaces
+**/workspace/
+**/database.db
+**/*.bin
+**/*.ply
+**/*.pcd
+**/*.las
+**/*.laz
+
+# Large generated reconstruction outputs
+outputs/reconstruction/
+outputs/meshes/
+outputs/pointclouds/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Secrets
+.env
+*.key

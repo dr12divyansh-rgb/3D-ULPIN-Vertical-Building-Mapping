@@ -1,6 +1,9 @@
 from pathlib import Path
 import json
 
+from integration.apartment_estimator import (
+    estimate_apartments
+)
 
 # ============================================================
 # CONFIGURATION
@@ -125,6 +128,12 @@ def create_property(building):
         height
     )
 
+    # Estimate apartments
+    apartment_data = estimate_apartments(
+        area,
+        floors
+    )
+
     property_data = {
 
         "building_id": building_id,
@@ -140,8 +149,18 @@ def create_property(building):
 
             "height_meters": height,
 
-            "estimated_floors": floors
+            "estimated_floors": floors,
+
+            "estimated_total_flats": apartment_data[
+                "total_estimated_flats"
+            ],
+
+            "estimated_flats_per_floor": apartment_data[
+                "estimated_flats_per_floor"
+            ]
         },
+
+        "apartments": apartment_data,
 
         "data_sources": {
 
@@ -316,6 +335,24 @@ if __name__ == "__main__":
                     "measurements"
                 ][
                     "estimated_floors"
+                ]
+            )
+
+            print(
+                "Estimated total flats:",
+                property_data[
+                    "measurements"
+                ][
+                    "estimated_total_flats"
+                ]
+            )
+
+            print(
+                "Estimated flats per floor:",
+                property_data[
+                    "measurements"
+                ][
+                    "estimated_flats_per_floor"
                 ]
             )
 

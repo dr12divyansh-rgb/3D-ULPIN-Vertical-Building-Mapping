@@ -5,8 +5,7 @@
 <title>3D ULPIN — Google Maps Style Cadastral Prototype</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="frontend_properties.js"></script>
-
+<script src="outputs/frontend_properties.js"></script>
 <style>
   :root{
     --map-bg:#dbe7d3;
@@ -129,10 +128,72 @@
     #scaleBar{left:250px;bottom:8px}
   }
 </style>
+
+<style>
+  #layersPanel{
+    position:absolute;
+    top:62px;
+    left:18px;
+    width:220px;
+    z-index:20;
+    background:rgba(255,255,255,.96);
+    border:1px solid rgba(0,0,0,.10);
+    border-radius:10px;
+    box-shadow:0 8px 24px rgba(0,0,0,.16);
+    padding:12px;
+    font-size:12px;
+    color:#24313a;
+  }
+  .layersHead{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-weight:700;
+    font-size:13px;
+    margin-bottom:8px;
+  }
+  #closeLayers{
+    border:0;
+    background:transparent;
+    font-size:20px;
+    line-height:20px;
+    cursor:pointer;
+    color:#68737a;
+    padding:0 3px;
+  }
+  .layerRow{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:7px 4px;
+    border-radius:6px;
+    cursor:pointer;
+  }
+  .layerRow:hover{ background:#f2f5f6; }
+  .layerRow input{ cursor:pointer; }
+  .layersNote{
+    margin-top:8px;
+    padding-top:8px;
+    border-top:1px solid #e5e7e8;
+    color:#7a8388;
+    font-size:10px;
+    line-height:1.35;
+  }
+  #layersBtn.active, #locateBtn.active{
+    box-shadow:0 0 0 2px rgba(35,100,220,.16);
+  }
+  #mapMode button, #mapControls button, #compass{
+    cursor:pointer;
+  }
+  #mapMode button.active{
+    font-weight:700;
+  }
+</style>
+
 </head>
 <body>
 <div id="app">
-  <div id="loading"><div class="dot">GENERATING 3D CADASTRAL CITY MODEL…</div></div>
+  <div id="loading"><div class="dot">LOADING 3D CADASTRAL PROPERTY DATA…</div></div>
   <div id="mapTopbar">
     <div id="mapActions">
       <button class="mapBtn active" id="layersBtn">☷ Layers</button>
@@ -144,12 +205,25 @@
     <div class="brand">
       <div class="eyebrow">SIH 2026 · SIH26011 · Prototype Demo</div>
       <h1>3D ULPIN — City-Scale Vertical Property Mapping</h1>
-      <span id="stepBadge">City view — click any building to inspect its 3D ULPIN</span>
+      <span id="stepBadge">City view — click a building to inspect floors & estimated flats</span>
     </div>
     <div class="team">Team <b>HummingBirds</b> · Smart Automation · Software<br>Drag to orbit · scroll to zoom · click a building</div>
   </div>
 
   <div id="mapMode"><button id="roadMode" class="active">Map</button><button id="satMode">Satellite</button></div>
+  <div id="layersPanel" aria-label="Map layers" style="display:none;">
+    <div class="layersHead">
+      <span>Layers</span>
+      <button id="closeLayers" type="button" aria-label="Close layers">×</button>
+    </div>
+    <label class="layerRow"><input type="checkbox" id="layerParcels" checked> <span>Surface parcels</span></label>
+    <label class="layerRow"><input type="checkbox" id="layerBuildings" checked> <span>Buildings</span></label>
+    <label class="layerRow"><input type="checkbox" id="layerFlats" checked> <span>Floors & flats</span></label>
+    <label class="layerRow"><input type="checkbox" id="layerValidation" checked> <span>Validation</span></label>
+    <label class="layerRow"><input type="checkbox" id="layerUnderground" checked> <span>Underground assets</span></label>
+    <div class="layersNote">Apartment and floor data are prototype estimates.</div>
+  </div>
+
   <div id="mapControls"><button class="zoomBtn" id="zoomIn">+</button><button class="zoomBtn" id="zoomOut">−</button></div>
   <div id="compass" title="Reset north">N</div>
   <div id="scaleBar">100 m</div>
@@ -206,7 +280,7 @@
   <div id="info">
     <h2>Parcel Inspector</h2>
     <div id="infoBody">
-      <div class="hint">Click any building to view its surface 3D ULPIN, floor count and type. From there you can enter the building to inspect each floor and unit's individual volumetric ULPIN.</div>
+      <div class="hint">Click a building to view its 3D ULPIN, floor count and estimated apartment distribution. Enter the building to inspect individual flats.</div>
     </div>
   </div>
 </div>
@@ -306,268 +380,162 @@
   }
   function floorDefsForBuilding(b){
     const defs = [];
-    if(b.hasBasement) defs.push({level:-1,label:'B1',name:'Basement Parking',type:'parking',units:4});
-    defs.push({level:0,label:'G',name: b.type==='commercial' ? 'Ground — Lobby & Retail' : 'Ground — Lobby',type:'common',units:2});
-    for(let f=1; f<=b.floors; f++){
-      const isTop = f===b.floors;
-      let name, type, units;
-      if(b.type==='residential'){ name = isTop?'Residential — Penthouse':'Residential'; type='residential'; units = isTop?2:4; }
-      else if(b.type==='commercial'){ name='Commercial Office'; type='commercial'; units=2; }
-      else { name='Institutional Floor'; type='institutional'; units=2; }
-      defs.push({level:f, label:'F'+f, name, type, units});
+
+    if(b.hasBasement){
+      defs.push({
+        level:-1,
+        label:'B1',
+        name:'Basement Parking',
+        type:'parking',
+        units:4
+      });
     }
+
+    const apartmentFloors = b.apartments && Array.isArray(b.apartments.floors)
+      ? b.apartments.floors
+      : [];
+
+    // The backend's estimated apartment data is authoritative for
+    // this prototype's UI. Ground floor is represented as floor 0.
+    apartmentFloors.forEach(fd=>{
+      const level = Number(fd.floor_number || 0);
+      const flats = Array.isArray(fd.flats) ? fd.flats : [];
+      const units = Number(fd.estimated_flat_count || flats.length || 1);
+
+      defs.push({
+        level: level,
+        label: level===0 ? 'G' : 'F'+level,
+        name: level===0
+          ? (b.type==='commercial' ? 'Ground — Lobby & Retail' : 'Ground — Residential')
+          : (b.type==='residential' ? 'Residential Floor' :
+             b.type==='commercial' ? 'Commercial Office' : 'Institutional Floor'),
+        type: b.type,
+        units: units,
+        flatIds: flats,
+        estimated: true
+      });
+    });
+
+    // Safe fallback for older records that do not yet contain
+    // apartment information.
+    if(apartmentFloors.length===0){
+      defs.push({
+        level:0,
+        label:'G',
+        name:'Ground Floor',
+        type:b.type,
+        units:1,
+        flatIds:['G01'],
+        estimated:true
+      });
+
+      for(let f=1; f<=b.floors; f++){
+        defs.push({
+          level:f,
+          label:'F'+f,
+          name:b.type==='residential' ? 'Residential Floor' :
+               b.type==='commercial' ? 'Commercial Office' :
+               'Institutional Floor',
+          type:b.type,
+          units:1,
+          flatIds:[String(f)+'01'],
+          estimated:true
+        });
+      }
+    }
+
     return defs;
   }
   function unitsCountForBuilding(b){
     return floorDefsForBuilding(b).reduce((a,f)=>a+f.units,0);
   }
 
-  // ---------- AI / Backend Property Data ----------
+  // ---------- Backend-driven cadastral city ----------
+  // frontend_properties.js is generated by integration/frontend_adaptor.py.
+  // These records contain the detected building geometry, estimated height,
+  // estimated floors, validation data, and estimated apartment distribution.
 
-const buildings = [];
+  const backendProperties = Array.isArray(window.ULPIN_PROPERTIES)
+    ? window.ULPIN_PROPERTIES
+    : [];
 
-let totalPlots = 0;
-let totalFloors = 0;
-let totalUnits = 0;
-let totalUnderground = 0;
+  const buildings = [];
+  let totalPlots = backendProperties.length;
+  let totalFloors = 0, totalUnits = 0, totalUnderground = 0;
 
+  backendProperties.forEach((p, index)=>{
+    const type = p.type || 'residential';
+    const floors = Number(p.floors || 1);
+    const h = Number(p.h || (floors * 3.2));
+    const w = Number(p.w || 6);
+    const d = Number(p.d || 6);
+    const x = Number(p.x || 0);
+    const z = Number(p.z || 0);
+    const hasBasement = Boolean(p.hasBasement);
 
-// ------------------------------------------------------------
-// LOAD AI-GENERATED PROPERTY DATA
-// ------------------------------------------------------------
+    const mat = new THREE.MeshStandardMaterial({
+      color: TYPE_COLOR[type] || TYPE_COLOR.residential,
+      roughness:0.82,
+      metalness:0.0
+    });
 
-const propertyData = window.ULPIN_PROPERTIES || [];
-
-
-// ------------------------------------------------------------
-// CREATE 3D BUILDINGS FROM AI DATA
-// ------------------------------------------------------------
-
-propertyData.forEach((property, index) => {
-
-    const id = index;
-
-    const ix = index % GRID_N;
-
-    const iz = Math.floor(
-        index / GRID_N
-    );
-
-    const type =
-        property.type || "residential";
-
-    const floors =
-        Number(property.floors) || 1;
-
-    const hasBasement =
-        Boolean(property.hasBasement);
-
-    const w =
-        Number(property.w) || 6;
-
-    const d =
-        Number(property.d) || 6;
-
-    const h =
-        Number(property.h) || (floors * 3.2);
-
-    const x =
-        Number(property.x) || 0;
-
-    const z =
-        Number(property.z) || 0;
-
-
-    // --------------------------------------------------------
-    // CREATE BUILDING MESH
-    // --------------------------------------------------------
-
-    const mat =
-        new THREE.MeshStandardMaterial({
-            color: TYPE_COLOR[type],
-            roughness: 0.65,
-            metalness: 0.06
-        });
-
-
-    const geo =
-        new THREE.BoxGeometry(
-            w,
-            h,
-            d
-        );
-
-
-    const mesh =
-        new THREE.Mesh(
-            geo,
-            mat
-        );
-
-
-    mesh.position.set(
-        x,
-        h / 2,
-        z
-    );
-
-
+    const geo = new THREE.BoxGeometry(w,h,d);
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(x, h/2, z);
     scene.add(mesh);
 
-
-    // --------------------------------------------------------
-    // BUILDING OUTLINE
-    // --------------------------------------------------------
-
-    const edges =
-        new THREE.EdgesGeometry(
-            geo
-        );
-
-
-    const outline =
-        new THREE.LineSegments(
-            edges,
-            new THREE.LineBasicMaterial({
-                color: 0x0a121c,
-                transparent: true,
-                opacity: 0.45
-            })
-        );
-
-
+    const edges = new THREE.EdgesGeometry(geo);
+    const outline = new THREE.LineSegments(
+      edges,
+      new THREE.LineBasicMaterial({
+        color:0x6b6f72,
+        transparent:true,
+        opacity:0.32
+      })
+    );
     mesh.add(outline);
 
-
-    // --------------------------------------------------------
-    // CREATE BUILDING RECORD
-    // --------------------------------------------------------
+    const buildingNumber = String(index + 1).padStart(3,'0');
 
     const b = {
+      id: index,
+      x, z, w, d, h, floors, type, hasBasement, mesh,
 
-        id,
+      building_id: p.building_id || ('B' + buildingNumber),
 
-        ix,
-        iz,
+      // Backend prototype ULPIN
+      surface: p.ulpin || ('PROTOTYPE-' + (p.building_id || buildingNumber)),
 
-        x,
-        z,
+      bcode: 'BLD-' + (p.building_id || buildingNumber),
 
-        w,
-        d,
-        h,
+      // Preserve complete backend apartment information
+      apartments: p.apartments || {
+        total_estimated_flats: 0,
+        estimated_flats_per_floor: 0,
+        status: 'ESTIMATED',
+        data_source: 'PROTOTYPE_ESTIMATE',
+        floors: []
+      },
 
-        floors,
-
-        type,
-
-        hasBasement,
-
-        mesh,
-
-        // AI / backend information
-        buildingId:
-            property.building_id,
-
-        surface:
-            property.ulpin,
-
-        bcode:
-            buildingCode(
-                id,
-                type
-            ),
-
-        areaPixels:
-            property.area_pixels,
-
-        polygon:
-            property.polygon,
-
-        validation:
-            property.validation || {},
-
-        source:
-            "AI_PIPELINE"
+      validation: p.validation || {},
+      area_pixels: p.area_pixels || 0,
+      polygon: p.polygon || []
     };
 
-
     mesh.userData.building = b;
-
     buildings.push(b);
 
+    const unitCount = unitsCountForBuilding(b);
+    totalFloors += floors + (hasBasement ? 1 : 0);
+    totalUnits += unitCount;
+    if(hasBasement) totalUnderground++;
+  });
 
-    // --------------------------------------------------------
-    // STATISTICS
-    // --------------------------------------------------------
+  // If the generated JS data is missing, keep the UI usable and explain why.
+  if(buildings.length===0){
+    console.warn('No backend properties found in window.ULPIN_PROPERTIES.');
+  }
 
-    const unitCount =
-        unitsCountForBuilding(b);
-
-
-    totalPlots++;
-
-    totalFloors +=
-        floors +
-        (hasBasement ? 1 : 0) +
-        1;
-
-
-    totalUnits +=
-        unitCount;
-
-
-    if(hasBasement){
-
-        totalUnderground++;
-    }
-
-});
-
-
-// ------------------------------------------------------------
-// DISPLAY SUMMARY
-// ------------------------------------------------------------
-
-document.getElementById(
-    'cs-plots'
-).textContent =
-    totalPlots;
-
-
-document.getElementById(
-    'cs-buildings'
-).textContent =
-    buildings.length;
-
-
-document.getElementById(
-    'cs-floors'
-).textContent =
-    totalFloors;
-
-
-document.getElementById(
-    'cs-ulpins'
-).textContent =
-    totalUnits +
-    buildings.length;
-
-
-document.getElementById(
-    'cs-under'
-).textContent =
-    totalUnderground;
-
-
-document.getElementById(
-    'cs-valid'
-).textContent =
-    buildings.length
-        ? 'AI'
-        : '0%';
-
-  
   document.getElementById('cs-plots').textContent = totalPlots;
   document.getElementById('cs-buildings').textContent = buildings.length;
   document.getElementById('cs-floors').textContent = totalFloors;
@@ -610,94 +578,85 @@ document.getElementById(
     selectedBuilding = b;
 
     const unitCount = unitsCountForBuilding(b);
+    const apartmentData = b.apartments || {};
+    const floorData = Array.isArray(apartmentData.floors)
+      ? apartmentData.floors
+      : [];
+
+    const floorRows = floorData.map(fd=>{
+      const count = Number(fd.estimated_flat_count || (fd.flats || []).length || 0);
+      const label = fd.floor_label || (Number(fd.floor_number)===0 ? 'Ground Floor' : 'Floor '+fd.floor_number);
+
+      return `
+        <div class="stat">
+          <span class="k">${label}</span>
+          <span class="v">${count} flats</span>
+        </div>
+      `;
+    }).join('');
 
     document.getElementById('infoBody').innerHTML = `
-    <div class="bname">
-      ${b.buildingId || `Building #${b.id+1}`} 
-      ${b.type.charAt(0).toUpperCase()+b.type.slice(1)}
-    </div>
+      <div class="bname">${b.building_id} · ${b.type.charAt(0).toUpperCase()+b.type.slice(1)}</div>
+      <div class="ulpin">${b.surface}</div>
 
-    <div class="ulpin">${b.surface || 'ULPIN not generated'}</div>
+      <div class="stat">
+        <span class="k">Footprint</span>
+        <span class="v">${b.w.toFixed(1)} × ${b.d.toFixed(1)} m</span>
+      </div>
 
-    <div class="stat">
-      <span class="k">Footprint</span>
-      <span class="v">${b.w.toFixed(1)}  ${b.d.toFixed(1)} m</span>
-    </div>
+      <div class="stat">
+        <span class="k">Floors above ground</span>
+        <span class="v">${b.floors}</span>
+      </div>
 
-    <div class="stat">
-      <span class="k">Height</span>
-      <span class="v">${b.h.toFixed(2)} m</span>
-    </div>
+      <div class="stat">
+        <span class="k">Estimated apartments</span>
+        <span class="v">${apartmentData.total_estimated_flats || unitCount}</span>
+      </div>
 
-    <div class="stat">
-      <span class="k">Floors above ground</span>
-      <span class="v">${b.floors}</span>
-    </div>
+      <div class="stat">
+        <span class="k">Apartment status</span>
+        <span class="v">${apartmentData.status || 'ESTIMATED'}</span>
+      </div>
 
-    <div class="stat">
-      <span class="k">Basement</span>
-      <span class="v">${b.hasBasement ? 'Yes  parking' : 'None'}</span>
-    </div>
+      <div style="margin-top:10px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;">
+        Flats by floor
+      </div>
 
-    <div class="stat">
-      <span class="k">Est. volumetric parcels</span>
-      <span class="v">${unitCount}</span>
-    </div>
+      ${floorRows || '<div class="hint" style="margin-top:7px">No floor-level apartment data available.</div>'}
 
-    <div class="stat">
-      <span class="k">Building code</span>
-      <span class="v">${b.bcode}</span>
-    </div>
+      <div class="stat">
+        <span class="k">Land record</span>
+        <span class="v">${b.validation.status || 'NOT_VALIDATED'}</span>
+      </div>
 
-    <div class="stat">
-      <span class="k">Land record</span>
-      <span class="v">${b.validation?.status || 'NOT_VALIDATED'}</span>
-    </div>
+      <div class="stat">
+        <span class="k">Parcel ID</span>
+        <span class="v">${b.validation.parcel_id || '—'}</span>
+      </div>
 
-    <div class="stat">
-      <span class="k">Parcel ID</span>
-      <span class="v">${b.validation?.parcel_id || ''}</span>
-    </div>
+      <div class="stat">
+        <span class="k">Building code</span>
+        <span class="v">${b.bcode}</span>
+      </div>
 
-    <div class="stat">
-      <span class="k">IoU Match</span>
-      <span class="v">
-        ${b.validation?.overlap_iou != null
-        ? b.validation.overlap_iou.toFixed(2)
-          : ''}
-      </span>
-    </div>
-                        
-    <div class="stat">
-      <span class="k">Building Coverage</span>
-      <span class="v">
-        ${b.validation?.building_coverage != null
-        ? (b.validation.building_coverage * 100).toFixed(1) + '%'
-        : ''}
-      </span>
-    </div>
-                          
-    <div class="stat">
-      <span class="k">Data Source</span>
-      <span class="v">${b.source || 'AI_PIPELINE'}</span>
-    </div>
-                            
-    <button id="enterBtn">Enter Building </button>
-  `;
-                          
-  document.getElementById('enterBtn')
-    .addEventListener('click', ()=> enterBuilding(b));
-}
+      <button id="enterBtn">Enter Building →</button>
+    `;
+
+    document.getElementById('enterBtn').addEventListener('click', ()=> enterBuilding(b));
+  }
 
   function showUnitInfo(u){
     document.getElementById('infoBody').innerHTML = `
       <div class="bname">${selectedBuilding.bcode} · ${u.floorLabel}</div>
       <div class="ulpin">${u.ulpin}</div>
       <div class="stat"><span class="k">Floor</span><span class="v">${u.floorName}</span></div>
+      <div class="stat"><span class="k">Flat ID</span><span class="v">${u.flatId || ('#'+(u.unitIndex+1))}</span></div>
       <div class="stat"><span class="k">Type</span><span class="v">${u.type}</span></div>
       <div class="stat"><span class="k">Unit</span><span class="v">#${u.unitIndex+1}</span></div>
       <div class="stat"><span class="k">Area</span><span class="v">${u.area} m²</span></div>
       <div class="stat"><span class="k">Elevation</span><span class="v">${u.elevation} m (MSL)</span></div>
+      <div class="stat"><span class="k">Data status</span><span class="v">ESTIMATED</span></div>
     `;
   }
 
@@ -717,7 +676,7 @@ document.getElementById(
   function enterBuilding(b){
     mode = 'building';
     clearDrill();
-    buildings.forEach(o=> o.mesh.visible = (o.id!==b.id));
+    buildings.forEach(o=> o.mesh.visible = buildingsLayerVisible && (o.id!==b.id));
     parcelGrid.visible = false;
 
     const FLOOR_H = 3.2, GAP = 0.4, SLAB_GAP = 0.28;
@@ -751,8 +710,16 @@ document.getElementById(
           mesh.position.set(px, py, pz);
           mesh.userData.level = fd.level;
           mesh.userData.unit = {
-            floorLabel: fd.label, floorName: fd.name, type: fd.type, unitIndex: idx,
-            ulpin, area: Math.round(uw*ud*10)/10, elevation: (216+y0).toFixed(1)
+            floorLabel: fd.label,
+            floorName: fd.name,
+            type: fd.type,
+            unitIndex: idx,
+            flatId: (fd.flatIds && fd.flatIds[idx])
+              ? fd.flatIds[idx]
+              : (fd.level===0 ? 'G'+String(idx+1).padStart(2,'0') : String(fd.level)+String(idx+1).padStart(2,'0')),
+            ulpin,
+            area: Math.round(uw*ud*10)/10,
+            elevation: (216+y0).toFixed(1)
           };
           const edges = new THREE.EdgesGeometry(geo);
           const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({color:0x0a121c, transparent:true, opacity:0.5}));
@@ -782,14 +749,16 @@ document.getElementById(
     document.getElementById('cityControls').style.display = 'none';
     document.getElementById('buildingControls').style.display = 'block';
     document.getElementById('backBtn').style.display = 'block';
-    document.getElementById('underToggle').checked = true;
+    document.getElementById('underToggle').checked = undergroundLayerVisible;
     const clipSlider = document.getElementById('clipSlider');
     clipSlider.min = b.hasBasement ? -1 : 0;
     clipSlider.max = b.floors;
     clipSlider.value = b.floors;
     document.getElementById('clipVal').textContent = 'Top';
 
-    document.getElementById('infoBody').innerHTML = `<div class="hint">Click any floor slab volume to reveal its individual 3D ULPIN — floor, unit, area and elevation. Use the vertical slice to peel back floors.</div>`;
+    document.getElementById('infoBody').innerHTML = `<div class="hint">Click any floor or flat volume to reveal its individual 3D ULPIN — floor, flat ID, area and elevation. Use the vertical slice to peel back floors.</div>`;
+    applyFlatsLayer();
+    applyUndergroundLayer();
   }
 
   function applyDrillVisibility(){
@@ -807,22 +776,26 @@ document.getElementById(
   function exitBuilding(){
     mode = 'city';
     clearDrill();
-    buildings.forEach(o=> o.mesh.visible = true);
-    parcelGrid.visible = document.getElementById('gridToggle').checked;
+    buildings.forEach(o=> o.mesh.visible = buildingsLayerVisible);
+    parcelGrid.visible = parcelsLayerVisible;
     targetTarget.set(0,10,0);
     targetDist = 150;
     document.getElementById('ctrlTitle').textContent = 'City Controls';
     document.getElementById('cityControls').style.display = 'block';
     document.getElementById('buildingControls').style.display = 'none';
     document.getElementById('backBtn').style.display = 'none';
-    document.getElementById('infoBody').innerHTML = `<div class="hint">Click any building to view its surface 3D ULPIN, floor count and type. From there you can enter the building to inspect each floor and unit's individual volumetric ULPIN.</div>`;
+    document.getElementById('infoBody').innerHTML = `<div class="hint">Click a building to view its 3D ULPIN, floor count and estimated apartment distribution. Enter the building to inspect individual flats.</div>`;
     applyTypeFilter();
   }
 
   document.getElementById('backBtn').addEventListener('click', exitBuilding);
   document.getElementById('underToggle').addEventListener('change', applyDrillVisibility);
   document.getElementById('clipSlider').addEventListener('input', applyDrillVisibility);
-  document.getElementById('gridToggle').addEventListener('change', e=>{ parcelGrid.visible = e.target.checked; });
+  document.getElementById('gridToggle').addEventListener('change', e=>{
+    parcelsLayerVisible = e.target.checked;
+    document.getElementById('layerParcels').checked = parcelsLayerVisible;
+    applyParcelsLayer();
+  });
 
   function applyTypeFilter(){
     const f = document.getElementById('typeFilter').value;
@@ -833,6 +806,179 @@ document.getElementById(
     });
   }
   document.getElementById('typeFilter').addEventListener('change', applyTypeFilter);
+
+
+  // ---------- Top-right map controls ----------
+  let satelliteMode = false;
+  let layersOpen = false;
+  let validationLayerVisible = true;
+  let flatsLayerVisible = true;
+  let buildingsLayerVisible = true;
+  let parcelsLayerVisible = true;
+  let undergroundLayerVisible = true;
+
+  function showToast(message){
+    const toast = document.getElementById('toast');
+    if(!toast) return;
+    toast.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(showToast._timer);
+    showToast._timer = setTimeout(()=>toast.classList.remove('show'), 1800);
+  }
+
+  function setLayersOpen(open){
+    layersOpen = open;
+    document.getElementById('layersPanel').style.display = open ? 'block' : 'none';
+    document.getElementById('layersBtn').classList.toggle('active', open);
+  }
+
+  function resetView(){
+    camTheta = 0.65;
+    camPhi = 0.95;
+    targetDist = 150;
+    targetTarget.set(0,10,0);
+    showToast('View reset');
+  }
+
+  function zoomBy(amount){
+    targetDist = Math.min(320, Math.max(14, targetDist + amount));
+  }
+
+  function setNorth(){
+    camTheta = 0.65;
+    showToast('North orientation reset');
+  }
+
+  function applyBuildingsLayer(){
+    buildings.forEach(b=>{
+      b.mesh.visible = buildingsLayerVisible && (
+        mode === 'city' ? true : b.id !== (selectedBuilding && selectedBuilding.id)
+      );
+    });
+  }
+
+  function applyFlatsLayer(){
+    if(mode !== 'building') return;
+    drillMeshes.forEach(m=>{
+      if(m.userData && m.userData.unit){
+        m.visible = flatsLayerVisible;
+      }
+    });
+    applyDrillVisibility();
+  }
+
+  function applyUndergroundLayer(){
+    if(mode !== 'building') return;
+    document.getElementById('underToggle').checked = undergroundLayerVisible;
+    applyDrillVisibility();
+  }
+
+  function applyValidationLayer(){
+    buildings.forEach(b=>{
+      const mat = b.mesh.material;
+      if(!mat || !mat.emissive) return;
+
+      if(!validationLayerVisible){
+        mat.emissive.setHex(0x000000);
+        mat.emissiveIntensity = 0;
+        return;
+      }
+
+      const status = String((b.validation && b.validation.status) || '').toUpperCase();
+      if(status === 'MATCH'){
+        mat.emissive.setHex(0x174a2c);
+        mat.emissiveIntensity = 0.08;
+      } else if(status === 'PARTIAL_MATCH'){
+        mat.emissive.setHex(0x6b4d00);
+        mat.emissiveIntensity = 0.10;
+      } else if(status === 'OUTSIDE_PARCEL' || status === 'UNREGISTERED'){
+        mat.emissive.setHex(0x5c2020);
+        mat.emissiveIntensity = 0.12;
+      } else {
+        mat.emissive.setHex(0x000000);
+        mat.emissiveIntensity = 0;
+      }
+    });
+  }
+
+  function applyParcelsLayer(){
+    parcelGrid.visible = parcelsLayerVisible && mode === 'city';
+    document.getElementById('gridToggle').checked = parcelsLayerVisible;
+  }
+
+  function setMapMode(isSatellite){
+    satelliteMode = isSatellite;
+
+    document.getElementById('roadMode').classList.toggle('active', !isSatellite);
+    document.getElementById('satMode').classList.toggle('active', isSatellite);
+
+    if(isSatellite){
+      scene.background.setHex(0x17221e);
+      scene.fog.color.setHex(0x17221e);
+      ground.material.color.setHex(0x34483d);
+      roadMat.color.setHex(0x6d716e);
+      parcelGrid.material.color?.setHex?.(0x777b70);
+      showToast('Satellite-style view — schematic');
+    } else {
+      scene.background.setHex(0xcbdcc2);
+      scene.fog.color.setHex(0xcbdcc2);
+      ground.material.color.setHex(0xcbdcc2);
+      roadMat.color.setHex(0xf4f1e7);
+      parcelGrid.material.color?.setHex?.(0xd2c9ae);
+      showToast('Map view');
+    }
+  }
+
+  document.getElementById('layersBtn').addEventListener('click', ()=>{
+    setLayersOpen(!layersOpen);
+  });
+
+  document.getElementById('closeLayers').addEventListener('click', ()=>{
+    setLayersOpen(false);
+  });
+
+  document.getElementById('locateBtn').addEventListener('click', resetView);
+
+  document.getElementById('zoomIn').addEventListener('click', ()=>{
+    zoomBy(-18);
+  });
+
+  document.getElementById('zoomOut').addEventListener('click', ()=>{
+    zoomBy(18);
+  });
+
+  document.getElementById('compass').addEventListener('click', setNorth);
+
+  document.getElementById('roadMode').addEventListener('click', ()=>setMapMode(false));
+  document.getElementById('satMode').addEventListener('click', ()=>setMapMode(true));
+
+  document.getElementById('layerParcels').addEventListener('change', e=>{
+    parcelsLayerVisible = e.target.checked;
+    applyParcelsLayer();
+  });
+
+  document.getElementById('layerBuildings').addEventListener('change', e=>{
+    buildingsLayerVisible = e.target.checked;
+    if(mode === 'city'){
+      buildings.forEach(b=>b.mesh.visible = buildingsLayerVisible);
+    }
+  });
+
+  document.getElementById('layerFlats').addEventListener('change', e=>{
+    flatsLayerVisible = e.target.checked;
+    applyFlatsLayer();
+  });
+
+  document.getElementById('layerValidation').addEventListener('change', e=>{
+    validationLayerVisible = e.target.checked;
+    applyValidationLayer();
+  });
+
+  document.getElementById('layerUnderground').addEventListener('change', e=>{
+    undergroundLayerVisible = e.target.checked;
+    applyUndergroundLayer();
+  });
+
 
   // ---------- Resize ----------
   window.addEventListener('resize', ()=>{

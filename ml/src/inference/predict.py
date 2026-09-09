@@ -37,21 +37,38 @@ def build_model_from_checkpoint(checkpoint_path, device):
     return model, ckpt
 
 
-def predict_on_cloud(model, xyz, device, num_points, batch_size):
+def predict_on_cloud(model, xyz, device, num_points, batch_size, rgb=None):
     """Predict semantic labels + confidence for a full point cloud.
 
     The cloud is deterministically chunked; per-chunk coordinates are
     normalised exactly as in training. Returns (pred (N,), confidence (N,)).
+
+    Args:
+        rgb: optional (N,3) uint8 array. If the model expects 6-dim input but
+             rgb is None, RGB channels are zero-padded automatically.
     """
     n = xyz.shape[0]
     chunks = chunk_indices(n, num_points, seed=0)
     pred = np.empty(n, dtype=np.int64)
     conf = np.empty(n, dtype=np.float32)
+
+    # Detect model input dimensionality from first conv weight
+    first_conv = next(iter(model.parameters()))
+    model_input_dim = first_conv.shape[1]  # Conv2d weight: (out, in, kH, kW)
+
     with torch.no_grad():
         for chunk in chunks:
             xyz_chunk = xyz[chunk]
             xyz_norm, _, _ = normalize_chunk(xyz_chunk)
-            inp = torch.from_numpy(xyz_norm).unsqueeze(0).to(device)
+            if model_input_dim == 6:
+                if rgb is not None:
+                    rgb_chunk = (rgb[chunk] / 255.0).astype(np.float32)
+                else:
+                    rgb_chunk = np.zeros((len(chunk), 3), dtype=np.float32)
+                feat = np.concatenate([xyz_norm, rgb_chunk], axis=1)
+            else:
+                feat = xyz_norm
+            inp = torch.from_numpy(feat).unsqueeze(0).to(device)
             logits = model(inp)[0]                       # (M, C)
             probs = torch.softmax(logits, dim=-1)        # (M, C)
             p = probs.argmax(dim=-1).cpu().numpy()

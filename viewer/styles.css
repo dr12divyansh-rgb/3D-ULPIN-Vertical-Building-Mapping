@@ -1,10 +1,14 @@
 :root {
-  --bg: #0d1117;
-  --panel: #161b22;
-  --border: #30363d;
-  --text: #c9d1d9;
-  --muted: #8b949e;
-  --accent: #58a6ff;
+  --bg: #0a0e1a;
+  --panel: #111827;
+  --border: #1e2d45;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --accent: #00b4d8;
+  --accent2: #0077b6;
+  --plateau: #00b4d8;
+  --ulpin-bg: #021730;
+  --ulpin-border: #0077b6;
 }
 
 * { box-sizing: border-box; }
@@ -21,14 +25,29 @@ html, body {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: #3d1d1d;
-  border-bottom: 1px solid #7a1f1f;
-  color: #ffd7d7;
+  background: linear-gradient(90deg, #021730 0%, #0a1628 50%, #021730 100%);
+  border-bottom: 1px solid var(--ulpin-border);
+  color: #90caf9;
   text-align: center;
   font-weight: 600;
   letter-spacing: 0.06em;
   padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
+.banner-badge {
+  background: var(--plateau);
+  color: #000;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 3px;
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+}
+.banner-badge-right { background: #0077b6; color: #fff; }
 
 #layout {
   display: flex;
@@ -50,12 +69,6 @@ html, body {
   border-bottom: 1px dashed var(--border);
 }
 
-#sidebar h3 {
-  margin: 0 0 8px;
-  font-size: 12px;
-  text-transform: uppercase;
-  color: var(--muted);
-}
 
 #sidebar label {
   display: block;
@@ -72,17 +85,6 @@ html, body {
 }
 
 .row { display: flex; gap: 8px; margin-top: 8px; }
-
-button {
-  flex: 1;
-  padding: 6px 8px;
-  background: #21262d;
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  cursor: pointer;
-}
-button:hover { background: #30363d; }
 
 .chk { cursor: pointer; user-select: none; }
 
@@ -110,6 +112,86 @@ input[type="range"] { width: 100%; }
   background: #1f6feb;
   color: #fff;
 }
+
+/* ── ULPIN hero ─────────────────────────────────────────────── */
+#ulpin-hero {
+  background: var(--ulpin-bg);
+  border: 1px solid var(--ulpin-border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+}
+.ulpin-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--plateau);
+  margin-bottom: 4px;
+}
+.ulpin-id {
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  word-break: break-all;
+  line-height: 1.4;
+}
+.ulpin-attrs {
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+}
+.ulpin-chip {
+  background: #0a2040;
+  border: 1px solid #1e4080;
+  border-radius: 3px;
+  padding: 1px 6px;
+  font-size: 11px;
+  color: #7ec8e3;
+}
+
+/* ── code hint ──────────────────────────────────────────────── */
+.code-hint {
+  display: block;
+  background: #060e1a;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-family: "Consolas", monospace;
+  font-size: 10px;
+  color: #7ec8e3;
+  word-break: break-all;
+  line-height: 1.5;
+  margin-top: 4px;
+}
+
+/* ── sidebar section headers ────────────────────────────────── */
+#sidebar h3 {
+  margin: 0 0 8px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--plateau);
+  border-left: 2px solid var(--plateau);
+  padding-left: 6px;
+}
+
+/* ── buttons ────────────────────────────────────────────────── */
+button {
+  flex: 1;
+  padding: 6px 8px;
+  background: #0a1628;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+button:hover { background: #0e2040; border-color: var(--plateau); }
+button:disabled { opacity: 0.4; cursor: default; }
 
 #floor-buttons {
   display: flex;

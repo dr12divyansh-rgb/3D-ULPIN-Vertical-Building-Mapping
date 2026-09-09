@@ -9,7 +9,7 @@ import {
 import {
   createPoints, createMeshFromObj, fitCamera, buildFloorPlane, applyClip, clearClip,
 } from './scene.js';
-import { renderBuildingInfo, renderMLInfo, renderFloorInfo } from './metadata.js';
+import { renderBuildingInfo, renderMLInfo, renderFloorInfo, renderULPINHero } from './metadata.js';
 import { populateSelect, setSelectIndex, buildFloorButtons, setActiveFloor, setStatus } from './controls.js';
 
 const $ = (id) => document.getElementById(id);
@@ -39,7 +39,7 @@ const state = {
 
 const container = $('viewport');
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x0d1117);
+scene.background = new THREE.Color(0x0a0e1a);
 
 const camera = new THREE.PerspectiveCamera(50, 1, 0.01, 5000);
 camera.position.set(60, 50, 70);
@@ -238,19 +238,45 @@ async function onSceneChange(sceneIdx) {
   populateSelect($('building-select'), info.buildings,
     (b) => `B${b.id} · ${b.metadata.footprint_type} · ${b.metadata.roof_type}`);
   state.buildingIdx = 0;
+  _updateCityGMLPanel(info);
   await onBuildingChange(0);
 }
 
 async function onBuildingChange(buildingIdx) {
   state.buildingIdx = buildingIdx;
-  state.floorIdx = 0; // floor selection resets per building
+  state.floorIdx = 0;
+  const sceneInfo = currentScene();
   const b = currentBuilding();
   const meta = b.metadata;
   buildFloorButtons(meta, (i) => { state.floorIdx = i; setActiveFloor(meta, i); renderFloorInfo(meta, i); render(); }, state.floorIdx);
-  renderBuildingInfo(meta);
-  const pred = currentScene().prediction;
+  renderULPINHero(sceneInfo.id, meta);
+  renderBuildingInfo(meta, sceneInfo.id);
+  const pred = sceneInfo.prediction;
   renderMLInfo(pred ? pred.metrics_by_building[String(b.id)] : null, !!pred);
+  _updateCityGMLPanel(sceneInfo);
   await render();
+}
+
+function _updateCityGMLPanel(sceneInfo) {
+  const btn = document.getElementById('btn-download-gml');
+  const status = document.getElementById('citygml-status');
+  if (!btn || !status) return;
+  if (sceneInfo.citygml_path) {
+    status.textContent = `CityGML ready: ${sceneInfo.citygml_path}`;
+    status.style.color = 'var(--plateau)';
+    btn.disabled = false;
+    btn.onclick = () => {
+      const a = document.createElement('a');
+      a.href = '/' + sceneInfo.citygml_path;
+      a.download = 'city_model.gml';
+      a.click();
+    };
+  } else {
+    status.textContent = 'CityGML not yet generated — run pipeline_plateau.py first.';
+    status.style.color = '';
+    btn.disabled = true;
+    btn.onclick = null;
+  }
 }
 
 // ------------------------------------------------------------------- init --

@@ -1389,7 +1389,8 @@
       "roof_slope": null
      }
     }
-   ]
+   ],
+   "citygml_path": "ml/results/plateau_demo/city_model.gml"
   },
   {
    "id": "scene_00003",
@@ -3156,7 +3157,8 @@
       "roof_slope": null
      }
     }
-   ]
+   ],
+   "citygml_path": "ml/results/plateau_demo/city_model.gml"
   },
   {
    "id": "scene_00004",
@@ -4831,7 +4833,8 @@
       "roof_slope": null
      }
     }
-   ]
+   ],
+   "citygml_path": "ml/results/plateau_demo/city_model.gml"
   },
   {
    "id": "scene_00006",
@@ -6828,7 +6831,8 @@
       "roof_slope": null
      }
     }
-   ]
+   ],
+   "citygml_path": "ml/results/plateau_demo/city_model.gml"
   },
   {
    "id": "scene_00007",
@@ -7939,7 +7943,8 @@
       "roof_slope": null
      }
     }
-   ]
+   ],
+   "citygml_path": "ml/results/plateau_demo/city_model.gml"
   },
   {
    "id": "scene_00008",
@@ -9768,7 +9773,8 @@
       "roof_slope": null
      }
     }
-   ]
+   ],
+   "citygml_path": "ml/results/plateau_demo/city_model.gml"
   },
   {
    "id": "scene_00010",
@@ -11355,7 +11361,8 @@
       "roof_slope": null
      }
     }
-   ]
+   ],
+   "citygml_path": "ml/results/plateau_demo/city_model.gml"
   },
   {
    "id": "scene_00001",
@@ -12928,7 +12935,8 @@
       "roof_slope": null
      }
     }
-   ]
+   ],
+   "citygml_path": "ml/results/plateau_demo/city_model.gml"
   },
   {
    "id": "scene_00009",
@@ -14309,7 +14317,8 @@
       "roof_slope": null
      }
     }
-   ]
+   ],
+   "citygml_path": "ml/results/plateau_demo/city_model.gml"
   },
   {
    "id": "scene_00005",
@@ -16128,9 +16137,9 @@
     }
    ],
    "prediction": {
-    "experiment": "experiment_001",
-    "path": "ml/results/experiment_001/predictions/scene_00005/prediction.ply",
-    "metrics_path": "ml/results/experiment_001/per_building_metrics.json",
+    "experiment": "experiment_004",
+    "path": "ml/results/experiment_004/predictions/scene_00005/prediction.ply",
+    "metrics_path": "ml/results/experiment_004/per_building_metrics.json",
     "metrics_by_building": {
      "40001": {
       "building_id": 40001,
@@ -16140,10 +16149,10 @@
       "length": 19.5576,
       "floor_count": 9,
       "num_points": 33083,
-      "building_iou": 0.9545617923680585,
-      "building_precision": 0.9905818724356583,
-      "building_recall": 0.9633044161654022,
-      "building_f1": 0.976752739253697
+      "building_iou": 0.9469143199520671,
+      "building_precision": 0.9906911142454161,
+      "building_recall": 0.9554151679110117,
+      "building_f1": 0.9727334277097309
      },
      "40002": {
       "building_id": 40002,
@@ -16153,10 +16162,10 @@
       "length": 39.1783,
       "floor_count": 8,
       "num_points": 61140,
-      "building_iou": 0.9605985037406484,
-      "building_precision": 0.9832842015118328,
-      "building_recall": 0.9765456329735034,
-      "building_f1": 0.9799033324853728
+      "building_iou": 0.9536201097539387,
+      "building_precision": 0.9834207381837493,
+      "building_recall": 0.9692018318613019,
+      "building_f1": 0.9762595143167815
      },
      "40003": {
       "building_id": 40003,
@@ -16166,10 +16175,10 @@
       "length": 26.3216,
       "floor_count": 9,
       "num_points": 14973,
-      "building_iou": 0.965328947368421,
-      "building_precision": 0.984765100671141,
-      "building_recall": 0.9799639350831497,
-      "building_f1": 0.9823586516252134
+      "building_iou": 0.9587608524072613,
+      "building_precision": 0.9844003241491086,
+      "building_recall": 0.9735523943097576,
+      "building_f1": 0.9789463080487559
      },
      "40004": {
       "building_id": 40004,
@@ -16179,10 +16188,10 @@
       "length": 23.1119,
       "floor_count": 10,
       "num_points": 25065,
-      "building_iou": 0.9725378787878788,
-      "building_precision": 0.9888073173667108,
-      "building_recall": 0.9833632555356074,
-      "building_f1": 0.986077772443591
+      "building_iou": 0.9606215158344206,
+      "building_precision": 0.9907033639143731,
+      "building_recall": 0.9693596648713345,
+      "building_f1": 0.9799153055051423
      },
      "40005": {
       "building_id": 40005,
@@ -16192,10 +16201,10 @@
       "length": 33.6611,
       "floor_count": 4,
       "num_points": 22922,
-      "building_iou": 0.9278328581762478,
-      "building_precision": 0.9741333095067906,
-      "building_recall": 0.9512695227292557,
-      "building_f1": 0.9625656645918862
+      "building_iou": 0.9183977524263579,
+      "building_precision": 0.9742605554301197,
+      "building_recall": 0.9412354942849664,
+      "building_f1": 0.957463332371802
      },
      "40006": {
       "building_id": 40006,
@@ -16205,10 +16214,10 @@
       "length": 41.502,
       "floor_count": 1,
       "num_points": 25503,
-      "building_iou": 0.8219681193442127,
-      "building_precision": 0.9598532077640712,
-      "building_recall": 0.8512331882523625,
-      "building_f1": 0.9022859517871986
+      "building_iou": 0.8186276373313058,
+      "building_precision": 0.9640938395415473,
+      "building_recall": 0.8443712504411246,
+      "building_f1": 0.9002696544660215
      },
      "40007": {
       "building_id": 40007,
@@ -16218,10 +16227,10 @@
       "length": 28.1999,
       "floor_count": 7,
       "num_points": 22419,
-      "building_iou": 0.9442039442039442,
-      "building_precision": 0.9795853558952956,
-      "building_recall": 0.9631562513939069,
-      "building_f1": 0.971301335972291
+      "building_iou": 0.9451665135005033,
+      "building_precision": 0.980390376758965,
+      "building_recall": 0.9633792765065347,
+      "building_f1": 0.9718103894350829
      },
      "40008": {
       "building_id": 40008,
@@ -16231,10 +16240,10 @@
       "length": 42.9066,
       "floor_count": 3,
       "num_points": 22837,
-      "building_iou": 0.8753239154058347,
-      "building_precision": 0.9505718954248366,
-      "building_recall": 0.9170644130139686,
-      "building_f1": 0.9335175733802848
+      "building_iou": 0.8748911465892598,
+      "building_precision": 0.942885234179478,
+      "building_recall": 0.9238516442615055,
+      "building_f1": 0.9332714042421428
      },
      "40009": {
       "building_id": 40009,
@@ -16244,10 +16253,10 @@
       "length": 19.9307,
       "floor_count": 10,
       "num_points": 34391,
-      "building_iou": 0.9689641273679968,
-      "building_precision": 0.9899114679843525,
-      "building_recall": 0.978628129452473,
-      "building_f1": 0.9842374616171954
+      "building_iou": 0.9513541636558083,
+      "building_precision": 0.993780193236715,
+      "building_recall": 0.9570527172806839,
+      "building_f1": 0.9750707292144983
      },
      "40010": {
       "building_id": 40010,
@@ -16257,10 +16266,10 @@
       "length": 26.8582,
       "floor_count": 8,
       "num_points": 38523,
-      "building_iou": 0.9596377088914403,
-      "building_precision": 0.9824474337207784,
-      "building_recall": 0.9763777483581237,
-      "building_f1": 0.9794031871680033
+      "building_iou": 0.9534188470973017,
+      "building_precision": 0.9838369456309656,
+      "building_recall": 0.9685901928717908,
+      "building_f1": 0.9761540373320775
      },
      "40011": {
       "building_id": 40011,
@@ -16270,10 +16279,10 @@
       "length": 35.0703,
       "floor_count": 5,
       "num_points": 27972,
-      "building_iou": 0.9454311633241806,
-      "building_precision": 0.9714642857142857,
-      "building_recall": 0.9724367224367224,
-      "building_f1": 0.9719502608447079
+      "building_iou": 0.9340039681158412,
+      "building_precision": 0.9725625226531351,
+      "building_recall": 0.9592807092807093,
+      "building_f1": 0.965875958388827
      },
      "40012": {
       "building_id": 40012,
@@ -16283,10 +16292,10 @@
       "length": 24.1111,
       "floor_count": 9,
       "num_points": 17570,
-      "building_iou": 0.9588419755851719,
-      "building_precision": 0.9834587329848946,
-      "building_recall": 0.9745589072282299,
-      "building_f1": 0.9789885938080671
+      "building_iou": 0.94603832791662,
+      "building_precision": 0.983915146570313,
+      "building_recall": 0.9608992601024473,
+      "building_f1": 0.9722710126983212
      },
      "40013": {
       "building_id": 40013,
@@ -16296,10 +16305,10 @@
       "length": 12.7827,
       "floor_count": 5,
       "num_points": 10457,
-      "building_iou": 0.9089004281679877,
-      "building_precision": 0.9504620367724111,
-      "building_recall": 0.9540977335755952,
-      "building_f1": 0.952276415004295
+      "building_iou": 0.8892995749399372,
+      "building_precision": 0.963459805786365,
+      "building_recall": 0.9203404418093143,
+      "building_f1": 0.941406632104079
      },
      "40014": {
       "building_id": 40014,
@@ -16309,10 +16318,10 @@
       "length": 14.3707,
       "floor_count": 1,
       "num_points": 6957,
-      "building_iou": 0.5853725222146274,
-      "building_precision": 0.9228448275862069,
-      "building_recall": 0.6154951847060515,
-      "building_f1": 0.7384668448736742
+      "building_iou": 0.6413473339697259,
+      "building_precision": 0.9259696790706832,
+      "building_recall": 0.6760097743280149,
+      "building_f1": 0.7814888667331339
      },
      "40015": {
       "building_id": 40015,
@@ -16322,10 +16331,10 @@
       "length": 30.1067,
       "floor_count": 5,
       "num_points": 30298,
-      "building_iou": 0.9255558087301846,
-      "building_precision": 0.9853415115916415,
-      "building_recall": 0.9384777873126939,
-      "building_f1": 0.9613388555489816
+      "building_iou": 0.9338534048431659,
+      "building_precision": 0.9840052060143165,
+      "building_recall": 0.9482474090699056,
+      "building_f1": 0.9657954449953777
      },
      "40016": {
       "building_id": 40016,
@@ -16335,10 +16344,10 @@
       "length": 49.7956,
       "floor_count": 3,
       "num_points": 11130,
-      "building_iou": 0.8664456346170195,
-      "building_precision": 0.9415242494226328,
-      "building_recall": 0.9157232704402516,
-      "building_f1": 0.9284445456615805
+      "building_iou": 0.8376949740034662,
+      "building_precision": 0.9593132876848268,
+      "building_recall": 0.8685534591194969,
+      "building_f1": 0.9116801056255011
      },
      "40017": {
       "building_id": 40017,
@@ -16348,10 +16357,10 @@
       "length": 26.7163,
       "floor_count": 5,
       "num_points": 35277,
-      "building_iou": 0.9023585820792107,
-      "building_precision": 0.9759007253761764,
-      "building_recall": 0.9229242849448649,
-      "building_f1": 0.9486734946604699
+      "building_iou": 0.9071359290563946,
+      "building_precision": 0.9759107984020035,
+      "building_recall": 0.9279133713184228,
+      "building_f1": 0.9513070518316162
      },
      "40018": {
       "building_id": 40018,
@@ -16361,13 +16370,14 @@
       "length": 34.6839,
       "floor_count": 5,
       "num_points": 22213,
-      "building_iou": 0.907288431264094,
-      "building_precision": 0.9429556911647652,
-      "building_recall": 0.9599783910322784,
-      "building_f1": 0.9513909028041136
+      "building_iou": 0.8928119959897127,
+      "building_precision": 0.9656765676567657,
+      "building_recall": 0.9220726601539639,
+      "building_f1": 0.9433710245722313
      }
     }
-   }
+   },
+   "citygml_path": "ml/results/plateau_demo/city_model.gml"
   }
  ]
 }

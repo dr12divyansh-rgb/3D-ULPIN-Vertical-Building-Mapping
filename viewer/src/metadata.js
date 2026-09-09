@@ -4,15 +4,39 @@ const $ = (id) => document.getElementById(id);
 
 const fmt = (v) => (typeof v === 'number' ? v.toFixed(2) : String(v));
 
-export function renderBuildingInfo(meta) {
+export function computeULPIN(sceneId, buildingId) {
+  const m = String(sceneId).match(/(\d+)/);
+  const num = m ? parseInt(m[1], 10) : 0;
+  return `ULPIN-26011-S${String(num).padStart(4, '0')}-B${String(buildingId).padStart(6, '0')}`;
+}
+
+export function renderULPINHero(sceneId, buildingMeta) {
+  const ulpin = computeULPIN(sceneId, buildingMeta.building_id);
+  const ulpinEl = $('ulpin-value');
+  const attrsEl = $('ulpin-attrs');
+  if (ulpinEl) ulpinEl.textContent = ulpin;
+  if (attrsEl) {
+    const chips = [
+      `${buildingMeta.roof_type} roof`,
+      `${buildingMeta.floor_count} floors`,
+      `h=${fmt(buildingMeta.total_height)}m`,
+      `${buildingMeta.footprint_type}`,
+    ];
+    attrsEl.innerHTML = chips.map(c => `<span class="ulpin-chip">${c}</span>`).join('');
+  }
+  return ulpin;
+}
+
+export function renderBuildingInfo(meta, sceneId) {
   const el = $('building-info');
   if (!el || !meta) return;
   const pos = meta.position ? `${meta.position[0].toFixed(1)}, ${meta.position[1].toFixed(1)}` : '—';
+  const ulpin = computeULPIN(sceneId || 'scene_00000', meta.building_id);
   el.innerHTML = `
     <table>
+      <tr><td>ULPIN</td><td style="font-family:monospace;font-size:11px;color:var(--plateau)">${ulpin}</td></tr>
       <tr><td>Building ID</td><td>${meta.building_id}</td></tr>
-      <tr><td>Data source</td><td>Synthetic</td></tr>
-      <tr><td>Ground truth</td><td>LOD1 + LOD2</td></tr>
+      <tr><td>CityGML LOD</td><td>LOD1 + LOD2</td></tr>
       <tr><td>Footprint type</td><td>${meta.footprint_type}</td></tr>
       <tr><td>Roof type</td><td>${meta.roof_type}</td></tr>
       <tr><td>Width</td><td>${fmt(meta.width)} m</td></tr>

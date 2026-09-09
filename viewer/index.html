@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SIH 26011 — Synthetic Building Test Viewer</title>
+<title>SIH 26011 — ULPIN 3D City Model Viewer</title>
 <link rel="stylesheet" href="styles.css">
 <script type="importmap">
 {
@@ -38,10 +38,20 @@ window.__viewerErrors = [];
 </script>
 </head>
 <body>
-<div id="banner">SYNTHETIC PROTOTYPE DATA — Not cadastral / legal survey data</div>
+<div id="banner">
+  <span class="banner-badge">PLATEAU-EQUIVALENT</span>
+  SIH 26011 · ULPIN 3D City Model · Synthetic Prototype — Not cadastral / legal data
+  <span class="banner-badge banner-badge-right">CityGML LOD2</span>
+</div>
 
 <div id="layout">
   <aside id="sidebar">
+    <div id="ulpin-hero">
+      <div class="ulpin-label">ULPIN</div>
+      <div id="ulpin-value" class="ulpin-id">—</div>
+      <div id="ulpin-attrs" class="ulpin-attrs"></div>
+    </div>
+
     <section>
       <h3>Selection</h3>
       <label>Scene
@@ -88,10 +98,21 @@ window.__viewerErrors = [];
     </section>
 
     <section>
+      <h3>CityGML Export</h3>
+      <div id="citygml-panel" class="panel">
+        <p class="hint">Run the pipeline to generate CityGML:</p>
+        <code class="code-hint">python ml/src/pipeline_plateau.py --scene scene_00005 --checkpoint ml/results/experiment_001/best_model.pth --out ml/results/plateau_demo</code>
+        <div id="citygml-status" class="hint" style="margin-top:6px">CityGML not yet generated.</div>
+        <div class="row" style="margin-top:8px">
+          <button id="btn-download-gml" disabled>⬇ Download city_model.gml</button>
+        </div>
+      </div>
+    </section>
+
+    <section>
       <h3>Comparison</h3>
       <div id="comparison" class="panel">
         <p class="hint">LOD1 (blue wireframe) vs Ground Truth LOD2 (colored surfaces): enable Overlay and check both.</p>
-        <p class="hint">LOD2 reconstruction vs AI prediction: <b>not implemented yet</b> (Step 4).</p>
       </div>
     </section>
   </aside>

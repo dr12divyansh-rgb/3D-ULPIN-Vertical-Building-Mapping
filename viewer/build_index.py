@@ -95,6 +95,10 @@ def build_index() -> dict:
             }
             if scene_dir.name in predictions:
                 scene["prediction"] = predictions[scene_dir.name]
+            # Look for CityGML output from pipeline_plateau.py
+            citygml = RESULTS / "plateau_demo" / "city_model.gml"
+            if citygml.exists():
+                scene["citygml_path"] = _rel(citygml)
             scenes.append(scene)
     return {
         "dataset_root": _rel(DATA),

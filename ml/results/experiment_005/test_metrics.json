@@ -1,0 +1,91 @@
+{
+  "checkpoint": "ml\\results\\experiment_005\\best_model.pth",
+  "seed": 26011,
+  "epoch": 17,
+  "num_test_scenes": 1,
+  "num_test_points": 570141,
+  "overall_accuracy": 0.22285013707135604,
+  "mean_iou": 0.09088816612113038,
+  "building_precision": 0.9946425046760595,
+  "building_recall": 0.2286927581959242,
+  "building_f1": 0.371880946649494,
+  "building_iou": 0.22841139650334558,
+  "per_class": {
+    "ground": {
+      "precision": 0.4815801465175786,
+      "recall": 0.1958182491947208,
+      "f1": 0.27842457772238605,
+      "iou": 0.16172662209247576
+    },
+    "building": {
+      "precision": 0.9946425046760595,
+      "recall": 0.2286927581959242,
+      "f1": 0.371880946649494,
+      "iou": 0.22841139650334558
+    },
+    "vegetation": {
+      "precision": 0.010025062656641603,
+      "recall": 0.0003863427826338919,
+      "f1": 0.000744013020227854,
+      "iou": 0.0003721449504582035
+    },
+    "road": {
+      "precision": 0.17586555887683292,
+      "recall": 0.5635417452296553,
+      "f1": 0.2680730455996843,
+      "iou": 0.15478311306293244
+    },
+    "vehicle": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "iou": 0.0
+    },
+    "other": {
+      "precision": 3.572066440435792e-05,
+      "recall": 0.7,
+      "f1": 7.143768337798189e-05,
+      "iou": 3.572011757021554e-05
+    }
+  },
+  "generalization": {
+    "train_seen_combos": [
+      [
+        "L",
+        "flat"
+      ],
+      [
+        "T",
+        "flat"
+      ],
+      [
+        "courtyard",
+        "flat"
+      ],
+      [
+        "irregular",
+        "flat"
+      ],
+      [
+        "rectangle",
+        "flat"
+      ],
+      [
+        "rectangle",
+        "gable"
+      ],
+      [
+        "rectangle",
+        "hip"
+      ],
+      [
+        "rectangle",
+        "shed"
+      ]
+    ],
+    "test_buildings_known_style": 18,
+    "test_buildings_novel_style": 0,
+    "avg_building_iou_known_style": 0.20449147929817146,
+    "avg_building_iou_novel_style": null
+  }
+}

@@ -217,7 +217,7 @@ def run_ulpin_generation(properties):
         print(
             property_data["building_id"],
             "→",
-            property_data["ulpin"]
+            property_data["building_property_id"]
         )
 
     return properties

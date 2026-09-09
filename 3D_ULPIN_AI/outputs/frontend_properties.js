@@ -10,7 +10,7 @@ window.ULPIN_PROPERTIES = [
         "floors": 4,
         "type": "residential",
         "hasBasement": false,
-        "ulpin": "TN-VEL-B001-7EE89E28",
+        "ulpin": null,
         "area_pixels": 1172.5,
         "polygon": [
             [
@@ -79,7 +79,20 @@ window.ULPIN_PROPERTIES = [
                         "G09",
                         "G10"
                     ],
-                    "data_source": "PROTOTYPE_ESTIMATE"
+                    "data_source": "PROTOTYPE_ESTIMATE",
+                    "floor_id": "F00",
+                    "3d_property_ids": [
+                        "1234567890ABCD-B001-F00-UG01",
+                        "1234567890ABCD-B001-F00-UG02",
+                        "1234567890ABCD-B001-F00-UG03",
+                        "1234567890ABCD-B001-F00-UG04",
+                        "1234567890ABCD-B001-F00-UG05",
+                        "1234567890ABCD-B001-F00-UG06",
+                        "1234567890ABCD-B001-F00-UG07",
+                        "1234567890ABCD-B001-F00-UG08",
+                        "1234567890ABCD-B001-F00-UG09",
+                        "1234567890ABCD-B001-F00-UG10"
+                    ]
                 },
                 {
                     "floor_number": 1,
@@ -98,7 +111,20 @@ window.ULPIN_PROPERTIES = [
                         "109",
                         "110"
                     ],
-                    "data_source": "PROTOTYPE_ESTIMATE"
+                    "data_source": "PROTOTYPE_ESTIMATE",
+                    "floor_id": "F01",
+                    "3d_property_ids": [
+                        "1234567890ABCD-B001-F01-U101",
+                        "1234567890ABCD-B001-F01-U102",
+                        "1234567890ABCD-B001-F01-U103",
+                        "1234567890ABCD-B001-F01-U104",
+                        "1234567890ABCD-B001-F01-U105",
+                        "1234567890ABCD-B001-F01-U106",
+                        "1234567890ABCD-B001-F01-U107",
+                        "1234567890ABCD-B001-F01-U108",
+                        "1234567890ABCD-B001-F01-U109",
+                        "1234567890ABCD-B001-F01-U110"
+                    ]
                 },
                 {
                     "floor_number": 2,
@@ -117,7 +143,20 @@ window.ULPIN_PROPERTIES = [
                         "209",
                         "210"
                     ],
-                    "data_source": "PROTOTYPE_ESTIMATE"
+                    "data_source": "PROTOTYPE_ESTIMATE",
+                    "floor_id": "F02",
+                    "3d_property_ids": [
+                        "1234567890ABCD-B001-F02-U201",
+                        "1234567890ABCD-B001-F02-U202",
+                        "1234567890ABCD-B001-F02-U203",
+                        "1234567890ABCD-B001-F02-U204",
+                        "1234567890ABCD-B001-F02-U205",
+                        "1234567890ABCD-B001-F02-U206",
+                        "1234567890ABCD-B001-F02-U207",
+                        "1234567890ABCD-B001-F02-U208",
+                        "1234567890ABCD-B001-F02-U209",
+                        "1234567890ABCD-B001-F02-U210"
+                    ]
                 },
                 {
                     "floor_number": 3,
@@ -136,7 +175,20 @@ window.ULPIN_PROPERTIES = [
                         "309",
                         "310"
                     ],
-                    "data_source": "PROTOTYPE_ESTIMATE"
+                    "data_source": "PROTOTYPE_ESTIMATE",
+                    "floor_id": "F03",
+                    "3d_property_ids": [
+                        "1234567890ABCD-B001-F03-U301",
+                        "1234567890ABCD-B001-F03-U302",
+                        "1234567890ABCD-B001-F03-U303",
+                        "1234567890ABCD-B001-F03-U304",
+                        "1234567890ABCD-B001-F03-U305",
+                        "1234567890ABCD-B001-F03-U306",
+                        "1234567890ABCD-B001-F03-U307",
+                        "1234567890ABCD-B001-F03-U308",
+                        "1234567890ABCD-B001-F03-U309",
+                        "1234567890ABCD-B001-F03-U310"
+                    ]
                 }
             ]
         }
@@ -152,7 +204,7 @@ window.ULPIN_PROPERTIES = [
         "floors": 2,
         "type": "commercial",
         "hasBasement": false,
-        "ulpin": "TN-VEL-B002-E7106EBB",
+        "ulpin": null,
         "area_pixels": 322.5,
         "polygon": [
             [
@@ -204,7 +256,15 @@ window.ULPIN_PROPERTIES = [
                         "G04",
                         "G05"
                     ],
-                    "data_source": "PROTOTYPE_ESTIMATE"
+                    "data_source": "PROTOTYPE_ESTIMATE",
+                    "floor_id": "F00",
+                    "3d_property_ids": [
+                        "2345678901BCDE-B002-F00-UG01",
+                        "2345678901BCDE-B002-F00-UG02",
+                        "2345678901BCDE-B002-F00-UG03",
+                        "2345678901BCDE-B002-F00-UG04",
+                        "2345678901BCDE-B002-F00-UG05"
+                    ]
                 },
                 {
                     "floor_number": 1,
@@ -218,7 +278,15 @@ window.ULPIN_PROPERTIES = [
                         "104",
                         "105"
                     ],
-                    "data_source": "PROTOTYPE_ESTIMATE"
+                    "data_source": "PROTOTYPE_ESTIMATE",
+                    "floor_id": "F01",
+                    "3d_property_ids": [
+                        "2345678901BCDE-B002-F01-U101",
+                        "2345678901BCDE-B002-F01-U102",
+                        "2345678901BCDE-B002-F01-U103",
+                        "2345678901BCDE-B002-F01-U104",
+                        "2345678901BCDE-B002-F01-U105"
+                    ]
                 }
             ]
         }
@@ -234,7 +302,7 @@ window.ULPIN_PROPERTIES = [
         "floors": 2,
         "type": "institutional",
         "hasBasement": false,
-        "ulpin": "TN-VEL-B003-B5595421",
+        "ulpin": null,
         "area_pixels": 436.0,
         "polygon": [
             [
@@ -283,7 +351,16 @@ window.ULPIN_PROPERTIES = [
                         "G05",
                         "G06"
                     ],
-                    "data_source": "PROTOTYPE_ESTIMATE"
+                    "data_source": "PROTOTYPE_ESTIMATE",
+                    "floor_id": "F00",
+                    "3d_property_ids": [
+                        "3456789012CDEF-B003-F00-UG01",
+                        "3456789012CDEF-B003-F00-UG02",
+                        "3456789012CDEF-B003-F00-UG03",
+                        "3456789012CDEF-B003-F00-UG04",
+                        "3456789012CDEF-B003-F00-UG05",
+                        "3456789012CDEF-B003-F00-UG06"
+                    ]
                 },
                 {
                     "floor_number": 1,
@@ -298,7 +375,16 @@ window.ULPIN_PROPERTIES = [
                         "105",
                         "106"
                     ],
-                    "data_source": "PROTOTYPE_ESTIMATE"
+                    "data_source": "PROTOTYPE_ESTIMATE",
+                    "floor_id": "F01",
+                    "3d_property_ids": [
+                        "3456789012CDEF-B003-F01-U101",
+                        "3456789012CDEF-B003-F01-U102",
+                        "3456789012CDEF-B003-F01-U103",
+                        "3456789012CDEF-B003-F01-U104",
+                        "3456789012CDEF-B003-F01-U105",
+                        "3456789012CDEF-B003-F01-U106"
+                    ]
                 }
             ]
         }
@@ -314,7 +400,7 @@ window.ULPIN_PROPERTIES = [
         "floors": 2,
         "type": "residential",
         "hasBasement": false,
-        "ulpin": "TN-VEL-B004-2526D86E",
+        "ulpin": null,
         "area_pixels": 447.5,
         "polygon": [
             [
@@ -363,7 +449,16 @@ window.ULPIN_PROPERTIES = [
                         "G05",
                         "G06"
                     ],
-                    "data_source": "PROTOTYPE_ESTIMATE"
+                    "data_source": "PROTOTYPE_ESTIMATE",
+                    "floor_id": "F00",
+                    "3d_property_ids": [
+                        "1234567890ABCD-B004-F00-UG01",
+                        "1234567890ABCD-B004-F00-UG02",
+                        "1234567890ABCD-B004-F00-UG03",
+                        "1234567890ABCD-B004-F00-UG04",
+                        "1234567890ABCD-B004-F00-UG05",
+                        "1234567890ABCD-B004-F00-UG06"
+                    ]
                 },
                 {
                     "floor_number": 1,
@@ -378,7 +473,16 @@ window.ULPIN_PROPERTIES = [
                         "105",
                         "106"
                     ],
-                    "data_source": "PROTOTYPE_ESTIMATE"
+                    "data_source": "PROTOTYPE_ESTIMATE",
+                    "floor_id": "F01",
+                    "3d_property_ids": [
+                        "1234567890ABCD-B004-F01-U101",
+                        "1234567890ABCD-B004-F01-U102",
+                        "1234567890ABCD-B004-F01-U103",
+                        "1234567890ABCD-B004-F01-U104",
+                        "1234567890ABCD-B004-F01-U105",
+                        "1234567890ABCD-B004-F01-U106"
+                    ]
                 }
             ]
         }

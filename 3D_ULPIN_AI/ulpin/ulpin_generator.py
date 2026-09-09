@@ -1,265 +1,192 @@
 from pathlib import Path
 import json
-import hashlib
 
 
 # ============================================================
-# CONFIGURATION
+# PROTOTYPE GOVERNMENT ULPIN
+# ============================================================
+# In the real system, this will come from government
+# land-record data.
+#
+# Official ULPIN is associated with the LAND PARCEL.
+# These are only prototype placeholders for now.
 # ============================================================
 
-STATE_CODE = "TN"
-DISTRICT_CODE = "VEL"
+PROTOTYPE_ULPIN_BY_PARCEL = {
+    "P001": "1234567890ABCD",
+    "P002": "2345678901BCDE",
+    "P003": "3456789012CDEF",
+}
 
 
 # ============================================================
-# CREATE STABLE HASH
+# GET BASE / GOVERNMENT ULPIN
 # ============================================================
 
-def create_property_hash(property_data):
-    """
-    Create a stable hash from the property's
-    important geometric and structural information.
+def get_official_ulpin(parcel_id):
 
-    This is used only for prototype uniqueness.
-    """
-
-    geometry = property_data.get(
-        "geometry",
-        {}
+    return PROTOTYPE_ULPIN_BY_PARCEL.get(
+        parcel_id,
+        "00000000000000"
     )
 
-    polygon = geometry.get(
-        "polygon",
-        []
-    )
-
-    measurements = property_data.get(
-        "measurements",
-        {}
-    )
-
-    raw_data = {
-        "polygon": polygon,
-        "area": measurements.get(
-            "area_pixels",
-            0
-        ),
-        "height": measurements.get(
-            "height_meters",
-            0
-        ),
-        "floors": measurements.get(
-            "estimated_floors",
-            0
-        )
-    }
-
-    raw_string = json.dumps(
-        raw_data,
-        sort_keys=True
-    )
-
-    hash_value = hashlib.sha256(
-        raw_string.encode("utf-8")
-    ).hexdigest()
-
-    return hash_value
-
 
 # ============================================================
-# GENERATE ULPIN
+# GENERATE 3D PROPERTY ID
 # ============================================================
 
-def generate_ulpin(property_data):
-    """
-    Generate a prototype ULPIN-style identifier.
+def generate_3d_property_id(
+    official_ulpin,
+    building_id,
+    floor_number,
+    flat_id
+):
 
-    Format:
+    floor_id = f"F{int(floor_number):02d}"
 
-        TN-VEL-B001-XXXXXXXX
+    flat_id = str(flat_id)
 
-    The final official identifier format should
-    be replaced when the government specification
-    is available.
-    """
+    # Remove existing U prefix if present
+    if flat_id.startswith("U"):
+        flat_id = flat_id[1:]
 
-    building_id = property_data[
-        "building_id"
-    ]
-
-    property_hash = create_property_hash(
-        property_data
-    )
-
-    short_hash = property_hash[
-        :8
-    ].upper()
-
-    ulpin = (
-        f"{STATE_CODE}-"
-        f"{DISTRICT_CODE}-"
+    return (
+        f"{official_ulpin}-"
         f"{building_id}-"
-        f"{short_hash}"
+        f"{floor_id}-"
+        f"U{flat_id}"
     )
 
-    return ulpin
+
+# ============================================================
+# GENERATE BUILDING PROPERTY ID
+# ============================================================
+
+def generate_building_property_id(
+    official_ulpin,
+    building_id
+):
+
+    return f"{official_ulpin}-{building_id}"
 
 
 # ============================================================
-# ADD ULPIN TO PROPERTY
-# ============================================================
-
-def assign_ulpin(property_data):
-    """
-    Generate and attach a ULPIN to a property.
-    """
-
-    ulpin = generate_ulpin(
-        property_data
-    )
-
-    property_data["ulpin"] = ulpin
-
-    return property_data
-
-
-# ============================================================
-# PROCESS ALL PROPERTIES
+# MAIN ULPIN / PROPERTY ID FUNCTION
 # ============================================================
 
 def generate_all_ulpins(properties):
 
-    results = []
-
     for property_data in properties:
 
-        property_data = assign_ulpin(
-            property_data
+        building_id = property_data.get(
+            "building_id",
+            "B001"
         )
-
-        results.append(
-            property_data
-        )
-
-    return results
-
-
-# ============================================================
-# MAIN
-# ============================================================
-
-if __name__ == "__main__":
-
-    project_root = (
-        Path(__file__)
-        .resolve()
-        .parent
-        .parent
-    )
-
-    input_path = (
-        project_root
-        / "outputs"
-        / "property_data.json"
-    )
-
-    output_path = (
-        project_root
-        / "outputs"
-        / "ulpin_properties.json"
-    )
-
-    print("=" * 60)
-    print("ULPIN GENERATION")
-    print("=" * 60)
-
-    try:
 
         # ----------------------------------------------------
-        # LOAD PROPERTY DATA
+        # LAND RECORD INFORMATION
         # ----------------------------------------------------
 
-        print(
-            "\nLoading property data..."
+        validation = property_data.get(
+            "validation",
+            {}
         )
 
-        with open(
-            input_path,
-            "r",
-            encoding="utf-8"
-        ) as file:
+        parcel_id = validation.get(
+            "parcel_id"
+        )
 
-            properties = json.load(
-                file
+        # ----------------------------------------------------
+        # GOVERNMENT ULPIN
+        # ----------------------------------------------------
+
+        official_ulpin = get_official_ulpin(
+            parcel_id
+        )
+
+        property_data["official_ulpin"] = (
+            official_ulpin
+        )
+
+        property_data["ulpin_status"] = (
+            "PROTOTYPE_PLACEHOLDER"
+        )
+
+        # ----------------------------------------------------
+        # OUR BUILDING ID
+        # ----------------------------------------------------
+
+        property_data["building_id"] = (
+            building_id
+        )
+
+        property_data["building_property_id"] = (
+            generate_building_property_id(
+                official_ulpin,
+                building_id
+            )
+        )
+
+        # ----------------------------------------------------
+        # APARTMENT / FLOOR INFORMATION
+        # ----------------------------------------------------
+
+        apartments = property_data.get(
+            "apartments",
+            {}
+        )
+
+        floors = apartments.get(
+            "floors",
+            []
+        )
+
+        for floor in floors:
+
+            floor_number = floor.get(
+                "floor_number",
+                0
             )
 
-        print(
-            "Properties loaded:",
-            len(properties)
-        )
-
-        # ----------------------------------------------------
-        # GENERATE ULPINS
-        # ----------------------------------------------------
-
-        print(
-            "\nGenerating ULPIN identifiers..."
-        )
-
-        properties = generate_all_ulpins(
-            properties
-        )
-
-        # ----------------------------------------------------
-        # DISPLAY
-        # ----------------------------------------------------
-
-        for property_data in properties:
-
-            print(
-                f"\nBuilding: "
-                f"{property_data['building_id']}"
+            # Our internal floor ID
+            floor["floor_id"] = (
+                f"F{int(floor_number):02d}"
             )
 
-            print(
-                "ULPIN:",
-                property_data["ulpin"]
+            flat_ids = floor.get(
+                "flats",
+                []
             )
 
+            floor["3d_property_ids"] = []
+
+            # ------------------------------------------------
+            # CREATE NEW ID FOR EACH FLAT
+            # ------------------------------------------------
+
+            for flat_id in flat_ids:
+
+                new_property_id = (
+                    generate_3d_property_id(
+                        official_ulpin,
+                        building_id,
+                        floor_number,
+                        flat_id
+                    )
+                )
+
+                floor[
+                    "3d_property_ids"
+                ].append(
+                    new_property_id
+                )
+
         # ----------------------------------------------------
-        # SAVE
+        # STATUS
         # ----------------------------------------------------
 
-        output_path.parent.mkdir(
-            parents=True,
-            exist_ok=True
-        )
+        property_data[
+            "identifier_status"
+        ] = "PROTOTYPE"
 
-        with open(
-            output_path,
-            "w",
-            encoding="utf-8"
-        ) as file:
-
-            json.dump(
-                properties,
-                file,
-                indent=4
-            )
-
-        print(
-            "\nULPIN data saved to:"
-        )
-
-        print(output_path)
-
-        print(
-            "\nULPIN generation successful!"
-        )
-
-    except Exception as error:
-
-        print(
-            "\nERROR:",
-            error
-        )
+    return properties

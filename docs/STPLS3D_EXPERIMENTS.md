@@ -1,15 +1,9 @@
 # STPLS3D Integration & Experiments
 
-**Status**: Experiment 003 training in progress (started 2026-09-07 16:18)  
-**Document**: Integration of STPLS3D real+synthetic outdoor point cloud dataset into SIH 26011 semantic segmentation pipeline.
+**Status**: All experiments complete (2026-09-09)  
+**Summary**: 5 experiments run. Best real-world model: Exp005 (XYZRGB, building IoU 65.9%). Best synthetic model: Exp001 (XYZ, building IoU 91.4%).
 
----
-
-## Overview
-
-This document describes the integration of [STPLS3D](https://www.stpls3d.com/) — a large-scale photogrammetry and synthetic LiDAR dataset — into the existing PointNet++ semantic segmentation pipeline from Step 3.
-
-**Goal**: Determine whether adding realistic outdoor STPLS3D data improves building segmentation compared to the existing synthetic-only baseline.
+Full results: `ml/results/comparison_all_experiments.json`
 
 ---
 
@@ -18,248 +12,137 @@ This document describes the integration of [STPLS3D](https://www.stpls3d.com/) �
 ### STPLS3D Source Data
 - **Location**: `C:\Users\Takin\Downloads\STPLS3D.zip` (37.2 GB compressed)
 - **Format**: 67 PLY files (binary little-endian 1.0)
-- **Properties**: x,y,z (float32), red,green,blue,class,instance (uint8, instance only in Synthetic)
+- **Properties**: x,y,z (float32), red,green,blue,class,instance (uint8)
 - **Original classes**: 19 STPLS3D labels (0-19, label 16 absent)
-
-### Preprocessing
-- **Script**: `ml/src/data/prepare_stpls3d.py`
-- **Method**: Spatial chunking (50×50m cells, 4096 pts/chunk, seed 26011)
-- **Runtime**: ~2-3 hours for full 67 files on laptop SSD
-- **Output**: `ml/data/stpls3d/` with `manifest.json` + `chunks/*.npz`
+- **Preprocessed**: `ml/src/data/prepare_stpls3d.py` → `C:/ULPIN_DATA/stpls3d/`
 
 ### Preprocessed Statistics
 ```
-Total chunks : 7,509
-Total points : 30,756,864 (30.7M)
-Total scenes : 67 PLY files
+Total chunks : 7,509  (4096 pts each, 50m cells, seed 26011)
+Total points : 30.7M
 
 Split breakdown:
-  train       : 6,416 chunks, 58 scenes (26.3M pts)
-  validation  :   500 chunks,  5 scenes ( 2.0M pts)
-  test        :   593 chunks,  4 scenes ( 2.4M pts)
+  train      : 6,416 chunks, 58 scenes (26.3M pts)
+  validation :   500 chunks,  5 scenes ( 2.0M pts)
+  test        :  593 chunks,  4 scenes ( 2.4M pts)  ← RealWorldData only
 
-Class distribution (after mapping to 6 classes):
+Class distribution:
   0 ground     :  9,143,873  (29.7%)
   1 building   :  7,543,567  (24.5%)
   2 vegetation : 10,600,587  (34.5%)  ← most frequent
   3 road       :  1,985,424  ( 6.5%)
   4 vehicle    :    648,923  ( 2.1%)  ← least frequent
   5 other      :    834,490  ( 2.7%)
-
-Imbalance ratio: 16.3:1 (vegetation:vehicle)
 ```
 
-### Label Mapping (STPLS3D → Six-Class Ontology)
+### Label Mapping (STPLS3D → 6-Class)
 ```
-STPLS3D                          → Our ontology
-─────────────────────────────────────────────────
-0  Ground                        → 0 ground
-1  Building                      → 1 building
-2  LowVegetation                 → 2 vegetation
-3  MediumVegetation              → 2 vegetation
-4  HighVegetation                → 2 vegetation
-5  Vehicle                       → 4 vehicle
-6  Truck                         → 4 vehicle
-7  Aircraft                      → 4 vehicle
-8  MilitaryVehicle               → 4 vehicle
-9  Bike                          → 4 vehicle
-10 Motorcycle                    → 4 vehicle
-11 LightPole                     → 5 other
-12 StreetSign                    → 5 other
-13 Clutter                       → 5 other
-14 Fence                         → 5 other
-15 Road                          → 3 road
-16 (absent)                      → -1 (dropped)
-17 Windows                       → 5 other
-18 Dirt                          → 0 ground
-19 Grass                         → 2 vegetation
+STPLS3D 0  Ground            → 0 ground
+STPLS3D 1  Building          → 1 building
+STPLS3D 2/3/4 Vegetation     → 2 vegetation
+STPLS3D 5-10  Vehicles       → 4 vehicle
+STPLS3D 11-14,17 Other       → 5 other
+STPLS3D 15 Road              → 3 road
+STPLS3D 18 Dirt              → 0 ground
+STPLS3D 19 Grass             → 2 vegetation
+STPLS3D 16 (absent)          → dropped
 ```
-
-### Train/Validation/Test Split (Deterministic, Scene-Level)
-```
-STPLS3D/RealWorldData/*          → test   (real-world, never trained on)
-STPLS3D/Synthetic_v3/ tiles ≥21  → validation
-All other STPLS3D files          → train
-```
-
-**Rationale**: Real-world data (OCCC, RA, USC, WMSC) isolated for test. Synthetic_v3 tiles 21-25 held out for validation. Training uses Synthetic_v1, Synthetic_v2, and Synthetic_v3 tiles 1-20.
 
 ---
 
-## Experiments
+## Complete Results Matrix
 
-### Experiment 001: Synthetic-Only Baseline (Complete)
-**Purpose**: Established baseline from Step 3. Uses only our procedurally-generated synthetic buildings/LiDAR.
+### On STPLS3D Test Set (RealWorldData — never seen during training)
 
+| | Exp001 | Exp003 | Exp004 | **Exp005** |
+|---|---|---|---|---|
+| Dataset | Synthetic | STPLS3D | Mixed | **STPLS3D** |
+| Input | XYZ | XYZ | XYZ | **XYZRGB** |
+| Best epoch | 10/25 | 5/25 | 10/25 | **17/25** |
+| Overall acc | n/a | 47.6% | 43.6% | **65.9%** |
+| mIoU | n/a | 25.4% | 23.2% | **39.0%** |
+| Building IoU | n/a | 52.0% | 41.1% | **65.9%** |
+| Vegetation IoU | n/a | 25.6% | 20.1% | **61.2%** |
+| Road IoU | n/a | 36.2% | 34.5% | **51.5%** |
+| Vehicle IoU | n/a | 14.6% | 16.5% | **23.9%** |
+| Ground IoU | n/a | 16.5% | 18.2% | 22.0% |
+| Other IoU | n/a | 7.5% | 8.7% | 9.2% |
+
+### On Synthetic Test Set (scene_00005, 18 buildings, 570k pts)
+
+| | **Exp001** | Exp005 (zero-pad RGB) |
+|---|---|---|
+| Overall acc | **89.2%** | 22.3% |
+| mIoU | **35.1%** | 9.1% |
+| Building IoU | **91.4%** | 22.8% |
+| Building Precision | 96.1% | **99.5%** |
+| Building Recall | **94.9%** | 22.9% |
+
+**Cross-domain finding**: Exp005 (trained on real STPLS3D with RGB) collapses on synthetic XYZ-only data — precision stays high (99.5%) but recall drops to 22.9%. The model learned to use RGB as a strong signal; without it, it is extremely conservative.
+
+---
+
+## Key Findings
+
+### 1. RGB Features Are the Biggest Lever
+Exp005 (XYZRGB) vs Exp003 (XYZ), same dataset: building IoU jumps from 52% → 65.9%, mIoU from 25.4% → 39.0%. Adding RGB is more impactful than mixing datasets or training longer at XYZ.
+
+### 2. Mixed Training Hurts
+Exp004 (mixed 30%syn+70%STPLS3D) underperforms Exp003 (STPLS3D-only) on real test data. The synthetic data distribution is too different — adding it confuses the model. Don't mix unless the synthetic is made more realistic.
+
+### 3. Exp003/004 Early-Stopped — Exp005 Did Not
+Exp003 stopped at epoch 5, Exp004 at epoch 10 (OOM on higher batch sizes). Exp005 solved this with `batch_size=2` + `gradient_accumulation_steps=2` + local SSD path, allowing 25 full epochs — explaining much of its improvement.
+
+### 4. Domain Gap Is Real
+No cross-domain generalization: synthetic-trained model fails on real data; real-trained model fails on synthetic. Use the right checkpoint for each domain.
+
+### 5. Vehicle Detection Requires Real Data
+Exp001 (synthetic-only): vehicle IoU = 0%. All STPLS3D experiments achieve 14-24% vehicle IoU. Real-world diversity is essential for rare classes.
+
+---
+
+## Experiment Details
+
+### Experiment 001 — Synthetic XYZ Baseline
 - **Config**: `ml/config/segmentation.yaml`
-- **Dataset**: `ml/data/synthetic` (7 train scenes, 2 val, 1 test)
-- **Architecture**: PointNet++ (XYZ-only, 6 classes)
-- **Training**: 25 epochs, batch_size=4, 96 train chunks, class_weighted_loss=false
+- **Training**: 25 epochs, batch_size=4, 96 train chunks, unweighted loss
 - **Best epoch**: 10 (val mIoU=0.334)
+- **Use case**: ULPIN synthetic demo, best building IoU on synthetic data
 
-**Results on synthetic test set**:
-```
-Overall accuracy  : 89.2%
-Mean IoU          : 35.1%
+### Experiment 002 — Synthetic Weighted Loss
+- **Config**: `ml/config/segmentation_weighted.yaml`
+- **Training**: 25 epochs, class-weighted loss, same data as 001
+- **Result**: Similar to exp001, no major improvement from weighting on balanced synthetic data
 
-Per-class IoU:
-  ground      : 51.9%
-  building    : 91.4%  ← excellent on synthetic buildings
-  vegetation  : 52.2%
-  road        : 14.9%
-  vehicle     :  0.0%  ← no vehicles in synthetic test
-  other       :  0.0%  ← no "other" in synthetic test
-```
-
-**Key insight**: Synthetic model achieves 91% building IoU but completely fails at rare/absent classes (vehicle, other).
-
----
-
-### Experiment 003: STPLS3D-Only XYZ (In Progress)
-**Purpose**: Measure whether realistic outdoor STPLS3D data improves building segmentation and rare-class detection vs synthetic-only.
-
+### Experiment 003 — STPLS3D XYZ
 - **Config**: `ml/config/stpls3d_semantic.yaml`
-- **Dataset**: `ml/data/stpls3d` (6416 train chunks → subsetted to 1500)
-- **Architecture**: PointNet++ (same as exp001, XYZ-only, 6 classes)
-- **Training**: 25 epochs, batch_size=4, early_stopping_patience=10
-- **Loss**: class-weighted CrossEntropy (vehicle=2.51×, road=1.05×, vegetation=0.15×)
-- **Subsetting**: `max_train_chunks=1500`, `max_val_chunks=250`
-  - *Rationale*: CPU training with full 6416 chunks would take 23 hours. Subsampling to 1500 keeps training ~3 hours.
+- **Training**: 5 epochs (early stop due to OOM at higher batch), 1500 chunks/epoch
+- **Lesson**: Needed lower batch size and local SSD path for stability
 
-**Status**: Training started 2026-09-07 16:18. Monitor armed. Expected duration: ~3 hours.
-
-**Expected CPU time per epoch**: 375 steps × 1.14 s/step ≈ 7 min/epoch
-
----
-
-### Experiment 004: Mixed Synthetic + STPLS3D (Pending)
-**Purpose**: Determine if combining synthetic (with perfect building labels) + STPLS3D (with realistic outdoor context) yields best of both worlds.
-
+### Experiment 004 — Mixed Synthetic + STPLS3D
 - **Config**: `ml/config/mixed_semantic.yaml`
-- **Dataset**: MixedDataset (30% synthetic, 70% STPLS3D)
-- **Architecture**: PointNet++ (same, XYZ-only, 6 classes)
-- **Training**: 25 epochs, batch_size=4, class-weighted loss
-- **Mixing strategy**: Balanced epoch construction using `MixedDataset` with `synthetic_weight=0.3`
+- **Training**: 10 epochs, 30% synthetic + 70% STPLS3D per step
+- **Lesson**: Mixed training does NOT improve over STPLS3D-only on real test data
 
-**Evaluation plan**:
-1. Test on STPLS3D test set (generalization to real-world)
-2. Test on synthetic test set (cross-domain: does STPLS3D hurt synthetic performance?)
-
----
-
-## Comparison Framework
-
-### Primary Metric: Building IoU
-The project's primary goal is building reconstruction, so **building-class IoU is the primary metric**.
-
-### Secondary Metrics:
-- Overall accuracy
-- mIoU (mean across all 6 classes)
-- Per-class IoU for vegetation, road, vehicle, ground, other
-
-### Comparison Matrix (Planned)
-```
-                          Exp001   Exp003   Exp004
-                        Synthetic STPLS3D   Mixed
-───────────────────────────────────────────────────
-Test: Synthetic
-  Overall accuracy        89.2%      -        ?
-  Building IoU            91.4%      -        ?
-
-Test: STPLS3D
-  Overall accuracy         n/a       ?        ?
-  Building IoU             n/a       ?        ?
-  Vegetation IoU           n/a       ?        ?
-  Road IoU                 n/a       ?        ?
-  Vehicle IoU              n/a       ?        ?
-```
+### Experiment 005 — STPLS3D XYZRGB (Best Real-World)
+- **Config**: `ml/config/stpls3d_xyzrgb.yaml`
+- **Training**: 25 full epochs, batch_size=2, gradient_accumulation=2, data from C:/ULPIN_DATA/stpls3d
+- **Best epoch**: 17 (val mIoU peaked, then slight overfit)
+- **Total training time**: ~55 hours (CPU-only, Core i7 240H)
+- **Checkpoint**: `ml/results/experiment_005/best_model.pth`
 
 ---
 
-## Code Changes
+## Failure Analysis
 
-### New Files
-- `ml/config/stpls3d_semantic.yaml` — STPLS3D config
-- `ml/config/mixed_semantic.yaml` — Mixed dataset config
-- `ml/src/data/prepare_stpls3d.py` — Preprocessing (already existed, verified)
-- `ml/src/data/generate_stpls3d_statistics.py` — Dataset stats report
-- `ml/src/data/pipeline_smoke_test.py` — Full ML pipeline smoke test
-- `ml/src/evaluate_stpls3d.py` — STPLS3D-specific evaluation
-- `ml/src/evaluation/compare_stpls3d_experiments.py` — Cross-experiment comparison
-- `ml/src/run_stpls3d_pipeline.py` — Automated pipeline runner
+### Ground/Road Confusion
+Exp005 ground IoU: 22.0% despite high recall (75.3%). Ground is confused with road — both horizontal, similar point density. The model high-recalls ground but precision is only 23.7%.
 
-### Modified Files
-- `ml/src/data/dataset.py`:
-  - Added `STPLS3DChunkDataset` (reads .npz chunks from manifest)
-  - Added `MixedDataset` (balanced synthetic + STPLS3D mixing)
-  - Added `build_dataset()` factory (dispatches on `source`)
-  - Added `subset_dataset()` (CPU-training tractability)
-  - Added `compute_class_weights_stpls3d()`, `compute_class_weights_mixed()`
+### Vegetation Bleed
+Buildings partially covered by trees get misclassified as vegetation. Exp005 reduces this significantly vs exp003 (building recall 73.8% vs 63.5%).
 
-- `ml/src/training/train.py`:
-  - Updated class weight computation to dispatch on dataset source
-  - Handles `data_root=None` for mixed configs
-  - Added `max_train_chunks`/`max_val_chunks` subsetting
+### Vehicle Recall
+All experiments have high vehicle recall (60-76%) but low precision (16-26%). Vehicles are over-predicted. Class-weighted loss helps recall but causes false positives on similar small structures.
 
-### Files Deliberately Preserved
-- All existing synthetic data (`ml/data/synthetic/`)
-- All existing experiment checkpoints (`ml/results/experiment_001/`, `experiment_002/`)
-- PointNet++ architecture (`ml/src/models/pointnet2.py`) — unchanged
-- Existing configs (`segmentation.yaml`, etc.) — unchanged
-
----
-
-## Lessons Learned
-
-### 1. Class Imbalance is Critical
-STPLS3D has severe imbalance (16:1). **Class-weighted loss is not optional** — it's essential for learning rare classes (vehicle 2.1%, other 2.7%).
-
-### 2. CPU Training Requires Aggressive Subsetting
-- PointNet++ FPS is slow: ~1.1 s/step at batch_size=4 on CPU
-- Full STPLS3D (6416 chunks) would take 23 hours to train
-- Subsetting to 1500 chunks preserves diversity while keeping training at ~3 hours
-
-### 3. Preprocessing is Fast and Reliable
-- 37 GB ZIP → 7509 chunks in ~2-3 hours
-- Deterministic spatial chunking works well
-- No data-quality issues found
-
-### 4. Scene-Level Splits Preserve Realism
-- Spatial chunks from same scene stay in same split
-- Test set = pure real-world (RealWorldData)
-- No leakage between splits
-
----
-
-## Failure Analysis (Pending)
-
-**Will be added after Experiment 003 evaluation completes.**
-
-Expected error patterns to investigate:
-1. Ground/road confusion (both horizontal, similar structure)
-2. Vegetation contamination of buildings (overhanging trees)
-3. Sparse-point regions (far from scanner)
-4. Chunk boundary artifacts
-5. Vehicle misclassification (rare class, severe imbalance)
-
----
-
-## Next Steps
-
-**After Experiment 003 completes**:
-1. ✅ Evaluate on STPLS3D test set → metrics JSON, confusion matrix
-2. ✅ Compare against Experiment 001 baseline
-3. ✅ Train Experiment 004 (mixed dataset)
-4. ✅ Evaluate Experiment 004 on both test sets
-5. ✅ Determine best checkpoint (building IoU priority)
-6. ✅ Generate synthetic data recommendations
-
-**Longer-term (Next Milestone)**:
-- Add RGB features (XYZRGB mode) once XYZ baseline is established
-- Experiment with alternative architectures (KPConv, PointTransformer)
-- Generate additional synthetic data to match STPLS3D characteristics
-- Investigate semi-supervised learning (use unlabeled STPLS3D data)
-
----
-
-**Status**: Training in progress. Document will be updated with actual results once experiments complete.
+### Chunk Boundary Artifacts
+50m spatial chunks occasionally split large buildings. The reconstruction step handles this with the flood-fill instance segmentation in `reconstruct_from_prediction.py`.

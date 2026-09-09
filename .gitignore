@@ -4,17 +4,25 @@ __pycache__/
 .venv/
 venv/
 
-# Generated data
+# Generated data — never committed, regenerated from scripts
 ml/data/synthetic/
 ml/data/stpls3d/
 ml/data/stpls3d_smoke/
+ml/data/dales2/
+ml/data/dales_chunks/
 
-# ML results - large files
+# ML results — large files / generated outputs
 ml/results/*/latest_checkpoint.pth
 ml/results/*/predictions/
 ml/results/*/stpls3d_predictions/
 ml/results/*.bat
 *.log
+ml/results/*.ply
+ml/results/reconstructed_buildings_*/
+ml/results/city_reconstruction/
+ml/results/plateau_demo/
+ml/results/stpls3d_real/
+ml/results/gis_data/
 
 # Blender
 *.blend1

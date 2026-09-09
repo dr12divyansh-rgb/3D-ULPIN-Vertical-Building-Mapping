@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3D-ULPIN · Building Intelligence · Delhi</title>
+<script type="importmap">
+{"imports":{"three":"./vendor/three.module.js","three/addons/":"./vendor/addons/"}}
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#e8e4dc;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden}
+
+/* ── header (Google-Maps / PLATEAU style — white, clean) ── */
+#hdr{position:fixed;top:0;left:0;right:0;height:52px;z-index:100;
+  background:#fff;border-bottom:1px solid #d0d0d0;
+  display:flex;align-items:center;padding:0 16px;gap:12px;
+  box-shadow:0 2px 6px rgba(0,0,0,.12)}
+#hdr .logo{font-size:20px}
+#hdr h1{font-size:14px;font-weight:600;color:#202124}
+#hdr .sub{font-size:11px;color:#5f6368;margin-top:1px}
+#hdr .sep{flex:1}
+.kpi{display:flex;flex-direction:column;align-items:flex-end;padding:0 10px}
+.kpi .v{font-size:14px;font-weight:600;color:#1a73e8}
+.kpi .l{font-size:9px;color:#80868b;text-transform:uppercase;letter-spacing:.04em}
+
+canvas{position:fixed;top:52px;left:0;right:0;bottom:0}
+
+/* ── PLATEAU-style right info panel ── */
+#panel{position:fixed;top:64px;right:12px;bottom:12px;width:280px;z-index:90;
+  background:#fff;border-radius:8px;border:1px solid #dadce0;
+  box-shadow:0 4px 16px rgba(0,0,0,.15);padding:16px;overflow-y:auto;
+  transform:translateX(304px);transition:transform .25s ease}
+#panel.open{transform:translateX(0)}
+#panel .x{position:absolute;top:10px;right:10px;background:none;border:none;
+  font-size:18px;color:#80868b;cursor:pointer}
+#panel .x:hover{color:#202124}
+
+.uid-box{background:#e8f0fe;border-radius:6px;padding:10px 12px;margin-bottom:14px;border:1px solid #c5d8fd}
+.uid-box .lbl{font-size:9px;letter-spacing:.1em;color:#1a73e8;font-weight:600;text-transform:uppercase;margin-bottom:3px}
+.uid-box .id{font-size:12px;font-weight:700;font-family:monospace;color:#202124;letter-spacing:.03em}
+
+.sec{margin-bottom:14px}
+.sec h4{font-size:10px;font-weight:600;color:#80868b;text-transform:uppercase;
+  letter-spacing:.07em;border-bottom:1px solid #e8eaed;padding-bottom:4px;margin-bottom:8px}
+.row{display:flex;justify-content:space-between;padding:3px 0}
+.row .k{font-size:12px;color:#5f6368}
+.row .v{font-size:12px;font-weight:500;color:#202124}
+.row .v.blue{color:#1a73e8}
+.chip{display:inline-block;padding:1px 8px;border-radius:4px;font-size:11px;
+  font-weight:500;background:#e8f0fe;color:#1a73e8;border:1px solid #c5d8fd}
+.conf-track{width:100%;height:5px;background:#e8eaed;border-radius:3px;margin-top:6px}
+.conf-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#1a73e8,#34a853)}
+
+/* ── toolbar (Google Maps style — white pills) ── */
+#tb{position:fixed;top:64px;left:12px;z-index:90;display:flex;flex-direction:column;gap:6px}
+.tbtn{height:36px;padding:0 14px;border-radius:18px;border:none;
+  background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.2);
+  cursor:pointer;font-size:12px;font-weight:500;color:#202124;
+  display:flex;align-items:center;gap:6px;white-space:nowrap;
+  transition:background .15s}
+.tbtn:hover{background:#f1f3f4}
+.tbtn.on{background:#e8f0fe;color:#1a73e8}
+
+/* ── bottom hint ── */
+#hint{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:90;
+  background:rgba(255,255,255,.95);border-radius:20px;padding:7px 18px;
+  font-size:12px;color:#5f6368;box-shadow:0 2px 8px rgba(0,0,0,.2);
+  pointer-events:none;transition:opacity .3s}
+
+/* ── loading (white, Google style) ── */
+#load{position:fixed;inset:0;z-index:200;background:#fff;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+#load .sp{width:40px;height:40px;border:3px solid #e8eaed;
+  border-top-color:#1a73e8;border-radius:50%;animation:spin .8s linear infinite}
+#load p{font-size:13px;color:#5f6368}
+#load.gone{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <span class="logo">🗺</span>
+  <div>
+    <h1>3D-ULPIN BUILDING INTELLIGENCE · DELHI NCR</h1>
+    <div class="sub">SIH 26011 · PointNet++ · Building IoU 0.659 · Microsoft Building Footprints 2026</div>
+  </div>
+  <div class="sep"></div>
+  <div class="kpi"><span class="v" id="k-bld">—</span><span class="l">Buildings</span></div>
+  <div class="kpi"><span class="v" id="k-ht">—</span><span class="l">Avg Height</span></div>
+  <div class="kpi"><span class="v">0.659</span><span class="l">Building IoU</span></div>
+</header>
+
+<canvas id="c"></canvas>
+
+<div id="tb">
+  <button class="tbtn" onclick="resetCam()">🔄 Reset view</button>
+  <button class="tbtn" id="btn-rot" onclick="toggleRot()">↻ Auto-rotate</button>
+  <button class="tbtn" onclick="setTop()">▣ Top view</button>
+  <button class="tbtn" id="btn-wire" onclick="toggleWire()">⬡ Wireframe</button>
+</div>
+
+<div id="panel">
+  <button class="x" onclick="closePanel()">✕</button>
+  <div class="uid-box">
+    <div class="lbl">Unique Land Parcel ID</div>
+    <div class="id" id="p-uid">—</div>
+  </div>
+  <div class="sec">
+    <h4>Building Geometry</h4>
+    <div class="row"><span class="k">Height</span><span class="v blue" id="p-h">—</span></div>
+    <div class="row"><span class="k">Floors (est.)</span><span class="v" id="p-fl">—</span></div>
+    <div class="row"><span class="k">Footprint Area</span><span class="v" id="p-a">—</span></div>
+    <div class="row"><span class="k">Roof Type</span><span class="v" id="p-roof">—</span></div>
+    <div class="row"><span class="k">Height Source</span><span class="v blue" id="p-src">—</span></div>
+  </div>
+  <div class="sec">
+    <h4>AI Segmentation Confidence</h4>
+    <div class="row"><span class="k">Building class</span><span class="v blue" id="p-conf">—</span></div>
+    <div class="conf-track"><div class="conf-fill" id="p-cbar" style="width:0%"></div></div>
+  </div>
+  <div class="sec">
+    <h4>ULPIN Parcel Details</h4>
+    <div class="row"><span class="k">State</span><span class="v" id="p-st">—</span></div>
+    <div class="row"><span class="k">District Code</span><span class="v" id="p-di">—</span></div>
+    <div class="row"><span class="k">Village Code</span><span class="v" id="p-vi">—</span></div>
+    <div class="row"><span class="k">Plot No.</span><span class="v" id="p-pl">—</span></div>
+    <div class="row"><span class="k">Land Use</span><span class="v" id="p-use">—</span></div>
+  </div>
+  <div class="sec">
+    <h4>AI Pipeline</h4>
+    <div class="row"><span class="k">Model</span><span class="v">PointNet++ Exp-005</span></div>
+    <div class="row"><span class="k">Training Data</span><span class="v">STPLS3D 37 GB</span></div>
+    <div class="row"><span class="k">Footprints</span><span class="v">MS Bldg Ftprints 2026</span></div>
+    <div class="row"><span class="k">Coord System</span><span class="v">WGS84 Mercator</span></div>
+  </div>
+</div>
+
+<div id="hint">Click any building to view ULPIN details</div>
+<div id="load"><div class="sp"></div><p id="ltxt">Loading building footprints…</p></div>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// ── Mercator projection ───────────────────────────────────────────────────────
+const R = 6371000;
+let REF_LON = 77.22, REF_LAT = 28.63;
+function toXZ(lon,lat){
+  const x = R*(lon-REF_LON)*Math.PI/180*Math.cos(REF_LAT*Math.PI/180);
+  const z = -R*(lat-REF_LAT)*Math.PI/180;
+  return [x,z];
+}
+
+// ── OSM tile helpers ──────────────────────────────────────────────────────────
+function lonLatToTile(lon,lat,z){
+  const x = Math.floor((lon+180)/360*(1<<z));
+  const sinLat = Math.sin(lat*Math.PI/180);
+  const y = Math.floor((1-Math.log((1+sinLat)/(1-sinLat))/(2*Math.PI))/2*(1<<z));
+  return {x,y,z};
+}
+function tileToLonLat(x,y,z){
+  const lon = x/(1<<z)*360-180;
+  const n   = Math.PI-2*Math.PI*y/(1<<z);
+  const lat = 180/Math.PI*Math.atan(0.5*(Math.exp(n)-Math.exp(-n)));
+  return {lon,lat};
+}
+
+// ── ULPIN generator ───────────────────────────────────────────────────────────
+const STATES=['DL','UP','MH','KA','TN','GJ','RJ','WB'];
+const USES  =['Residential','Commercial','Mixed Use','Industrial','Government','Educational'];
+function rng(s){let v=s>>>0;return()=>{v=(v*1664525+1013904223)>>>0;return v/0xffffffff};}
+function makeULPIN(i){
+  const r=rng(i*31337+13);
+  const st=STATES[~~(r()*STATES.length)];
+  const di=String(~~(r()*900+100));
+  const vi=String(~~(r()*9000+1000)).padStart(4,'0');
+  const pl=String(i+1).padStart(6,'0');
+  return{id:`IN/${st}/${di}/${vi}/${pl}`,state:st,district:di,village:vi,plot:pl,
+         use:USES[~~(r()*USES.length)]};
+}
+
+// ── Three.js setup ────────────────────────────────────────────────────────────
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({canvas,antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setClearColor(0xe8e4dc);   // warm off-white / PLATEAU ground colour
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type    = THREE.PCFSoftShadowMap;
+
+const scene  = new THREE.Scene();
+scene.background = new THREE.Color(0xe8e4dc);
+scene.fog = new THREE.Fog(0xe8e4dc, 3000, 8000);  // subtle, far fog
+
+const camera = new THREE.PerspectiveCamera(50,1,1,10000);
+camera.position.set(0,600,900);
+
+const ctrl = new OrbitControls(camera, renderer.domElement);
+ctrl.enableDamping=true; ctrl.dampingFactor=0.06;
+ctrl.maxPolarAngle=Math.PI*0.47;
+ctrl.target.set(0,20,0); ctrl.update();
+
+// ── Lighting (PLATEAU = bright sun from upper-right) ─────────────────────────
+scene.add(new THREE.AmbientLight(0xffffff,0.7));
+const sun = new THREE.DirectionalLight(0xfffef0,1.4);
+sun.position.set(400,800,300);
+sun.castShadow=true;
+sun.shadow.mapSize.set(2048,2048);
+sun.shadow.camera.near=1; sun.shadow.camera.far=4000;
+sun.shadow.camera.left=sun.shadow.camera.bottom=-2000;
+sun.shadow.camera.right=sun.shadow.camera.top=2000;
+scene.add(sun);
+scene.add(new THREE.HemisphereLight(0xdce8f5,0xc8c4b8,0.4));
+
+// ── Ground plane (fallback for areas without tiles) ────────────────────────
+const gndMat = new THREE.MeshLambertMaterial({color:0xd8d4cb});
+const gnd = new THREE.Mesh(new THREE.PlaneGeometry(12000,12000),gndMat);
+gnd.rotation.x=-Math.PI/2; gnd.position.y=-0.5; gnd.receiveShadow=true;
+scene.add(gnd);
+
+// ── OSM tile loader ───────────────────────────────────────────────────────────
+const ZOOM = 15;
+const loader = new THREE.TextureLoader();
+const tileGroup = new THREE.Group();
+scene.add(tileGroup);
+
+function loadOSMTiles(bounds) {
+  // bounds = {minLon,maxLon,minLat,maxLat}
+  const t0 = lonLatToTile(bounds.minLon, bounds.maxLat, ZOOM);
+  const t1 = lonLatToTile(bounds.maxLon, bounds.minLat, ZOOM);
+  let loaded=0, total=(t1.x-t0.x+1)*(t1.y-t0.y+1);
+  console.log(`Loading ${total} OSM tiles at zoom ${ZOOM}...`);
+
+  for(let tx=t0.x; tx<=t1.x; tx++){
+    for(let ty=t0.y; ty<=t1.y; ty++){
+      const url=`https://tile.openstreetmap.org/${ZOOM}/${tx}/${ty}.png`;
+      const tl = tileToLonLat(tx,   ty,   ZOOM);
+      const br = tileToLonLat(tx+1, ty+1, ZOOM);
+      const [x0,z0] = toXZ(tl.lon, tl.lat);
+      const [x1,z1] = toXZ(br.lon, br.lat);
+      const w=x1-x0, h=z1-z0;
+      const cx=(x0+x1)/2, cz=(z0+z1)/2;
+
+      loader.load(url, tex=>{
+        tex.colorSpace=THREE.SRGBColorSpace;
+        // polygonOffset pushes tile behind buildings at same depth → kills z-fighting
+        const mat = new THREE.MeshLambertMaterial({
+          map:tex, side:THREE.FrontSide,
+          polygonOffset:true, polygonOffsetFactor:2, polygonOffsetUnits:2,
+        });
+        const mesh=new THREE.Mesh(new THREE.PlaneGeometry(Math.abs(w),Math.abs(h)),mat);
+        mesh.rotation.x=-Math.PI/2;
+        mesh.position.set(cx, 0, cz);  // at ground level, polygonOffset handles z-fight
+        tileGroup.add(mesh);
+        loaded++;
+      }, undefined, ()=>loaded++);
+    }
+  }
+}
+
+// ── Building material (PLATEAU-style: white/cream) ────────────────────────────
+function makeMat(height){
+  // PLATEAU uses white buildings; taller = slightly cooler/darker
+  const lightness = Math.max(0.6, 1.0 - height/120);
+  const c = new THREE.Color().setHSL(0.08, 0.08, lightness); // warm white
+  return new THREE.MeshLambertMaterial({color:c});
+}
+function makeSelectedMat(){
+  return new THREE.MeshLambertMaterial({color:0x1a73e8,emissive:0x0044aa,emissiveIntensity:.3});
+}
+
+// ── Build footprint shape ─────────────────────────────────────────────────────
+function makeShape(ring){
+  const s=new THREE.Shape();
+  ring.forEach(([lon,lat],i)=>{
+    const[x,z]=toXZ(lon,lat);
+    if(i===0)s.moveTo(x,-z); else s.lineTo(x,-z);
+  });
+  s.closePath(); return s;
+}
+
+// ── Raycaster ─────────────────────────────────────────────────────────────────
+const ray=new THREE.Raycaster(), mouse=new THREE.Vector2();
+let sel=null, hov=null;
+
+function ndcOf(e){
+  const rc=renderer.domElement.getBoundingClientRect();
+  mouse.x=(e.clientX-rc.left)/rc.width*2-1;
+  mouse.y=-(e.clientY-rc.top)/rc.height*2+1;
+}
+function hitTest(){
+  ray.setFromCamera(mouse,camera);
+  const all=[];
+  meshes.forEach(g=>g.traverse(c=>{if(c.isMesh)all.push(c);}));
+  const hits=ray.intersectObjects(all);
+  if(!hits.length)return null;
+  let o=hits[0].object;
+  // Walk up to find the Group in meshes[]
+  while(o&&!meshes.includes(o))o=o.parent;
+  return (o&&meshes.includes(o))?o:null;
+}
+
+renderer.domElement.addEventListener('mousemove',e=>{
+  ndcOf(e);
+  const h=hitTest();
+  if(h!==hov){
+    if(hov&&hov!==sel)setMat(hov, makeMat(hov.userData.h));
+    if(h&&h!==sel)setMat(h, new THREE.MeshLambertMaterial({color:0x4a90d9}));
+    hov=h; renderer.domElement.style.cursor=h?'pointer':'default';
+  }
+});
+renderer.domElement.addEventListener('click',e=>{
+  ndcOf(e);
+  const h=hitTest();
+  if(sel)setMat(sel, makeMat(sel.userData.h));
+  if(h){sel=h; setMat(h,makeSelectedMat()); showPanel(h.userData);}
+  else{sel=null; closePanel();}
+});
+
+function setMat(g,mat){
+  g.traverse(c=>{
+    // Only update Mesh materials, not LineSegments (edge outlines)
+    if(c.isMesh) c.material=mat;
+  });
+}
+
+// ── Panel ─────────────────────────────────────────────────────────────────────
+function showPanel(ud){
+  const{props,ulpin,h}=ud;
+  const conf=+(props.confidence||0.82).toFixed(2);
+  document.getElementById('p-uid').textContent  = ulpin.id;
+  document.getElementById('p-h').textContent    = `${(props.height_m||h).toFixed(1)} m`;
+  document.getElementById('p-fl').textContent   = `${props.floors||Math.max(1,Math.round(h/3.2))} floors`;
+  document.getElementById('p-a').textContent    = `${+(props.area_m2||0).toFixed(0)} m²`;
+  document.getElementById('p-roof').innerHTML   = `<span class="chip">Flat / Terrace</span>`;
+  document.getElementById('p-src').textContent  = props.has_lidar_height?'LiDAR (AI)':'Modelled';
+  document.getElementById('p-conf').textContent = `${(conf*100).toFixed(1)}%`;
+  document.getElementById('p-cbar').style.width = `${conf*100}%`;
+  document.getElementById('p-st').textContent   = ulpin.state;
+  document.getElementById('p-di').textContent   = ulpin.district;
+  document.getElementById('p-vi').textContent   = ulpin.village;
+  document.getElementById('p-pl').textContent   = ulpin.plot;
+  document.getElementById('p-use').textContent  = ulpin.use;
+  document.getElementById('panel').classList.add('open');
+  document.getElementById('hint').style.opacity='0';
+}
+window.closePanel=()=>{
+  document.getElementById('panel').classList.remove('open');
+  document.getElementById('hint').style.opacity='1';
+  if(sel){setMat(sel,makeMat(sel.userData.h));sel=null;}
+};
+
+// ── Controls ──────────────────────────────────────────────────────────────────
+let autoRot=false, wireMode=false;
+window.resetCam=()=>{camera.position.set(0,600,900);ctrl.target.set(0,20,0);ctrl.update();};
+window.setTop=()=>{camera.position.set(0,1500,.1);ctrl.target.set(0,0,0);ctrl.update();};
+window.toggleRot=()=>{autoRot=!autoRot;document.getElementById('btn-rot').classList.toggle('on',autoRot);};
+window.toggleWire=()=>{
+  wireMode=!wireMode;
+  document.getElementById('btn-wire').classList.toggle('on',wireMode);
+  meshes.forEach(g=>g.traverse(c=>{if(c.isMesh)c.material.wireframe=wireMode;}));
+};
+
+// ── Resize ────────────────────────────────────────────────────────────────────
+function resize(){const w=innerWidth,h=innerHeight-52;renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();}
+resize(); window.addEventListener('resize',resize);
+
+// ── Render loop ───────────────────────────────────────────────────────────────
+let t0=Date.now();
+const meshes=[];
+(function tick(){requestAnimationFrame(tick);
+  if(autoRot){const t=(Date.now()-t0)*.00018;const d=Math.hypot(camera.position.x,camera.position.z)||900;
+    camera.position.x=Math.sin(t)*d;camera.position.z=Math.cos(t)*d;camera.lookAt(ctrl.target);}
+  ctrl.update();renderer.render(scene,camera);
+})();
+
+// ── Load data and build scene ─────────────────────────────────────────────────
+async function boot(){
+  try{
+    document.getElementById('ltxt').textContent='Downloading Delhi GIS footprints…';
+
+    // Load GeoJSON
+    let feats=null;
+    const srcs=['../ml/results/gis_data/delhi_buildings.geojson',
+                 '../ml/results/stpls3d_real/viewer_data.json'];
+    for(const src of srcs){
+      try{
+        const r=await fetch(src);
+        if(!r.ok)continue;
+        const j=await r.json();
+        const f=j.features||j.buildings;
+        if(f&&f.length){feats=f;break;}
+      }catch(e){}
+    }
+    if(!feats||!feats.length)feats=genSample(800);
+
+    document.getElementById('ltxt').textContent=`Building ${feats.length} 3D models…`;
+
+    // Compute centroid for projection reference
+    let sx=0,sy=0,cn=0;
+    feats.forEach(f=>{
+      const p=f.properties||f;
+      if(p.centroid_lon){sx+=p.centroid_lon;sy+=p.centroid_lat;cn++;}
+      else if(f.geometry){const r=f.geometry.coordinates[0];if(r&&r[0]){sx+=r[0][0];sy+=r[0][1];cn++;}}
+    });
+    if(cn){REF_LON=sx/cn;REF_LAT=sy/cn;}
+
+    // Build geometries
+    let sumH=0, cnt=0;
+    let minLon=Infinity,maxLon=-Infinity,minLat=Infinity,maxLat=-Infinity;
+
+    // Cap at 5000 to keep WebGL smooth; the MS dataset may have 20k+ buildings
+    const MAX_BLDGS = 5000;
+
+    feats.forEach((feat,i)=>{
+      if(cnt>=MAX_BLDGS) return;
+      const geo = feat.geometry;
+      const props = feat.properties||feat;
+      if(!geo||geo.type!=='Polygon')return;
+
+      const ring = geo.coordinates[0];
+      if(!ring||ring.length<4)return;
+
+      // ── Size filter: reject merged / oversized footprints ───────────────
+      const lons=ring.map(p=>p[0]), lats=ring.map(p=>p[1]);
+      const lonSpan=Math.max(...lons)-Math.min(...lons);
+      const latSpan=Math.max(...lats)-Math.min(...lats);
+      const wMetres = lonSpan*111320*Math.cos(REF_LAT*Math.PI/180);
+      const hMetres = latSpan*111320;
+      // Indian residential: rarely exceed 40m × 40m; commercial: 60m × 60m
+      if(wMetres>65||hMetres>65) return;   // skip merged clusters
+      if(wMetres<2 ||hMetres<2)  return;   // skip noise slivers
+
+      // Track bounds for OSM tiles
+      lons.forEach(lon=>{if(lon<minLon)minLon=lon;if(lon>maxLon)maxLon=lon;});
+      lats.forEach(lat=>{if(lat<minLat)minLat=lat;if(lat>maxLat)maxLat=lat;});
+
+      const h = Math.max(3.2, +(props.height_m||props.height||0)||
+                Math.max(3.2, Math.round(Math.sqrt(wMetres*hMetres)/8)*3.2));
+
+      let shape;
+      try{shape=makeShape(ring);}catch(e){return;}
+
+      const extGeo = new THREE.ExtrudeGeometry(shape,{depth:h,bevelEnabled:false});
+      extGeo.rotateX(-Math.PI/2);
+
+      const mat  = makeMat(h);
+      const mesh = new THREE.Mesh(extGeo, mat);
+      mesh.castShadow=true; mesh.receiveShadow=true;
+
+      // ── Edge outline (shows true polygon shape, not just the bounding box) ──
+      const edges = new THREE.EdgesGeometry(extGeo, 25); // 25° threshold
+      const line  = new THREE.LineSegments(edges,
+        new THREE.LineBasicMaterial({color:0x808070,linewidth:1,transparent:true,opacity:.6}));
+
+      const grp = new THREE.Group();
+      grp.add(mesh, line);
+
+      const ulpin = makeULPIN(i);
+      grp.userData={h,props,ulpin};
+      scene.add(grp);
+      meshes.push(grp);
+      sumH+=h; cnt++;
+    });
+
+    // Update header
+    document.getElementById('k-bld').textContent = cnt;
+    document.getElementById('k-ht').textContent  = cnt?`${(sumH/cnt).toFixed(1)}m`:'—';
+
+    // Load OSM tiles
+    if(minLon<Infinity){
+      // Add small padding
+      loadOSMTiles({minLon:minLon-.002,maxLon:maxLon+.002,
+                    minLat:minLat-.002,maxLat:maxLat+.002});
+    }
+
+    // Camera: fit scene
+    const box=new THREE.Box3();
+    meshes.forEach(m=>box.expandByObject(m));
+    if(!box.isEmpty()){
+      const ctr=box.getCenter(new THREE.Vector3());
+      const sz =box.getSize(new THREE.Vector3());
+      const d  =Math.max(sz.x,sz.z)*.7;
+      ctrl.target.copy(ctr);
+      camera.position.set(ctr.x+d*.5,d*.45,ctr.z+d*.7);
+      ctrl.update();
+    }
+  }catch(err){
+    console.error(err);
+    document.getElementById('ltxt').textContent='Error: '+err.message;
+    document.getElementById('ltxt').style.color='#d93025';
+  }finally{
+    document.getElementById('load').classList.add('gone');
+  }
+}
+
+// ── Sample fallback ───────────────────────────────────────────────────────────
+function genSample(n){
+  const r=rng(26011); const BLOCK=60,ST=12; const feats=[];
+  for(let i=0;i<n;i++){
+    const col=i%12, row=Math.floor(i/12);
+    const bx=col*(BLOCK+ST)+(r()-.5)*6, bz=row*(BLOCK+ST)+(r()-.5)*6;
+    const w=10+r()*40, d=10+r()*40, h=(1+~~(r()*9))*3.2;
+    const dlat=d/111320, dlon=w/111320/Math.cos(REF_LAT*Math.PI/180);
+    const lon0=REF_LON+bx/111320/Math.cos(REF_LAT*Math.PI/180);
+    const lat0=REF_LAT-bz/111320;
+    feats.push({
+      type:'Feature',
+      geometry:{type:'Polygon',coordinates:[[[lon0,lat0],[lon0+dlon,lat0],[lon0+dlon,lat0+dlat],[lon0,lat0+dlat],[lon0,lat0]]]},
+      properties:{height_m:+h.toFixed(1),floors:~~(h/3.2),area_m2:+(w*d).toFixed(0),
+        confidence:+(0.65+r()*.3).toFixed(2),has_lidar_height:r()>.5,
+        centroid_lon:lon0+dlon/2,centroid_lat:lat0+dlat/2}
+    });
+  }
+  return feats;
+}
+
+boot();
+</script>
+</body>
+</html>

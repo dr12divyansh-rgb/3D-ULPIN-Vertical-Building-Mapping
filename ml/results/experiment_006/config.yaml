@@ -1,0 +1,46 @@
+dataset:
+  source: stpls3d
+  data_root: ml/data/dales_chunks
+  num_points: 4096
+  input_mode: xyzrgb
+  num_workers: 0
+  max_train_chunks: 500
+  max_val_chunks: 150
+  preload: false
+classes:
+  ground: 0
+  building: 1
+  vegetation: 2
+  road: 3
+  vehicle: 4
+  other: 5
+model:
+  name: pointnet++
+  num_classes: 6
+  sa1:
+    npoint: 512
+    radius: 0.2
+    nsample: 32
+    mlp:
+    - 64
+    - 64
+    - 128
+  sa2:
+    npoint: 128
+    radius: 0.4
+    nsample: 32
+    mlp:
+    - 128
+    - 128
+    - 256
+training:
+  epochs: 20
+  batch_size: 2
+  gradient_accumulation_steps: 2
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  seed: 26011
+  device: auto
+  log_interval: 50
+  class_weighted_loss: false
+  early_stopping_patience: 7

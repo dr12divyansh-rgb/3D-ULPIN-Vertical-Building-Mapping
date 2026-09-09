@@ -107,6 +107,11 @@ def main():
     ap.add_argument("--results", default=str(ROOT / "ml" / "results"))
     ap.add_argument("--resume", default=None,
                     help="Path to an experiment dir containing latest_checkpoint.pth to resume")
+    ap.add_argument("--init-checkpoint", default=None,
+                    help="Path to a best_model.pth to use as weight initialisation for "
+                         "fine-tuning.  Unlike --resume, this creates a NEW experiment dir, "
+                         "resets epoch/patience/history, and keeps the new config's LR and "
+                         "dataset.  Use for cross-domain fine-tuning (e.g. Exp005→Exp006).")
     args = ap.parse_args()
 
     cfg = load_config(args.config)
@@ -218,7 +223,21 @@ def main():
     patience_counter = 0
     history: list[dict] = []
 
-    if args.resume:
+    if args.init_checkpoint:
+        # Fine-tuning initialisation: load model weights only, fresh everything else.
+        # Creates a NEW experiment dir so the source checkpoint is never overwritten.
+        init_ckpt_path = Path(args.init_checkpoint)
+        if not init_ckpt_path.exists():
+            print(f"ERROR: --init-checkpoint not found: {init_ckpt_path}", file=sys.stderr)
+            return 1
+        print(f"\nInitialising weights from: {init_ckpt_path}")
+        init_ckpt = torch.load(init_ckpt_path, map_location=device, weights_only=False)
+        model.load_state_dict(init_ckpt["model_state_dict"])
+        print(f"  model weights loaded  (optimizer reset, epoch=1, patience=0)")
+        exp_dir = new_experiment_dir(args.results)
+        # start_epoch, best_iou, history etc. stay at their default values (fresh run)
+
+    elif args.resume:
         resume_dir = Path(args.resume)
         latest_ckpt = resume_dir / "latest_checkpoint.pth"
         if not latest_ckpt.exists():

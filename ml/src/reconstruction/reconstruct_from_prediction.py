@@ -197,12 +197,11 @@ def separate_instances(
         while q:
             cx_, cy_ = q.popleft()
             component_cells.append((cx_, cy_))
-            for di in (-1, 0, 1):
-                for dj in (-1, 0, 1):
-                    nb = (cx_ + di, cy_ + dj)
-                    if nb in occupied and nb not in visited:
-                        visited.add(nb)
-                        q.append(nb)
+            for di, dj in ((-1, 0), (1, 0), (0, -1), (0, 1)):  # 4-connectivity only
+                nb = (cx_ + di, cy_ + dj)
+                if nb in occupied and nb not in visited:
+                    visited.add(nb)
+                    q.append(nb)
         pts_list: list[int] = []
         for cell in component_cells:
             pts_list.extend(cell_pts[cell])

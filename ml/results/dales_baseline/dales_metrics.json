@@ -1,0 +1,51 @@
+{
+  "checkpoint": "C:\\Users\\Takin\\OneDrive\\Desktop\\3d-ulpin-project\\ml\\results\\experiment_005\\best_model.pth",
+  "data_root": "C:\\Users\\Takin\\OneDrive\\Desktop\\3d-ulpin-project\\ml\\data\\dales_chunks",
+  "split": "test",
+  "num_chunks": 100,
+  "total_points": 409600,
+  "overall_accuracy": 0.2607666015625,
+  "mean_iou": 0.11753853420888266,
+  "building_iou": 0.5528828474696625,
+  "building_precision": 0.6404618164191601,
+  "building_recall": 0.8017136763137572,
+  "building_f1": 0.7120728371371413,
+  "per_class": {
+    "ground": {
+      "precision": 0.8526812412784903,
+      "recall": 0.06140388655210861,
+      "f1": 0.11455813164543402,
+      "iou": 0.060759301874106275
+    },
+    "building": {
+      "precision": 0.6404618164191601,
+      "recall": 0.8017136763137572,
+      "f1": 0.7120728371371413,
+      "iou": 0.5528828474696625
+    },
+    "vegetation": {
+      "precision": 0.9160888888888888,
+      "recall": 0.05985179334696153,
+      "f1": 0.1123624905964828,
+      "iou": 0.059525459754181685
+    },
+    "road": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "iou": 0.0
+    },
+    "vehicle": {
+      "precision": 0.22727272727272727,
+      "recall": 0.0014671361502347417,
+      "f1": 0.0029154518950437317,
+      "iou": 0.00145985401459854
+    },
+    "other": {
+      "precision": 0.03103335701803238,
+      "recall": 0.6885385598636558,
+      "f1": 0.05938993017273062,
+      "iou": 0.030603742140746914
+    }
+  }
+}

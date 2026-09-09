@@ -1,0 +1,1085 @@
+{
+  "scene": "scene_00005",
+  "predicted_dir": "ml\\results\\experiment_002\\reconstruction\\scene_00005\\predicted_lod2",
+  "aggregate": {
+    "n_buildings": 18,
+    "mean_height_error_m": 0.1015,
+    "mean_footprint_area_error_m2": 73.6671,
+    "mean_footprint_area_error_relative": 0.1576,
+    "mean_footprint_iou": 0.9759,
+    "mean_chamfer_distance_m": 0.8141,
+    "n_watertight": 18,
+    "n_non_watertight": 0,
+    "total_non_manifold_edges": 0,
+    "total_zero_area_faces": 0
+  },
+  "per_building": [
+    {
+      "geometry": {
+        "height_pred": 26.141644,
+        "height_gt": 26.030222,
+        "height_error": 0.11142200000000102,
+        "footprint_area_pred": 264.4936500967594,
+        "footprint_area_gt": 255.52555718790845,
+        "footprint_area_error": 8.968092908850934,
+        "footprint_area_error_relative": 0.03509665728761517,
+        "footprint_iou": 0.9700045310376076,
+        "chamfer_distance": 0.5353056056982347
+      },
+      "topology": {
+        "watertight_pred": true,
+        "watertight_gt": true,
+        "non_manifold_edges_pred": 0,
+        "non_manifold_edges_gt": 0,
+        "zero_area_faces_pred": 0,
+        "zero_area_faces_gt": 0
+      },
+      "counts": {
+        "vertices_pred": 54,
+        "vertices_gt": 14,
+        "faces_pred": 104,
+        "faces_gt": 24
+      },
+      "_pred_obj": "ml\\results\\experiment_002\\reconstruction\\scene_00005\\predicted_lod2\\building_040001.obj",
+      "_gt_obj": "ml\\data\\synthetic\\test\\scene_00005\\ground_truth\\lod2\\building_040001.obj",
+      "building_id": 40001
+    },
+    {
+      "geometry": {
+        "height_pred": 27.242817,
+        "height_gt": 27.133034,
+        "height_error": 0.10978300000000019,
+        "footprint_area_pred": 796.7527551269006,
+        "footprint_area_gt": 609.8018548553221,
+        "footprint_area_error": 186.95090027157858,
+        "footprint_area_error_relative": 0.30657647034532787,
+        "footprint_iou": 0.9779862414008755,
+        "chamfer_distance": 1.4115328755824934
+      },
+      "topology": {
+        "watertight_pred": true,
+        "watertight_gt": true,
+        "non_manifold_edges_pred": 0,
+        "non_manifold_edges_gt": 0,
+        "zero_area_faces_pred": 0,
+        "zero_area_faces_gt": 0
+      },
+      "counts": {
+        "vertices_pred": 62,
+        "vertices_gt": 16,
+        "faces_pred": 120,
+        "faces_gt": 32
+      },
+      "_pred_obj": "ml\\results\\experiment_002\\reconstruction\\scene_00005\\predicted_lod2\\building_040002.obj",
+      "_gt_obj": "ml\\data\\synthetic\\test\\scene_00005\\ground_truth\\lod2\\building_040002.obj",
+      "building_id": 40002
+    },
+    {
+      "geometry": {
+        "height_pred": 29.847002,
+        "height_gt": 29.75713,
+        "height_error": 0.08987199999999973,
+        "footprint_area_pred": 178.20548724419254,
+        "footprint_area_gt": 172.56807578609852,
+        "footprint_area_error": 5.6374114580940216,
+        "footprint_area_error_relative": 0.032667754058298144,
+        "footprint_iou": 0.9676644493717664,
+        "chamfer_distance": 0.5123783181287227
+      },
+      "topology": {
+        "watertight_pred": true,
+        "watertight_gt": true,
+        "non_manifold_edges_pred": 0,
+        "non_manifold_edges_gt": 0,
+        "zero_area_faces_pred": 0,
+        "zero_area_faces_gt": 0
+      },
+      "counts": {
+        "vertices_pred": 72,
+        "vertices_gt": 16,
+        "faces_pred": 140,
+        "faces_gt": 28
+      },
+      "_pred_obj": "ml\\results\\experiment_002\\reconstruction\\scene_00005\\predicted_lod2\\building_040003.obj",
+      "_gt_obj": "ml\\data\\synthetic\\test\\scene_00005\\ground_truth\\lod2\\building_040003.obj",
+      "building_id": 40003
+    },
+    {
+      "geometry": {
+        "height_pred": 33.530495,
+        "height_gt": 33.422195,
+        "height_error": 0.10829999999999984,
+        "footprint_area_pred": 215.8993662432885,
+        "footprint_area_gt": 209.17602075605353,
+        "footprint_area_error": 6.72334548723498,
+        "footprint_area_error_relative": 0.03214204698480195,
+        "footprint_iou": 0.9696521671465256,
+        "chamfer_distance": 0.5663129735681447
+      },
+      "topology": {
+        "watertight_pred": true,
+        "watertight_gt": true,
+        "non_manifold_edges_pred": 0,
+        "non_manifold_edges_gt": 0,
+        "zero_area_faces_pred": 0,
+        "zero_area_faces_gt": 0
+      },
+      "counts": {
+        "vertices_pred": 62,
+        "vertices_gt": 14,
+        "faces_pred": 120,
+        "faces_gt": 24
+      },
+      "_pred_obj": "ml\\results\\experiment_002\\reconstruction\\scene_00005\\predicted_lod2\\building_040004.obj",
+      "_gt_obj": "ml\\data\\synthetic\\test\\scene_00005\\ground_truth\\lod2\\building_040004.obj",
+      "building_id": 40004
+    },
+    {
+      "geometry": {
+        "height_pred": 13.404863,
+        "height_gt": 13.300925,
+        "height_error": 0.1039380000000012,
+        "footprint_area_pred": 601.9470204951484,
+        "footprint_area_gt": 421.8097938468536,
+        "footprint_area_error": 180.1372266482948,
+        "footprint_area_error_relative": 0.4270579518921678,
+        "footprint_iou": 0.9926724847686481,
+        "chamfer_distance": 1.2806641509898156
+      },
+      "topology": {
+        "watertight_pred": true,
+        "watertight_gt": true,
+        "non_manifold_edges_pred": 0,
+        "non_manifold_edges_gt": 0,
+        "zero_area_faces_pred": 0,
+        "zero_area_faces_gt": 0
+      },
+      "counts": {
+        "vertices_pred": 46,
+        "vertices_gt": 16,
+        "faces_pred": 88,
+        "faces_gt": 28
+      },
+      "_pred_obj": "ml\\results\\experiment_002\\reconstruction\\scene_00005\\predicted_lod2\\building_040005.obj",
+      "_gt_obj": "ml\\data\\synthetic\\test\\scene_00005\\ground_truth\\lod2\\building_040005.obj",
+      "building_id": 40005
+    },
+    {
+      "geometry": {
+        "height_pred": 12.690063,
+        "height_gt": 12.730489,
+        "height_error": 0.04042600000000007,
+        "footprint_area_pred": 759.9854649949998,
+        "footprint_area_gt": 759.9859408487246,
+        "footprint_area_error": 0.0004758537247653294,
+        "footprint_area_error_relative": 6.261349048561521e-07,
+        "footprint_iou": 1.0,
+        "chamfer_distance": 0.5088616531190354
+      },
+      "topology": {
+        "watertight_pred": true,
+        "watertight_gt": true,
+        "non_manifold_edges_pred": 0,
+        "non_manifold_edges_gt": 0,
+        "zero_area_faces_pred": 0,
+        "zero_area_faces_gt": 0
+      },
+      "counts": {
+        "vertices_pred": 10,
+        "vertices_gt": 10,
+        "faces_pred": 16,
+        "faces_gt": 16
+      },
+      "_pred_obj": "ml\\results\\experiment_002\\reconstruction\\scene_00005\\predicted_lod2\\building_040006.obj",
+      "_gt_obj": "ml\\data\\synthetic\\test\\scene_00005\\ground_truth\\lod2\\building_040006.obj",
+      "building_id": 40006
+    },
+    {
+      "geometry": {
+        "height_pred": 21.81222,
+        "height_gt": 21.682224,
+        "height_error": 0.12999599999999845,
+        "footprint_area_pred": 387.02449993415814,
+        "footprint_area_gt": 376.86407986101744,
+        "footprint_area_error": 10.160420073140699,
+        "footprint_area_error_relative": 0.026960436444056247,
+        "footprint_iou": 0.973308381759086,
+        "chamfer_distance": 0.5785265732144258
+      },
+      "topology": {
+        "watertight_pred": true,
+        "watertight_gt": true,
+        "non_manifold_edges_pred": 0,
+        "non_manifold_edges_gt": 0,
+        "zero_area_faces_pred": 0,
+        "zero_area_faces_gt": 0
+      },
+      "counts": {
+        "vertices_pred": 50,
+        "vertices_gt": 10,
+        "faces_pred": 96,
+        "faces_gt": 16
+      },
+      "_pred_obj": "ml\\results\\experiment_002\\reconstruction\\scene_00005\\predicted_lod2\\building_040007.obj",
+      "_gt_obj": "ml\\data\\synthetic\\test\\scene_00005\\ground_truth\\lod2\\building_040007.obj",
+      "building_id": 40007
+    },
+    {
+      "geometry": {
+        "height_pred": 8.712256,
+        "height_gt": 8.594501,
+        "height_error": 0.11775500000000072,
+        "footprint_area_pred": 1031.6536233007698,
+        "footprint_area_gt": 753.2870693977075,
+        "footprint_area_error": 278.36655390306237,
+        "footprint_area_error_relative": 0.36953581869609287,
+        "footprint_iou": 0.991439205955335,
+        "chamfer_distance": 0.9716140824653835
+      },
+      "topology": {
+        "watertight_pred": true,
+        "watertight_gt": true,
+        "non_manifold_edges_pred": 0,
+        "non_manifold_edges_gt": 0,
+        "zero_area_faces_pred": 0,
+        "zero_area_faces_gt": 0
+      },
+      "counts": {
+        "vertices_pred": 44,
+        "vertices_gt": 16,
+        "faces_pred": 84,
+        "faces_gt": 32
+      },
+      "_pred_obj": "ml\\results\\experiment_002\\reconstruction\\scene_00005\\predicted_lod2\\building_040008.obj",
+      "_gt_obj": "ml\\data\\synthetic\\test\\scene_00005\\ground_truth\\lod2\\building_040008.obj",
+      "building_id": 40008
+    },
+    {
+      "geometry": {
+        "height_pred": 33.749198,
+        "height_gt": 33.755081,
+        "height_error": 0.005882999999997196,
+        "footprint_area_pred": 242.46113293999997,
+        "footprint_area_gt": 242.4620488403025,
+        "footprint_area_error": 0.0009159003025160928,
+        "footprint_area_error_relative": 3.777499641271076e-06,
+        "footprint_iou": 1.0,
+        "chamfer_distance": 0.5188516191069288
+      },
+      "topology": {
+        "watertight_pred": true,
+        "watertight_gt": true,
+        "non_manifold_edges_pred": 0,
+        "non_manifold_edges_gt": 0,
+        "zero_area_faces_pred": 0,
+        "zero_area_faces_gt": 0
+      },
+      "counts": {
+        "vertices_pred": 10,
+        "vertices_gt": 10,
+        "faces_pred": 16,
+        "faces_gt": 16
+      },
+      "_pred_obj": "ml\\results\\experiment_002\\reconstruction\\scene_00005\\predicted_lod2\\building_040009.obj",
+      "_gt_obj": "ml\\data\\synthetic\\test\\scene_00005\\ground_truth\\lod2\\building_040009.obj",
+      "building_id": 40009
+    },
+    {
+      "geometry": {
+        "height_pred": 25.628147,
+        "height_gt": 25.531702,
+        "height_error": 0.09644499999999923,
+        "footprint_area_pred": 404.91821237520656,
+        "footprint_area_gt": 321.1490411815815,
+        "footprint_area_error": 83.76917119362508,
+        "footprint_area_error_relative": 0.26084204046015197,
+        "footprint_iou": 0.9700092482494385,
+        "chamfer_distance": 1.0989522820248976
+      },
+      "topology": {
+        "watertight_pred": true,
+        "watertight_gt": true,
+        "non_manifold_edges_pred": 0,
+        "non_manifold_edges_gt": 0,
+        "zero_area_faces_pred": 0,
+        "zero_area_faces_gt": 0
+      },
+      "counts": {
+        "vertices_pred": 52,
+        "vertices_gt": 16,
+        "faces_pred": 100,
+        "faces_gt": 32
+      },
+      "_pred_obj": "ml\\results\\experiment_002\\reconstruction\\scene_00005\\predicted_lod2\\building_040010.obj",
+      "_gt_obj": "ml\\data\\synthetic\\test\\scene_00005\\ground_truth\\lod2\\building_040010.obj",
+      "building_id": 40010
+    },
+    {
+      "geometry": {
+        "height_pred": 17.593222,
+        "height_gt": 17.467043,
+        "height_error": 0.12617900000000049,
+        "footprint_area_pred": 727.0889673665674,
+        "footprint_area_gt": 719.6754243279943,
+        "footprint_area_error": 7.413543038573152,
+        "footprint_area_error_relative": 0.010301231343970983,
+        "footprint_iou": 0.9911441499676794,
+        "chamfer_distance": 0.6579017478638096
+      },
+      "topology": {
+        "watertight_pred": true,
+        "watertight_gt": true,
+        "non_manifold_edges_pred": 0,
+        "non_manifold_edges_gt": 0,
+        "zero_area_faces_pred": 0,
+        "zero_area_faces_gt": 0
+      },
+      "counts": {
+        "vertices_pred": 66,
+        "vertices_gt": 8,
+        "faces_pred": 128,
+        "faces_gt": 12
+      },
+      "_pred_obj": "ml\\results\\experiment_002\\reconstruction\\scene_00005\\predicted_lod2\\building_040011.obj",
+      "_gt_obj": "ml\\data\\synthetic\\test\\scene_00005\\ground_truth\\lod2\\building_040011.obj",
+      "building_id": 40011
+    },
+    {
+      "geometry": {
+        "height_pred": 25.635571,
+        "height_gt": 25.52492,
+        "height_error": 0.11065099999999717,
+        "footprint_area_pred": 346.0640315398176,
+        "footprint_area_gt": 338.3341580501635,
+        "footprint_area_error": 7.729873489654096,
+        "footprint_area_error_relative": 0.022846861026985094,
+        "footprint_iou": 0.9781571070301756,
+        "chamfer_distance": 0.5467863238340452
+      },
+      "topology": {
+        "watertight_pred": true,
+        "watertight_gt": true,
+        "non_manifold_edges_pred": 0,
+        "non_manifold_edges_gt": 0,
+        "zero_area_faces_pred": 0,
+        "zero_area_faces_gt": 0
+      },
+      "counts": {
+        "vertices_pred": 78,
+        "vertices_gt": 14,
+        "faces_pred": 152,
+        "faces_gt": 24
+      },
+      "_pred_obj": "ml\\results\\experiment_002\\reconstruction\\scene_00005\\predicted_lod2\\building_040012.obj",
+      "_gt_obj": "ml\\data\\synthetic\\test\\scene_00005\\ground_truth\\lod2\\building_040012.obj",
+      "building_id": 40012
+    },
+    {
+      "geometry": {
+        "height_pred": 15.454568,
+        "height_gt": 15.338818,
+        "height_error": 0.11575000000000024,
+        "footprint_area_pred": 305.24930092900655,
+        "footprint_area_gt": 226.52840436176945,
+        "footprint_area_error": 78.7208965672371,
+        "footprint_area_error_relative": 0.347510047532576,
+        "footprint_iou": 0.9875,
+        "chamfer_distance": 1.0138873150198715
+      },
+      "topology": {
+        "watertight_pred": true,
+        "watertight_gt": true,
+        "non_manifold_edges_pred": 0,
+        "non_manifold_edges_gt": 0,
+        "zero_area_faces_pred": 0,
+        "zero_area_faces_gt": 0
+      },
+      "counts": {
+        "vertices_pred": 46,
+        "vertices_gt": 16,
+        "faces_pred": 88,
+        "faces_gt": 28
+      },
+      "_pred_obj": "ml\\results\\experiment_002\\reconstruction\\scene_00005\\predicted_lod2\\building_040013.obj",
+      "_gt_obj": "ml\\data\\synthetic\\test\\scene_00005\\ground_truth\\lod2\\building_040013.obj",
+      "building_id": 40013
+    },
+    {
+      "geometry": {
+        "height_pred": 3.254249,
+        "height_gt": 3.161245,
+        "height_error": 0.09300400000000009,
+        "footprint_area_pred": 289.0450889254466,
+        "footprint_area_gt": 256.89978909291005,
+        "footprint_area_error": 32.14529983253652,
+        "footprint_area_error_relative": 0.1251277782128147,
+        "footprint_iou": 0.849823460180463,
+        "chamfer_distance": 0.5828225757807006
+      },
+      "topology": {
+        "watertight_pred": true,
+        "watertight_gt": true,
+        "non_manifold_edges_pred": 0,
+        "non_manifold_edges_gt": 0,
+        "zero_area_faces_pred": 0,
+        "zero_area_faces_gt": 0
+      },
+      "counts": {
+        "vertices_pred": 22,
+        "vertices_gt": 16,
+        "faces_pred": 40,
+        "faces_gt": 28
+      },
+      "_pred_obj": "ml\\results\\experiment_002\\reconstruction\\scene_00005\\predicted_lod2\\building_040014.obj",
+      "_gt_obj": "ml\\data\\synthetic\\test\\scene_00005\\ground_truth\\lod2\\building_040014.obj",
+      "building_id": 40014
+    },
+    {
+      "geometry": {
+        "height_pred": 16.328035,
+        "height_gt": 16.223082,
+        "height_error": 0.1049529999999983,
+        "footprint_area_pred": 520.285462682996,
+        "footprint_area_gt": 409.3514458355461,
+        "footprint_area_error": 110.93401684744993,
+        "footprint_area_error_relative": 0.27099945041361073,
+        "footprint_iou": 0.9914529914529915,
+        "chamfer_distance": 1.083298119374744
+      },
+      "topology": {
+        "watertight_pred": true,
+        "watertight_gt": true,
+        "non_manifold_edges_pred": 0,
+        "non_manifold_edges_gt": 0,
+        "zero_area_faces_pred": 0,
+        "zero_area_faces_gt": 0
+      },
+      "counts": {
+        "vertices_pred": 48,
+        "vertices_gt": 16,
+        "faces_pred": 92,
+        "faces_gt": 28
+      },
+      "_pred_obj": "ml\\results\\experiment_002\\reconstruction\\scene_00005\\predicted_lod2\\building_040015.obj",
+      "_gt_obj": "ml\\data\\synthetic\\test\\scene_00005\\ground_truth\\lod2\\building_040015.obj",
+      "building_id": 40015
+    },
+    {
+      "geometry": {
+        "height_pred": 9.882558,
+        "height_gt": 9.763476,
+        "height_error": 0.1190819999999988,
+        "footprint_area_pred": 599.0474047942156,
+        "footprint_area_gt": 530.614697483449,
+        "footprint_area_error": 68.43270731076655,
+        "footprint_area_error_relative": 0.1289687368919914,
+        "footprint_iou": 0.9751732101616628,
+        "chamfer_distance": 0.7513502928549016
+      },
+      "topology": {
+        "watertight_pred": true,
+        "watertight_gt": true,
+        "non_manifold_edges_pred": 0,
+        "non_manifold_edges_gt": 0,
+        "zero_area_faces_pred": 0,
+        "zero_area_faces_gt": 0
+      },
+      "counts": {
+        "vertices_pred": 44,
+        "vertices_gt": 12,
+        "faces_pred": 84,
+        "faces_gt": 20
+      },
+      "_pred_obj": "ml\\results\\experiment_002\\reconstruction\\scene_00005\\predicted_lod2\\building_040016.obj",
+      "_gt_obj": "ml\\data\\synthetic\\test\\scene_00005\\ground_truth\\lod2\\building_040016.obj",
+      "building_id": 40016
+    },
+    {
+      "geometry": {
+        "height_pred": 14.756284,
+        "height_gt": 14.631211,
+        "height_error": 0.12507300000000043,
+        "footprint_area_pred": 724.8028656936058,
+        "footprint_area_gt": 567.14978085065,
+        "footprint_area_error": 157.65308484295576,
+        "footprint_area_error_relative": 0.2779743379367914,
+        "footprint_iou": 0.9889177989785102,
+        "chamfer_distance": 1.073596167239347
+      },
+      "topology": {
+        "watertight_pred": true,
+        "watertight_gt": true,
+        "non_manifold_edges_pred": 0,
+        "non_manifold_edges_gt": 0,
+        "zero_area_faces_pred": 0,
+        "zero_area_faces_gt": 0
+      },
+      "counts": {
+        "vertices_pred": 52,
+        "vertices_gt": 16,
+        "faces_pred": 100,
+        "faces_gt": 32
+      },
+      "_pred_obj": "ml\\results\\experiment_002\\reconstruction\\scene_00005\\predicted_lod2\\building_040017.obj",
+      "_gt_obj": "ml\\data\\synthetic\\test\\scene_00005\\ground_truth\\lod2\\building_040017.obj",
+      "building_id": 40017
+    },
+    {
+      "geometry": {
+        "height_pred": 14.319363,
+        "height_gt": 14.200685,
+        "height_error": 0.11867799999999917,
+        "footprint_area_pred": 731.1668871337864,
+        "footprint_area_gt": 628.9030184208885,
+        "footprint_area_error": 102.26386871289787,
+        "footprint_area_error_relative": 0.16260673858693195,
+        "footprint_iou": 0.991677411792287,
+        "chamfer_distance": 0.962035358543841
+      },
+      "topology": {
+        "watertight_pred": true,
+        "watertight_gt": true,
+        "non_manifold_edges_pred": 0,
+        "non_manifold_edges_gt": 0,
+        "zero_area_faces_pred": 0,
+        "zero_area_faces_gt": 0
+      },
+      "counts": {
+        "vertices_pred": 54,
+        "vertices_gt": 12,
+        "faces_pred": 104,
+        "faces_gt": 20
+      },
+      "_pred_obj": "ml\\results\\experiment_002\\reconstruction\\scene_00005\\predicted_lod2\\building_040018.obj",
+      "_gt_obj": "ml\\data\\synthetic\\test\\scene_00005\\ground_truth\\lod2\\building_040018.obj",
+      "building_id": 40018
+    }
+  ],
+  "gt_self_sanity": {
+    "all_pass": true,
+    "results": [
+      {
+        "geometry": {
+          "height_pred": 26.030222,
+          "height_gt": 26.030222,
+          "height_error": 0.0,
+          "footprint_area_pred": 255.52555718790845,
+          "footprint_area_gt": 255.52555718790845,
+          "footprint_area_error": 0.0,
+          "footprint_area_error_relative": 0.0,
+          "footprint_iou": 1.0,
+          "chamfer_distance": 0.0
+        },
+        "topology": {
+          "watertight_pred": true,
+          "watertight_gt": true,
+          "non_manifold_edges_pred": 0,
+          "non_manifold_edges_gt": 0,
+          "zero_area_faces_pred": 0,
+          "zero_area_faces_gt": 0
+        },
+        "counts": {
+          "vertices_pred": 14,
+          "vertices_gt": 14,
+          "faces_pred": 24,
+          "faces_gt": 24
+        },
+        "passes_sanity": true,
+        "building_id": 40001
+      },
+      {
+        "geometry": {
+          "height_pred": 27.133034,
+          "height_gt": 27.133034,
+          "height_error": 0.0,
+          "footprint_area_pred": 609.8018548553221,
+          "footprint_area_gt": 609.8018548553221,
+          "footprint_area_error": 0.0,
+          "footprint_area_error_relative": 0.0,
+          "footprint_iou": 1.0,
+          "chamfer_distance": 0.0
+        },
+        "topology": {
+          "watertight_pred": true,
+          "watertight_gt": true,
+          "non_manifold_edges_pred": 0,
+          "non_manifold_edges_gt": 0,
+          "zero_area_faces_pred": 0,
+          "zero_area_faces_gt": 0
+        },
+        "counts": {
+          "vertices_pred": 16,
+          "vertices_gt": 16,
+          "faces_pred": 32,
+          "faces_gt": 32
+        },
+        "passes_sanity": true,
+        "building_id": 40002
+      },
+      {
+        "geometry": {
+          "height_pred": 29.75713,
+          "height_gt": 29.75713,
+          "height_error": 0.0,
+          "footprint_area_pred": 172.56807578609852,
+          "footprint_area_gt": 172.56807578609852,
+          "footprint_area_error": 0.0,
+          "footprint_area_error_relative": 0.0,
+          "footprint_iou": 1.0,
+          "chamfer_distance": 0.0
+        },
+        "topology": {
+          "watertight_pred": true,
+          "watertight_gt": true,
+          "non_manifold_edges_pred": 0,
+          "non_manifold_edges_gt": 0,
+          "zero_area_faces_pred": 0,
+          "zero_area_faces_gt": 0
+        },
+        "counts": {
+          "vertices_pred": 16,
+          "vertices_gt": 16,
+          "faces_pred": 28,
+          "faces_gt": 28
+        },
+        "passes_sanity": true,
+        "building_id": 40003
+      },
+      {
+        "geometry": {
+          "height_pred": 33.422195,
+          "height_gt": 33.422195,
+          "height_error": 0.0,
+          "footprint_area_pred": 209.17602075605353,
+          "footprint_area_gt": 209.17602075605353,
+          "footprint_area_error": 0.0,
+          "footprint_area_error_relative": 0.0,
+          "footprint_iou": 1.0,
+          "chamfer_distance": 0.0
+        },
+        "topology": {
+          "watertight_pred": true,
+          "watertight_gt": true,
+          "non_manifold_edges_pred": 0,
+          "non_manifold_edges_gt": 0,
+          "zero_area_faces_pred": 0,
+          "zero_area_faces_gt": 0
+        },
+        "counts": {
+          "vertices_pred": 14,
+          "vertices_gt": 14,
+          "faces_pred": 24,
+          "faces_gt": 24
+        },
+        "passes_sanity": true,
+        "building_id": 40004
+      },
+      {
+        "geometry": {
+          "height_pred": 13.300925,
+          "height_gt": 13.300925,
+          "height_error": 0.0,
+          "footprint_area_pred": 421.8097938468536,
+          "footprint_area_gt": 421.8097938468536,
+          "footprint_area_error": 0.0,
+          "footprint_area_error_relative": 0.0,
+          "footprint_iou": 1.0,
+          "chamfer_distance": 0.0
+        },
+        "topology": {
+          "watertight_pred": true,
+          "watertight_gt": true,
+          "non_manifold_edges_pred": 0,
+          "non_manifold_edges_gt": 0,
+          "zero_area_faces_pred": 0,
+          "zero_area_faces_gt": 0
+        },
+        "counts": {
+          "vertices_pred": 16,
+          "vertices_gt": 16,
+          "faces_pred": 28,
+          "faces_gt": 28
+        },
+        "passes_sanity": true,
+        "building_id": 40005
+      },
+      {
+        "geometry": {
+          "height_pred": 12.730489,
+          "height_gt": 12.730489,
+          "height_error": 0.0,
+          "footprint_area_pred": 759.9859408487246,
+          "footprint_area_gt": 759.9859408487246,
+          "footprint_area_error": 0.0,
+          "footprint_area_error_relative": 0.0,
+          "footprint_iou": 1.0,
+          "chamfer_distance": 0.0
+        },
+        "topology": {
+          "watertight_pred": true,
+          "watertight_gt": true,
+          "non_manifold_edges_pred": 0,
+          "non_manifold_edges_gt": 0,
+          "zero_area_faces_pred": 0,
+          "zero_area_faces_gt": 0
+        },
+        "counts": {
+          "vertices_pred": 10,
+          "vertices_gt": 10,
+          "faces_pred": 16,
+          "faces_gt": 16
+        },
+        "passes_sanity": true,
+        "building_id": 40006
+      },
+      {
+        "geometry": {
+          "height_pred": 21.682224,
+          "height_gt": 21.682224,
+          "height_error": 0.0,
+          "footprint_area_pred": 376.86407986101744,
+          "footprint_area_gt": 376.86407986101744,
+          "footprint_area_error": 0.0,
+          "footprint_area_error_relative": 0.0,
+          "footprint_iou": 1.0,
+          "chamfer_distance": 0.0
+        },
+        "topology": {
+          "watertight_pred": true,
+          "watertight_gt": true,
+          "non_manifold_edges_pred": 0,
+          "non_manifold_edges_gt": 0,
+          "zero_area_faces_pred": 0,
+          "zero_area_faces_gt": 0
+        },
+        "counts": {
+          "vertices_pred": 10,
+          "vertices_gt": 10,
+          "faces_pred": 16,
+          "faces_gt": 16
+        },
+        "passes_sanity": true,
+        "building_id": 40007
+      },
+      {
+        "geometry": {
+          "height_pred": 8.594501,
+          "height_gt": 8.594501,
+          "height_error": 0.0,
+          "footprint_area_pred": 753.2870693977075,
+          "footprint_area_gt": 753.2870693977075,
+          "footprint_area_error": 0.0,
+          "footprint_area_error_relative": 0.0,
+          "footprint_iou": 1.0,
+          "chamfer_distance": 0.0
+        },
+        "topology": {
+          "watertight_pred": true,
+          "watertight_gt": true,
+          "non_manifold_edges_pred": 0,
+          "non_manifold_edges_gt": 0,
+          "zero_area_faces_pred": 0,
+          "zero_area_faces_gt": 0
+        },
+        "counts": {
+          "vertices_pred": 16,
+          "vertices_gt": 16,
+          "faces_pred": 32,
+          "faces_gt": 32
+        },
+        "passes_sanity": true,
+        "building_id": 40008
+      },
+      {
+        "geometry": {
+          "height_pred": 33.755081,
+          "height_gt": 33.755081,
+          "height_error": 0.0,
+          "footprint_area_pred": 242.4620488403025,
+          "footprint_area_gt": 242.4620488403025,
+          "footprint_area_error": 0.0,
+          "footprint_area_error_relative": 0.0,
+          "footprint_iou": 1.0,
+          "chamfer_distance": 0.0
+        },
+        "topology": {
+          "watertight_pred": true,
+          "watertight_gt": true,
+          "non_manifold_edges_pred": 0,
+          "non_manifold_edges_gt": 0,
+          "zero_area_faces_pred": 0,
+          "zero_area_faces_gt": 0
+        },
+        "counts": {
+          "vertices_pred": 10,
+          "vertices_gt": 10,
+          "faces_pred": 16,
+          "faces_gt": 16
+        },
+        "passes_sanity": true,
+        "building_id": 40009
+      },
+      {
+        "geometry": {
+          "height_pred": 25.531702,
+          "height_gt": 25.531702,
+          "height_error": 0.0,
+          "footprint_area_pred": 321.1490411815815,
+          "footprint_area_gt": 321.1490411815815,
+          "footprint_area_error": 0.0,
+          "footprint_area_error_relative": 0.0,
+          "footprint_iou": 1.0,
+          "chamfer_distance": 0.0
+        },
+        "topology": {
+          "watertight_pred": true,
+          "watertight_gt": true,
+          "non_manifold_edges_pred": 0,
+          "non_manifold_edges_gt": 0,
+          "zero_area_faces_pred": 0,
+          "zero_area_faces_gt": 0
+        },
+        "counts": {
+          "vertices_pred": 16,
+          "vertices_gt": 16,
+          "faces_pred": 32,
+          "faces_gt": 32
+        },
+        "passes_sanity": true,
+        "building_id": 40010
+      },
+      {
+        "geometry": {
+          "height_pred": 17.467043,
+          "height_gt": 17.467043,
+          "height_error": 0.0,
+          "footprint_area_pred": 719.6754243279943,
+          "footprint_area_gt": 719.6754243279943,
+          "footprint_area_error": 0.0,
+          "footprint_area_error_relative": 0.0,
+          "footprint_iou": 1.0,
+          "chamfer_distance": 0.0
+        },
+        "topology": {
+          "watertight_pred": true,
+          "watertight_gt": true,
+          "non_manifold_edges_pred": 0,
+          "non_manifold_edges_gt": 0,
+          "zero_area_faces_pred": 0,
+          "zero_area_faces_gt": 0
+        },
+        "counts": {
+          "vertices_pred": 8,
+          "vertices_gt": 8,
+          "faces_pred": 12,
+          "faces_gt": 12
+        },
+        "passes_sanity": true,
+        "building_id": 40011
+      },
+      {
+        "geometry": {
+          "height_pred": 25.52492,
+          "height_gt": 25.52492,
+          "height_error": 0.0,
+          "footprint_area_pred": 338.3341580501635,
+          "footprint_area_gt": 338.3341580501635,
+          "footprint_area_error": 0.0,
+          "footprint_area_error_relative": 0.0,
+          "footprint_iou": 1.0,
+          "chamfer_distance": 0.0
+        },
+        "topology": {
+          "watertight_pred": true,
+          "watertight_gt": true,
+          "non_manifold_edges_pred": 0,
+          "non_manifold_edges_gt": 0,
+          "zero_area_faces_pred": 0,
+          "zero_area_faces_gt": 0
+        },
+        "counts": {
+          "vertices_pred": 14,
+          "vertices_gt": 14,
+          "faces_pred": 24,
+          "faces_gt": 24
+        },
+        "passes_sanity": true,
+        "building_id": 40012
+      },
+      {
+        "geometry": {
+          "height_pred": 15.338818,
+          "height_gt": 15.338818,
+          "height_error": 0.0,
+          "footprint_area_pred": 226.52840436176945,
+          "footprint_area_gt": 226.52840436176945,
+          "footprint_area_error": 0.0,
+          "footprint_area_error_relative": 0.0,
+          "footprint_iou": 1.0,
+          "chamfer_distance": 0.0
+        },
+        "topology": {
+          "watertight_pred": true,
+          "watertight_gt": true,
+          "non_manifold_edges_pred": 0,
+          "non_manifold_edges_gt": 0,
+          "zero_area_faces_pred": 0,
+          "zero_area_faces_gt": 0
+        },
+        "counts": {
+          "vertices_pred": 16,
+          "vertices_gt": 16,
+          "faces_pred": 28,
+          "faces_gt": 28
+        },
+        "passes_sanity": true,
+        "building_id": 40013
+      },
+      {
+        "geometry": {
+          "height_pred": 3.161245,
+          "height_gt": 3.161245,
+          "height_error": 0.0,
+          "footprint_area_pred": 256.89978909291005,
+          "footprint_area_gt": 256.89978909291005,
+          "footprint_area_error": 0.0,
+          "footprint_area_error_relative": 0.0,
+          "footprint_iou": 1.0,
+          "chamfer_distance": 0.0
+        },
+        "topology": {
+          "watertight_pred": true,
+          "watertight_gt": true,
+          "non_manifold_edges_pred": 0,
+          "non_manifold_edges_gt": 0,
+          "zero_area_faces_pred": 0,
+          "zero_area_faces_gt": 0
+        },
+        "counts": {
+          "vertices_pred": 16,
+          "vertices_gt": 16,
+          "faces_pred": 28,
+          "faces_gt": 28
+        },
+        "passes_sanity": true,
+        "building_id": 40014
+      },
+      {
+        "geometry": {
+          "height_pred": 16.223082,
+          "height_gt": 16.223082,
+          "height_error": 0.0,
+          "footprint_area_pred": 409.3514458355461,
+          "footprint_area_gt": 409.3514458355461,
+          "footprint_area_error": 0.0,
+          "footprint_area_error_relative": 0.0,
+          "footprint_iou": 1.0,
+          "chamfer_distance": 0.0
+        },
+        "topology": {
+          "watertight_pred": true,
+          "watertight_gt": true,
+          "non_manifold_edges_pred": 0,
+          "non_manifold_edges_gt": 0,
+          "zero_area_faces_pred": 0,
+          "zero_area_faces_gt": 0
+        },
+        "counts": {
+          "vertices_pred": 16,
+          "vertices_gt": 16,
+          "faces_pred": 28,
+          "faces_gt": 28
+        },
+        "passes_sanity": true,
+        "building_id": 40015
+      },
+      {
+        "geometry": {
+          "height_pred": 9.763476,
+          "height_gt": 9.763476,
+          "height_error": 0.0,
+          "footprint_area_pred": 530.614697483449,
+          "footprint_area_gt": 530.614697483449,
+          "footprint_area_error": 0.0,
+          "footprint_area_error_relative": 0.0,
+          "footprint_iou": 1.0,
+          "chamfer_distance": 0.0
+        },
+        "topology": {
+          "watertight_pred": true,
+          "watertight_gt": true,
+          "non_manifold_edges_pred": 0,
+          "non_manifold_edges_gt": 0,
+          "zero_area_faces_pred": 0,
+          "zero_area_faces_gt": 0
+        },
+        "counts": {
+          "vertices_pred": 12,
+          "vertices_gt": 12,
+          "faces_pred": 20,
+          "faces_gt": 20
+        },
+        "passes_sanity": true,
+        "building_id": 40016
+      },
+      {
+        "geometry": {
+          "height_pred": 14.631211,
+          "height_gt": 14.631211,
+          "height_error": 0.0,
+          "footprint_area_pred": 567.14978085065,
+          "footprint_area_gt": 567.14978085065,
+          "footprint_area_error": 0.0,
+          "footprint_area_error_relative": 0.0,
+          "footprint_iou": 1.0,
+          "chamfer_distance": 0.0
+        },
+        "topology": {
+          "watertight_pred": true,
+          "watertight_gt": true,
+          "non_manifold_edges_pred": 0,
+          "non_manifold_edges_gt": 0,
+          "zero_area_faces_pred": 0,
+          "zero_area_faces_gt": 0
+        },
+        "counts": {
+          "vertices_pred": 16,
+          "vertices_gt": 16,
+          "faces_pred": 32,
+          "faces_gt": 32
+        },
+        "passes_sanity": true,
+        "building_id": 40017
+      },
+      {
+        "geometry": {
+          "height_pred": 14.200685,
+          "height_gt": 14.200685,
+          "height_error": 0.0,
+          "footprint_area_pred": 628.9030184208885,
+          "footprint_area_gt": 628.9030184208885,
+          "footprint_area_error": 0.0,
+          "footprint_area_error_relative": 0.0,
+          "footprint_iou": 1.0,
+          "chamfer_distance": 0.0
+        },
+        "topology": {
+          "watertight_pred": true,
+          "watertight_gt": true,
+          "non_manifold_edges_pred": 0,
+          "non_manifold_edges_gt": 0,
+          "zero_area_faces_pred": 0,
+          "zero_area_faces_gt": 0
+        },
+        "counts": {
+          "vertices_pred": 12,
+          "vertices_gt": 12,
+          "faces_pred": 20,
+          "faces_gt": 20
+        },
+        "passes_sanity": true,
+        "building_id": 40018
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+# Synthetic building + LiDAR dataset pipeline (SIH 26011).
+
+# Core runtime (Python 3.12 recommended; open3d has no cp313 wheels yet)
+numpy>=1.26
+PyYAML>=6.0
+
+# Only needed for view_pointcloud.py (interactive/offscreen inspection)
+open3d>=0.18
+
+# Step 3 ML baseline
+matplotlib>=3.8
+# Install CPU-only PyTorch explicitly on this machine:
+#   python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+torch>=2.0
+
+# Blender is a separate install (not pip): Blender 4.2 LTS
+#   winget install BlenderFoundation.Blender.LTS.4.2

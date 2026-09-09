@@ -1,0 +1,70 @@
+# SIH 26011 — synthetic building + LiDAR dataset pipeline.
+# Default configuration. All values are starting points; tweak freely.
+# Reproducibility: given the same ``dataset.seed`` (and this config) the
+# pipeline always produces identical scenes and point clouds.
+
+dataset:
+  seed: 26011
+  train_scenes: 7
+  validation_scenes: 2
+  test_scenes: 1
+  # Test scenes are drawn from a distinct seed stream so they contain
+  # genuinely unseen building configurations.
+  test_seed_offset: 1000000
+  output_dir: "ml/data/synthetic"
+
+building:
+  width_range: [8.0, 30.0]
+  length_range: [10.0, 50.0]
+  floors_range: [1, 10]
+  floor_height_range: [2.8, 3.5]
+  rotation_range: [0.0, 360.0]
+  footprint_types: ["rectangle", "L", "T", "courtyard", "irregular"]
+  # gable / hip / shed are only generated for rectangle footprints; L/T/
+  # courtyard/irregular buildings receive flat roofs.
+  roof_types: ["flat", "gable", "hip", "shed"]
+  roof_slope_range: [0.3, 0.7]     # roof rise = slope * min(width, length)
+  per_floor_variation: false       # if true each floor gets its own height
+  # thin protruding slabs at each floor boundary so floors are visible
+  # in the point cloud (used later for floor-level estimation).
+  floor_markers: true
+  floor_marker_protrusion: 0.12
+  floor_marker_thickness: 0.06
+
+scene:
+  mode: "urban"                    # "urban" | "isolated"
+  ground_size: [160.0, 160.0]
+  buildings_per_scene_range: [10, 20]
+  building_spacing: 3.0            # min clearance between building footprint circles
+  road_width: 8.0
+  tree_count_range: [5, 15]
+  vehicle_count_range: [0, 4]
+  # Extra single-building scenes written to <output>/metadata/debug/ for
+  # isolated-building inspection. They never enter train/validation/test.
+  extra_isolated_scenes: 2
+
+lidar:
+  base_points_per_sqm: 40.0
+  class_multipliers:
+    ground: 0.35
+    road: 0.5
+    building: 1.2
+    vegetation: 2.0
+    vehicle: 2.0
+    other: 1.0
+  max_points_per_scene: 600000
+  noise_std_m: 0.03
+  point_dropout_rate: 0.05
+  variable_density: true
+  variable_density_range: [0.5, 1.5]
+  include_optional_fields: true
+  sensor:
+    # Only used when ``occlusion`` is enabled. A single simulated sensor
+    # position; points hidden from this position are dropped.
+    position: [0.0, 0.0, 120.0]
+    occlusion: false
+
+blender:
+  # Path to blender.exe. null => auto-detect (Blender Foundation install dirs
+  # and PATH).
+  executable: null

@@ -1,0 +1,51 @@
+# SIH 26011 — Experiment 002: class-weighted cross-entropy loss.
+#
+# Identical to segmentation.yaml except class_weighted_loss is enabled.
+# Goal: measure whether inverse-frequency weights improve rare-class IoU
+# (vehicle=0.0, other=0.0, road=0.149 in experiment_001) without
+# unacceptably reducing building IoU (the primary metric).
+#
+# Known tradeoff documented in segmentation.yaml:
+#   "Inverse-frequency weighting helps rare classes but down-weights
+#    'building', which is the class of primary interest here."
+# Experiment 002 measures this tradeoff empirically.
+
+dataset:
+  data_root: "ml/data/synthetic"
+  num_points: 4096
+  train_samples_per_scene: 24
+  val_samples_per_scene: 16
+  num_workers: 0
+
+classes:
+  ground: 0
+  building: 1
+  vegetation: 2
+  road: 3
+  vehicle: 4
+  other: 5
+
+model:
+  name: "pointnet++"
+  num_classes: 6
+  sa1:
+    npoint: 512
+    radius: 0.2
+    nsample: 32
+    mlp: [64, 64, 128]
+  sa2:
+    npoint: 128
+    radius: 0.4
+    nsample: 32
+    mlp: [128, 128, 256]
+
+training:
+  epochs: 25
+  batch_size: 4
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  seed: 26011
+  device: "auto"
+  log_interval: 10
+  class_weighted_loss: true   # KEY CHANGE vs experiment_001
+  early_stopping_patience: 15

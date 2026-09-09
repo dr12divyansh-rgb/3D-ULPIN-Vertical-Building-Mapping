@@ -1,0 +1,91 @@
+{
+  "checkpoint": "ml\\results\\experiment_004\\best_model.pth",
+  "seed": 26011,
+  "epoch": 6,
+  "num_test_scenes": 1,
+  "num_test_points": 570141,
+  "overall_accuracy": 0.814787920882729,
+  "mean_iou": 0.21432810740907215,
+  "building_precision": 0.9326874469853401,
+  "building_recall": 0.9409958291012037,
+  "building_f1": 0.9368232173170307,
+  "building_iou": 0.8811546984245834,
+  "per_class": {
+    "ground": {
+      "precision": 0.5963536862817438,
+      "recall": 0.2764601921267923,
+      "f1": 0.37778513555624804,
+      "iou": 0.23288230421053896
+    },
+    "building": {
+      "precision": 0.9326874469853401,
+      "recall": 0.9409958291012037,
+      "f1": 0.9368232173170307,
+      "iou": 0.8811546984245834
+    },
+    "vegetation": {
+      "precision": 0.7115928369462771,
+      "recall": 0.03646110011107355,
+      "f1": 0.06936787945608233,
+      "iou": 0.03593013848569933
+    },
+    "road": {
+      "precision": 0.14038476639183353,
+      "recall": 0.6741835734218267,
+      "f1": 0.23238100189773053,
+      "iou": 0.13146554893742188
+    },
+    "vehicle": {
+      "precision": 0.00940910801656003,
+      "recall": 0.007661661048115232,
+      "f1": 0.008445945945945946,
+      "iou": 0.004240882103477523
+    },
+    "other": {
+      "precision": 0.0002967359050445104,
+      "recall": 0.05,
+      "f1": 0.0005899705014749262,
+      "iou": 0.00029507229271171436
+    }
+  },
+  "generalization": {
+    "train_seen_combos": [
+      [
+        "L",
+        "flat"
+      ],
+      [
+        "T",
+        "flat"
+      ],
+      [
+        "courtyard",
+        "flat"
+      ],
+      [
+        "irregular",
+        "flat"
+      ],
+      [
+        "rectangle",
+        "flat"
+      ],
+      [
+        "rectangle",
+        "gable"
+      ],
+      [
+        "rectangle",
+        "hip"
+      ],
+      [
+        "rectangle",
+        "shed"
+      ]
+    ],
+    "test_buildings_known_style": 18,
+    "test_buildings_novel_style": 0,
+    "avg_building_iou_known_style": 0.9035532426323939,
+    "avg_building_iou_novel_style": null
+  }
+}

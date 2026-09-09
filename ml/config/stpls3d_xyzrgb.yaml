@@ -1,0 +1,80 @@
+# SIH 26011 — Experiment 005: STPLS3D XYZRGB semantic segmentation
+#
+# Changes from Experiment 003 (XYZ baseline):
+#   - input_mode: "xyzrgb"  — adds RGB colour as 3 extra features
+#   - data_root: local SSD path (C:/ULPIN_DATA/stpls3d) — avoids OneDrive I/O overhead
+#   - batch_size: 2  — reduces computation-graph RAM vs batch_size=4
+#   - gradient_accumulation_steps: 2  — effective batch size = 4 (same as Exp 003)
+#   - preload: false  — lazy I/O from local SSD; no RAM spike on preload
+#   - epochs: 25  — full experiment (Exp 003 was only 5 epochs before OOM)
+#   - max_train_chunks: 1500  — 5x more data than Exp 003 (300 chunks)
+#   - max_val_chunks: 250  — 1500/6 ratio
+#
+# Hardware context: 16 GB RAM (only ~1.4 GB free at start), CPU-only, no GPU.
+# OOM analysis: Exp 003 OOM was caused by PyTorch computation graph tensors
+# (ball-query creates B×S×N distance matrices), not preload RAM.
+# batch_size=2 halves those tensors; local SSD I/O eliminates the 1.7s/step overhead.
+#
+# Training (after this file is set up):
+#   python ml/src/training/train.py --config ml/config/stpls3d_xyzrgb.yaml
+#
+# Resume interrupted run:
+#   python ml/src/training/train.py --config ml/config/stpls3d_xyzrgb.yaml \
+#       --resume ml/results/experiment_005
+#
+# Evaluate after training:
+#   python ml/src/evaluate_stpls3d.py \
+#       --checkpoint ml/results/experiment_005/best_model.pth \
+#       --data C:/ULPIN_DATA/stpls3d
+
+dataset:
+  source: "stpls3d"
+  # Absolute local path — avoids OneDrive sync overhead during training.
+  # Data was copied from ml/data/stpls3d/ (414 MB) to this location.
+  data_root: "C:/ULPIN_DATA/stpls3d"
+  num_points: 4096
+  input_mode: "xyzrgb"              # mode B: XYZ + RGB (6 input features)
+  num_workers: 0                    # 0 = main process only (safe on Windows)
+  max_train_chunks: 1500            # 6416 available; 1500 = tractable on CPU
+  max_val_chunks: 250               # 500 available; 250 used
+  # preload=false: lazy per-chunk loading from local SSD.
+  # Local SSD I/O for a 115 KB .npz is ~1 ms — negligible vs compute time.
+  # Avoids the ~200 MB preload spike that contributed to Exp 003 OOM.
+  preload: false
+
+# Canonical six-class mapping — identical across all experiments.
+classes:
+  ground:     0
+  building:   1
+  vegetation: 2
+  road:       3
+  vehicle:    4
+  other:      5
+
+model:
+  name: "pointnet++"
+  num_classes: 6
+  # Same SA architecture as Experiment 003 — only input changes.
+  # SA1 in_channel is now 6 (xyz-offsets + RGB) instead of 3 (xyz-offsets only).
+  sa1:
+    npoint: 512
+    radius: 0.2
+    nsample: 32
+    mlp: [64, 64, 128]
+  sa2:
+    npoint: 128
+    radius: 0.4
+    nsample: 32
+    mlp: [128, 128, 256]
+
+training:
+  epochs: 25
+  batch_size: 2                        # reduced from 4 to lower graph RAM
+  gradient_accumulation_steps: 2       # effective batch size = 4 (same as Exp 003)
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  seed: 26011
+  device: "auto"
+  log_interval: 100                    # print step log every 100 batches
+  class_weighted_loss: true            # critical: STPLS3D is heavily imbalanced
+  early_stopping_patience: 10          # stop if no mIoU improvement for 10 epochs

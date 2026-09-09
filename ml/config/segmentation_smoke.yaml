@@ -1,0 +1,40 @@
+# Tiny smoke-test configuration: verifies the ML pipeline end-to-end quickly.
+dataset:
+  data_root: "ml/data/synthetic"
+  num_points: 2048
+  train_samples_per_scene: 2
+  val_samples_per_scene: 2
+  num_workers: 0
+
+classes:
+  ground: 0
+  building: 1
+  vegetation: 2
+  road: 3
+  vehicle: 4
+  other: 5
+
+model:
+  name: "pointnet++"
+  num_classes: 6
+  sa1:
+    npoint: 256
+    radius: 0.2
+    nsample: 16
+    mlp: [32, 32, 64]
+  sa2:
+    npoint: 64
+    radius: 0.4
+    nsample: 16
+    mlp: [64, 64, 128]
+
+training:
+  epochs: 2
+  batch_size: 2
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  seed: 26011
+  device: "auto"
+  log_interval: 1
+  class_weighted_loss: false
+  early_stopping_patience: 100

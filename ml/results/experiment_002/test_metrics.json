@@ -1,0 +1,91 @@
+{
+  "checkpoint": "ml\\results\\experiment_002\\best_model.pth",
+  "seed": 26011,
+  "epoch": 22,
+  "num_test_scenes": 1,
+  "num_test_points": 570141,
+  "overall_accuracy": 0.8565425043980349,
+  "mean_iou": 0.33597270450587763,
+  "building_precision": 0.9795227814967286,
+  "building_recall": 0.8952283188900655,
+  "building_f1": 0.93548048358304,
+  "building_iou": 0.8787819003373003,
+  "per_class": {
+    "ground": {
+      "precision": 0.5019434567384787,
+      "recall": 0.8208859496593598,
+      "f1": 0.6229651823088488,
+      "iou": 0.45239610088680476
+    },
+    "building": {
+      "precision": 0.9795227814967286,
+      "recall": 0.8952283188900655,
+      "f1": 0.93548048358304,
+      "iou": 0.8787819003373003
+    },
+    "vegetation": {
+      "precision": 0.8160437556973564,
+      "recall": 0.6484763606509876,
+      "f1": 0.7226736989397772,
+      "iou": 0.5657706244206624
+    },
+    "road": {
+      "precision": 0.19593863390413138,
+      "recall": 0.23214420393694848,
+      "f1": 0.2125103562551781,
+      "iou": 0.11888760139049827
+    },
+    "vehicle": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "iou": 0.0
+    },
+    "other": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "iou": 0.0
+    }
+  },
+  "generalization": {
+    "train_seen_combos": [
+      [
+        "L",
+        "flat"
+      ],
+      [
+        "T",
+        "flat"
+      ],
+      [
+        "courtyard",
+        "flat"
+      ],
+      [
+        "irregular",
+        "flat"
+      ],
+      [
+        "rectangle",
+        "flat"
+      ],
+      [
+        "rectangle",
+        "gable"
+      ],
+      [
+        "rectangle",
+        "hip"
+      ],
+      [
+        "rectangle",
+        "shed"
+      ]
+    ],
+    "test_buildings_known_style": 18,
+    "test_buildings_novel_style": 0,
+    "avg_building_iou_known_style": 0.8555613871921989,
+    "avg_building_iou_novel_style": null
+  }
+}

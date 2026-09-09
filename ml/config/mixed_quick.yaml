@@ -1,0 +1,51 @@
+# Mixed quick baseline: 10 epochs, 300 mixed chunks, preload.
+
+dataset:
+  source: "mixed"
+  num_points: 4096
+  input_mode: "xyz"
+  num_workers: 0
+  synthetic_weight: 0.3
+  max_train_chunks: 300
+  max_val_chunks: 200
+  preload: false          # disabled: only 2.3 GB free RAM, avoid OOM
+  max_stpls3d_chunks: 1200
+  synthetic:
+    data_root: "ml/data/synthetic"
+    num_points: 4096
+    train_samples_per_scene: 24
+    val_samples_per_scene: 16
+  stpls3d_root: "ml/data/stpls3d"
+
+classes:
+  ground:     0
+  building:   1
+  vegetation: 2
+  road:       3
+  vehicle:    4
+  other:      5
+
+model:
+  name: "pointnet++"
+  num_classes: 6
+  sa1:
+    npoint: 512
+    radius: 0.2
+    nsample: 32
+    mlp: [64, 64, 128]
+  sa2:
+    npoint: 128
+    radius: 0.4
+    nsample: 32
+    mlp: [128, 128, 256]
+
+training:
+  epochs: 10
+  batch_size: 4
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  seed: 26011
+  device: "auto"
+  log_interval: 25
+  class_weighted_loss: true
+  early_stopping_patience: 5

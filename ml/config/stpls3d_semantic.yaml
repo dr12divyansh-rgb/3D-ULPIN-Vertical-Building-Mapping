@@ -1,0 +1,70 @@
+# SIH 26011 — Step 4: semantic segmentation using STPLS3D real + synthetic data.
+#
+# Preprocessing:
+#   python ml/src/data/prepare_stpls3d.py \
+#       --source-zip C:/Users/Takin/Downloads/STPLS3D.zip \
+#       --output ml/data/stpls3d
+#
+# Smoke test (fast, first 200 K points of first PLY only):
+#   python ml/src/data/prepare_stpls3d.py \
+#       --source-zip C:/Users/Takin/Downloads/STPLS3D.zip \
+#       --output ml/data/stpls3d_smoke \
+#       --smoke-test
+#
+# Training (after preprocessing):
+#   python ml/src/training/train.py --config ml/config/stpls3d_semantic.yaml
+#
+# DO NOT start training until preprocessing is validated and mIoU targets set.
+
+dataset:
+  source: "stpls3d"                          # dispatch key: 'synthetic' | 'stpls3d'
+  data_root: "ml/data/stpls3d"              # directory containing manifest.json + chunks/
+  num_points: 4096                           # must match prepare_stpls3d.py --chunk-size
+  input_mode: "xyz"                          # mode A: XYZ only (first experiment)
+  #input_mode: "xyzrgb"                     # mode B: XYZRGB (future experiment)
+  num_workers: 0                             # 0 = main process (safe on Windows)
+  # Cap to keep CPU training tractable.  Full dataset: 6416 train / 500 val chunks.
+  # At batch_size=4, 1500 chunks = 375 steps/epoch.
+  # preload=true caches all subset chunks in RAM (~97 MB) to eliminate per-step
+  # file I/O (critical on OneDrive-backed paths where IO is ~1.7s overhead/step).
+  # With preload, steps take ~0.12 s (pure compute), ~44 s/epoch, <25 min total.
+  max_train_chunks: 1500
+  max_val_chunks: 250
+  preload: true
+
+# Canonical six-class mapping — MUST NOT change between synthetic and STPLS3D experiments.
+classes:
+  ground:     0
+  building:   1
+  vegetation: 2
+  road:       3
+  vehicle:    4
+  other:      5
+
+model:
+  name: "pointnet++"
+  num_classes: 6
+  # Same architecture as experiment_001 — no model change for first STPLS3D run.
+  sa1:
+    npoint: 512
+    radius: 0.2
+    nsample: 32
+    mlp: [64, 64, 128]
+  sa2:
+    npoint: 128
+    radius: 0.4
+    nsample: 32
+    mlp: [128, 128, 256]
+
+training:
+  epochs: 25
+  batch_size: 4
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  seed: 26011
+  device: "auto"
+  log_interval: 100
+  # STPLS3D has severe class imbalance (ground/vegetation dominate, building/vehicle rare).
+  # Inverse-frequency weighting is critical so rare classes are not ignored.
+  class_weighted_loss: true
+  early_stopping_patience: 10

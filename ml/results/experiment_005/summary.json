@@ -1,0 +1,10 @@
+{
+  "best_epoch": 17,
+  "best_val_mean_iou": 0.5438272324974595,
+  "total_epochs_trained": 25,
+  "model_parameters": 264198,
+  "input_mode": "xyzrgb",
+  "input_dim": 6,
+  "source": "stpls3d",
+  "config_path": "C:\\Users\\Takin\\OneDrive\\Desktop\\3d-ulpin-project\\ml\\config\\stpls3d_xyzrgb.yaml"
+}

@@ -1,0 +1,6 @@
+{
+  "name": "sih-viewer",
+  "private": true,
+  "description": "Temporary HTML test viewer for SIH 26011 synthetic outputs",
+  "type": "module"
+}

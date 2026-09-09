@@ -1,0 +1,91 @@
+{
+  "checkpoint": "C:\\Users\\Takin\\OneDrive\\Desktop\\3d-ulpin-project\\ml\\results\\experiment_001\\best_model.pth",
+  "seed": 26011,
+  "epoch": 10,
+  "num_test_scenes": 1,
+  "num_test_points": 570141,
+  "overall_accuracy": 0.8917951875062484,
+  "mean_iou": 0.350575985509112,
+  "building_precision": 0.9607861148291036,
+  "building_recall": 0.9493786873554773,
+  "building_f1": 0.9550483387429536,
+  "building_iou": 0.9139641326509383,
+  "per_class": {
+    "ground": {
+      "precision": 0.6284575041310438,
+      "recall": 0.7480545024372167,
+      "f1": 0.6830604648741508,
+      "iou": 0.5186726092241405
+    },
+    "building": {
+      "precision": 0.9607861148291036,
+      "recall": 0.9493786873554773,
+      "f1": 0.9550483387429536,
+      "iou": 0.9139641326509383
+    },
+    "vegetation": {
+      "precision": 0.718540068764877,
+      "recall": 0.6560100449123485,
+      "f1": 0.6858527718873069,
+      "iou": 0.5218994928538497
+    },
+    "road": {
+      "precision": 0.29396576455962514,
+      "recall": 0.23184252206048722,
+      "f1": 0.2592342722212852,
+      "iou": 0.14891967832574363
+    },
+    "vehicle": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "iou": 0.0
+    },
+    "other": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "iou": 0.0
+    }
+  },
+  "generalization": {
+    "train_seen_combos": [
+      [
+        "L",
+        "flat"
+      ],
+      [
+        "T",
+        "flat"
+      ],
+      [
+        "courtyard",
+        "flat"
+      ],
+      [
+        "irregular",
+        "flat"
+      ],
+      [
+        "rectangle",
+        "flat"
+      ],
+      [
+        "rectangle",
+        "gable"
+      ],
+      [
+        "rectangle",
+        "hip"
+      ],
+      [
+        "rectangle",
+        "shed"
+      ]
+    ],
+    "test_buildings_known_style": 18,
+    "test_buildings_novel_style": 0,
+    "avg_building_iou_known_style": 0.9083973523131755,
+    "avg_building_iou_novel_style": null
+  }
+}

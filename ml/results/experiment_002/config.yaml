@@ -1,0 +1,42 @@
+dataset:
+  data_root: ml/data/synthetic
+  num_points: 4096
+  train_samples_per_scene: 24
+  val_samples_per_scene: 16
+  num_workers: 0
+classes:
+  ground: 0
+  building: 1
+  vegetation: 2
+  road: 3
+  vehicle: 4
+  other: 5
+model:
+  name: pointnet++
+  num_classes: 6
+  sa1:
+    npoint: 512
+    radius: 0.2
+    nsample: 32
+    mlp:
+    - 64
+    - 64
+    - 128
+  sa2:
+    npoint: 128
+    radius: 0.4
+    nsample: 32
+    mlp:
+    - 128
+    - 128
+    - 256
+training:
+  epochs: 25
+  batch_size: 4
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  seed: 26011
+  device: auto
+  log_interval: 10
+  class_weighted_loss: true
+  early_stopping_patience: 15

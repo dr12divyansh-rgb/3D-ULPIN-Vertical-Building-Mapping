@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SIH 26011 — Synthetic Building Test Viewer</title>
+<link rel="stylesheet" href="styles.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three.module.js",
+    "three/addons/": "./vendor/addons/"
+  }
+}
+</script>
+<script>
+// Console / error capture for headless verification (DOM-visible error log).
+window.__viewerErrors = [];
+(function () {
+  const logEl = function () { return document.getElementById('error-log'); };
+  function record(msg) {
+    window.__viewerErrors.push(String(msg));
+    const el = logEl();
+    if (el) { el.hidden = false; el.textContent += '\n' + String(msg); }
+  }
+  window.addEventListener('error', function (e) {
+    record(e.message || (e.error && e.error.stack) || 'unknown error');
+  });
+  window.addEventListener('unhandledrejection', function (e) {
+    record('unhandledrejection: ' + (e.reason && e.reason.stack ? e.reason.stack : e.reason));
+  });
+  const orig = console.error.bind(console);
+  console.error = function () {
+    orig.apply(null, arguments);
+    record(Array.prototype.map.call(arguments, String).join(' '));
+  };
+})();
+</script>
+</head>
+<body>
+<div id="banner">SYNTHETIC PROTOTYPE DATA — Not cadastral / legal survey data</div>
+
+<div id="layout">
+  <aside id="sidebar">
+    <section>
+      <h3>Selection</h3>
+      <label>Scene
+        <select id="scene-select"></select>
+      </label>
+      <label>Building
+        <select id="building-select"></select>
+      </label>
+      <div class="row">
+        <button id="prev-building" title="Previous building">◀ Prev</button>
+        <button id="next-building" title="Next building">Next ▶</button>
+      </div>
+    </section>
+
+    <section>
+      <h3>Visualization</h3>
+      <label class="chk"><input type="checkbox" id="toggle-lod1" checked> LOD1</label>
+      <label class="chk"><input type="checkbox" id="toggle-lod2" checked> Ground Truth LOD2</label>
+      <label class="chk"><input type="checkbox" id="toggle-lidar"> LiDAR</label>
+      <label class="chk"><input type="checkbox" id="toggle-pred"> AI Prediction</label>
+      <label class="chk"><input type="checkbox" id="toggle-overlay"> Overlay (show combined)</label>
+      <label class="chk"><input type="checkbox" id="toggle-context"> Whole scene context</label>
+      <label>Point size <input type="range" id="point-size" min="1" max="8" step="0.5" value="2"></label>
+      <div class="row">
+        <button id="reset-camera">Reset camera</button>
+      </div>
+      <p class="hint">Orbit: left-drag · Pan: right-drag · Zoom: wheel</p>
+    </section>
+
+    <section>
+      <h3>Synthetic floor level</h3>
+      <div id="floor-buttons"></div>
+      <div id="floor-info" class="hint">All floors.</div>
+    </section>
+
+    <section>
+      <h3>Building info</h3>
+      <div id="building-info" class="panel"></div>
+    </section>
+
+    <section>
+      <h3>ML info</h3>
+      <div id="ml-info" class="panel"></div>
+    </section>
+
+    <section>
+      <h3>Comparison</h3>
+      <div id="comparison" class="panel">
+        <p class="hint">LOD1 (blue wireframe) vs Ground Truth LOD2 (colored surfaces): enable Overlay and check both.</p>
+        <p class="hint">LOD2 reconstruction vs AI prediction: <b>not implemented yet</b> (Step 4).</p>
+      </div>
+    </section>
+  </aside>
+
+  <main id="viewport"></main>
+</div>
+
+<div id="status">Loading…</div>
+<pre id="error-log" hidden></pre>
+
+<script type="module" src="src/app.js"></script>
+</body>
+</html>

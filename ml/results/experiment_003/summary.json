@@ -1,0 +1,7 @@
+{
+  "best_epoch": 5,
+  "best_val_mean_iou": 0.3097,
+  "training_status": "interrupted_at_epoch_5_oom",
+  "note": "Killed by OS at epoch 5 due to memory pressure. Best checkpoint saved.",
+  "model_parameters": 264006
+}

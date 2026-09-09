@@ -1,0 +1,84 @@
+# SIH 26011 — Experiment 004: Mixed synthetic + STPLS3D training.
+#
+# Rationale:
+#   Experiment 003 uses STPLS3D alone to measure whether realistic outdoor
+#   data improves segmentation.  This experiment asks: does adding our
+#   synthetic dataset (which has perfect building annotations and diversity)
+#   improve building-class performance on top of STPLS3D?
+#
+# Mixing strategy:
+#   Each epoch draws synthetic_weight fraction from synthetic and
+#   (1 - synthetic_weight) from STPLS3D using MixedDataset.
+#   Both sub-datasets are sampled with replacement so that neither
+#   dominates by raw dataset size.
+#   synthetic_weight=0.3 means each batch is ~30% synthetic, ~70% STPLS3D.
+#
+# Prerequisites:
+#   1. Run experiment_003 first.
+#   2. Both ml/data/synthetic and ml/data/stpls3d must be preprocessed.
+#
+# Training:
+#   python ml/src/training/train.py --config ml/config/mixed_semantic.yaml
+
+dataset:
+  source: "mixed"
+  num_points: 4096
+  input_mode: "xyz"
+  num_workers: 0
+
+  # Fraction of each batch drawn from the synthetic dataset.
+  # 0.3 = 30% synthetic, 70% STPLS3D.
+  # Rationale: STPLS3D is much larger so we up-weight synthetic
+  # to preserve its building-annotation signal.
+  synthetic_weight: 0.3
+
+  # Synthetic sub-dataset configuration (mirrors segmentation.yaml)
+  synthetic:
+    data_root: "ml/data/synthetic"
+    num_points: 4096
+    train_samples_per_scene: 24
+    val_samples_per_scene: 16
+
+  # Path to preprocessed STPLS3D chunks + manifest.json
+  stpls3d_root: "ml/data/stpls3d"
+
+  # Cap for CPU tractability. preload=true caches STPLS3D chunks in RAM.
+  max_train_chunks: 1500
+  max_val_chunks: 250
+  preload: true
+
+# Canonical six-class mapping — identical to all other experiments.
+classes:
+  ground:     0
+  building:   1
+  vegetation: 2
+  road:       3
+  vehicle:    4
+  other:      5
+
+model:
+  name: "pointnet++"
+  num_classes: 6
+  sa1:
+    npoint: 512
+    radius: 0.2
+    nsample: 32
+    mlp: [64, 64, 128]
+  sa2:
+    npoint: 128
+    radius: 0.4
+    nsample: 32
+    mlp: [128, 128, 256]
+
+training:
+  epochs: 50
+  batch_size: 8
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  seed: 26011
+  device: "auto"
+  log_interval: 100
+  # Mixed training also benefits from class weighting because STPLS3D dominates
+  # the training signal and has the same imbalance as the STPLS3D-only run.
+  class_weighted_loss: true
+  early_stopping_patience: 10

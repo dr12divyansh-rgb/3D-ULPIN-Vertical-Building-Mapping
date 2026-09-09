@@ -1,0 +1,7 @@
+{
+  "best_epoch": 6,
+  "best_val_mean_iou": 0.3168,
+  "training_status": "complete",
+  "note": "10 epochs mixed training. Best checkpoint at epoch 6 (mIoU=0.3168, buildingIoU=0.7334).",
+  "model_parameters": 264006
+}

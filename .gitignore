@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Generated data
+ml/data/synthetic/
+ml/data/stpls3d/
+ml/data/stpls3d_smoke/
+
+# ML results - large files
+ml/results/*/latest_checkpoint.pth
+ml/results/*/predictions/
+ml/results/*/stpls3d_predictions/
+ml/results/*.bat
+*.log
+
+# Blender
+*.blend1
+*.blend
+
+# OS
+Thumbs.db
+.DS_Store
+
+# AI assistant
+.claude/
+opencode.json

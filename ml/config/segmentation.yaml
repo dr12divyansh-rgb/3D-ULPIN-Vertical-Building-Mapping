@@ -1,0 +1,48 @@
+# SIH 26011 — Step 3: semantic segmentation of synthetic LiDAR.
+# Starting-point configuration (values are not immutable; tune after baseline).
+
+dataset:
+  data_root: "ml/data/synthetic"
+  num_points: 4096            # fixed-size chunk sampled for model input
+  train_samples_per_scene: 24 # chunks sampled from each training scene
+  val_samples_per_scene: 16   # chunks sampled from each validation scene
+  num_workers: 0              # 0 => main process (CPU friendly, deterministic)
+
+# Canonical semantic classes. MUST match synthetic_city.core.labels.CLASS_IDS
+# (the loader verifies this at startup and refuses to run on mismatch).
+classes:
+  ground: 0
+  building: 1
+  vegetation: 2
+  road: 3
+  vehicle: 4
+  other: 5
+
+model:
+  name: "pointnet++"
+  num_classes: 6
+  sa1:
+    npoint: 512
+    radius: 0.2
+    nsample: 32
+    mlp: [64, 64, 128]
+  sa2:
+    npoint: 128
+    radius: 0.4
+    nsample: 32
+    mlp: [128, 128, 256]
+
+training:
+  epochs: 25
+  batch_size: 4
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  seed: 26011
+  device: "auto"             # auto | cpu | cuda
+  log_interval: 10           # steps between training-loss prints
+  # Off by default: plain cross-entropy keeps the baseline transparent and
+  # building-focused. Inverse-frequency weighting helps rare classes but
+  # down-weights 'building', which is the class of primary interest here.
+  class_weighted_loss: false
+  # save the checkpoint with the best validation mean IoU
+  early_stopping_patience: 15

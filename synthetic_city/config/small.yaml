@@ -1,0 +1,56 @@
+# Quick/small configuration used to verify the pipeline end-to-end quickly.
+# Same schema as default.yaml, but with fewer scenes and fewer points.
+
+dataset:
+  seed: 26011
+  train_scenes: 2
+  validation_scenes: 1
+  test_scenes: 1
+  test_seed_offset: 1000000
+  output_dir: "ml/data/synthetic"
+
+building:
+  width_range: [8.0, 20.0]
+  length_range: [10.0, 30.0]
+  floors_range: [1, 6]
+  floor_height_range: [2.8, 3.5]
+  rotation_range: [0.0, 360.0]
+  footprint_types: ["rectangle", "L", "T", "courtyard", "irregular"]
+  roof_types: ["flat", "gable", "hip", "shed"]
+  roof_slope_range: [0.3, 0.7]
+  per_floor_variation: false
+  floor_markers: true
+  floor_marker_protrusion: 0.12
+  floor_marker_thickness: 0.06
+
+scene:
+  mode: "urban"
+  ground_size: [80.0, 80.0]
+  buildings_per_scene_range: [4, 6]
+  building_spacing: 3.0
+  road_width: 8.0
+  tree_count_range: [2, 5]
+  vehicle_count_range: [0, 2]
+  extra_isolated_scenes: 1
+
+lidar:
+  base_points_per_sqm: 30.0
+  class_multipliers:
+    ground: 0.35
+    road: 0.5
+    building: 1.2
+    vegetation: 2.0
+    vehicle: 2.0
+    other: 1.0
+  max_points_per_scene: 300000
+  noise_std_m: 0.03
+  point_dropout_rate: 0.05
+  variable_density: true
+  variable_density_range: [0.5, 1.5]
+  include_optional_fields: true
+  sensor:
+    position: [0.0, 0.0, 80.0]
+    occlusion: false
+
+blender:
+  executable: null

@@ -5,53 +5,33 @@
             "coordinate_system": "PIXEL",
             "polygon": [
                 [
-                    81,
-                    59
+                    12.5,
+                    12.0
                 ],
                 [
-                    80,
-                    75
+                    23.5,
+                    12.0
                 ],
                 [
-                    90,
-                    82
+                    23.5,
+                    24.0
                 ],
                 [
-                    91,
-                    103
-                ],
-                [
-                    100,
-                    113
-                ],
-                [
-                    114,
-                    113
-                ],
-                [
-                    116,
-                    86
-                ],
-                [
-                    100,
-                    80
-                ],
-                [
-                    99,
-                    59
+                    12.5,
+                    24.0
                 ]
             ]
         },
         "measurements": {
-            "area_pixels": 1172.5,
-            "height_meters": 11.72,
-            "estimated_floors": 4,
-            "estimated_total_flats": 40,
-            "estimated_flats_per_floor": 10
+            "area_pixels": 132,
+            "height_meters": 6.0,
+            "estimated_floors": 2,
+            "estimated_total_flats": 4,
+            "estimated_flats_per_floor": 2
         },
         "apartments": {
-            "total_estimated_flats": 40,
-            "estimated_flats_per_floor": 10,
+            "total_estimated_flats": 4,
+            "estimated_flats_per_floor": 2,
             "average_apartment_area_assumption": 70.0,
             "data_source": "PROTOTYPE_ESTIMATE",
             "status": "ESTIMATED",
@@ -59,76 +39,22 @@
                 {
                     "floor_number": 0,
                     "floor_label": "Ground Floor",
-                    "estimated_floor_area": 1172.5,
-                    "estimated_flat_count": 10,
+                    "estimated_floor_area": 132,
+                    "estimated_flat_count": 2,
                     "flats": [
                         "G01",
-                        "G02",
-                        "G03",
-                        "G04",
-                        "G05",
-                        "G06",
-                        "G07",
-                        "G08",
-                        "G09",
-                        "G10"
+                        "G02"
                     ],
                     "data_source": "PROTOTYPE_ESTIMATE"
                 },
                 {
                     "floor_number": 1,
                     "floor_label": "Floor 1",
-                    "estimated_floor_area": 1172.5,
-                    "estimated_flat_count": 10,
+                    "estimated_floor_area": 132,
+                    "estimated_flat_count": 2,
                     "flats": [
                         "101",
-                        "102",
-                        "103",
-                        "104",
-                        "105",
-                        "106",
-                        "107",
-                        "108",
-                        "109",
-                        "110"
-                    ],
-                    "data_source": "PROTOTYPE_ESTIMATE"
-                },
-                {
-                    "floor_number": 2,
-                    "floor_label": "Floor 2",
-                    "estimated_floor_area": 1172.5,
-                    "estimated_flat_count": 10,
-                    "flats": [
-                        "201",
-                        "202",
-                        "203",
-                        "204",
-                        "205",
-                        "206",
-                        "207",
-                        "208",
-                        "209",
-                        "210"
-                    ],
-                    "data_source": "PROTOTYPE_ESTIMATE"
-                },
-                {
-                    "floor_number": 3,
-                    "floor_label": "Floor 3",
-                    "estimated_floor_area": 1172.5,
-                    "estimated_flat_count": 10,
-                    "flats": [
-                        "301",
-                        "302",
-                        "303",
-                        "304",
-                        "305",
-                        "306",
-                        "307",
-                        "308",
-                        "309",
-                        "310"
+                        "102"
                     ],
                     "data_source": "PROTOTYPE_ESTIMATE"
                 }
@@ -151,41 +77,33 @@
             "coordinate_system": "PIXEL",
             "polygon": [
                 [
-                    37,
-                    58
+                    33.0,
+                    13.5
                 ],
                 [
-                    37,
-                    71
+                    47.0,
+                    13.5
                 ],
                 [
-                    56,
-                    71
+                    47.0,
+                    22.5
                 ],
                 [
-                    57,
-                    59
-                ],
-                [
-                    55,
-                    56
-                ],
-                [
-                    42,
-                    55
+                    33.0,
+                    22.5
                 ]
             ]
         },
         "measurements": {
-            "area_pixels": 322.5,
+            "area_pixels": 126,
             "height_meters": 6.0,
             "estimated_floors": 2,
-            "estimated_total_flats": 10,
-            "estimated_flats_per_floor": 5
+            "estimated_total_flats": 4,
+            "estimated_flats_per_floor": 2
         },
         "apartments": {
-            "total_estimated_flats": 10,
-            "estimated_flats_per_floor": 5,
+            "total_estimated_flats": 4,
+            "estimated_flats_per_floor": 2,
             "average_apartment_area_assumption": 70.0,
             "data_source": "PROTOTYPE_ESTIMATE",
             "status": "ESTIMATED",
@@ -193,28 +111,22 @@
                 {
                     "floor_number": 0,
                     "floor_label": "Ground Floor",
-                    "estimated_floor_area": 322.5,
-                    "estimated_flat_count": 5,
+                    "estimated_floor_area": 126,
+                    "estimated_flat_count": 2,
                     "flats": [
                         "G01",
-                        "G02",
-                        "G03",
-                        "G04",
-                        "G05"
+                        "G02"
                     ],
                     "data_source": "PROTOTYPE_ESTIMATE"
                 },
                 {
                     "floor_number": 1,
                     "floor_label": "Floor 1",
-                    "estimated_floor_area": 322.5,
-                    "estimated_flat_count": 5,
+                    "estimated_floor_area": 126,
+                    "estimated_flat_count": 2,
                     "flats": [
                         "101",
-                        "102",
-                        "103",
-                        "104",
-                        "105"
+                        "102"
                     ],
                     "data_source": "PROTOTYPE_ESTIMATE"
                 }
@@ -237,37 +149,33 @@
             "coordinate_system": "PIXEL",
             "polygon": [
                 [
-                    66,
-                    32
+                    58.0,
+                    11.0
                 ],
                 [
-                    67,
-                    47
+                    66.0,
+                    11.0
                 ],
                 [
-                    90,
-                    47
+                    66.0,
+                    25.0
                 ],
                 [
-                    90,
-                    31
-                ],
-                [
-                    68,
-                    30
+                    58.0,
+                    25.0
                 ]
             ]
         },
         "measurements": {
-            "area_pixels": 436.0,
+            "area_pixels": 112,
             "height_meters": 6.0,
             "estimated_floors": 2,
-            "estimated_total_flats": 12,
-            "estimated_flats_per_floor": 6
+            "estimated_total_flats": 4,
+            "estimated_flats_per_floor": 2
         },
         "apartments": {
-            "total_estimated_flats": 12,
-            "estimated_flats_per_floor": 6,
+            "total_estimated_flats": 4,
+            "estimated_flats_per_floor": 2,
             "average_apartment_area_assumption": 70.0,
             "data_source": "PROTOTYPE_ESTIMATE",
             "status": "ESTIMATED",
@@ -275,30 +183,22 @@
                 {
                     "floor_number": 0,
                     "floor_label": "Ground Floor",
-                    "estimated_floor_area": 436.0,
-                    "estimated_flat_count": 6,
+                    "estimated_floor_area": 112,
+                    "estimated_flat_count": 2,
                     "flats": [
                         "G01",
-                        "G02",
-                        "G03",
-                        "G04",
-                        "G05",
-                        "G06"
+                        "G02"
                     ],
                     "data_source": "PROTOTYPE_ESTIMATE"
                 },
                 {
                     "floor_number": 1,
                     "floor_label": "Floor 1",
-                    "estimated_floor_area": 436.0,
-                    "estimated_flat_count": 6,
+                    "estimated_floor_area": 112,
+                    "estimated_flat_count": 2,
                     "flats": [
                         "101",
-                        "102",
-                        "103",
-                        "104",
-                        "105",
-                        "106"
+                        "102"
                     ],
                     "data_source": "PROTOTYPE_ESTIMATE"
                 }
@@ -321,37 +221,33 @@
             "coordinate_system": "PIXEL",
             "polygon": [
                 [
-                    18,
-                    25
+                    78.5,
+                    12.5
                 ],
                 [
-                    19,
-                    41
+                    89.5,
+                    12.5
                 ],
                 [
-                    42,
-                    40
+                    89.5,
+                    23.5
                 ],
                 [
-                    41,
-                    23
-                ],
-                [
-                    20,
-                    23
+                    78.5,
+                    23.5
                 ]
             ]
         },
         "measurements": {
-            "area_pixels": 447.5,
+            "area_pixels": 121,
             "height_meters": 6.0,
             "estimated_floors": 2,
-            "estimated_total_flats": 12,
-            "estimated_flats_per_floor": 6
+            "estimated_total_flats": 4,
+            "estimated_flats_per_floor": 2
         },
         "apartments": {
-            "total_estimated_flats": 12,
-            "estimated_flats_per_floor": 6,
+            "total_estimated_flats": 4,
+            "estimated_flats_per_floor": 2,
             "average_apartment_area_assumption": 70.0,
             "data_source": "PROTOTYPE_ESTIMATE",
             "status": "ESTIMATED",
@@ -359,30 +255,1160 @@
                 {
                     "floor_number": 0,
                     "floor_label": "Ground Floor",
-                    "estimated_floor_area": 447.5,
-                    "estimated_flat_count": 6,
+                    "estimated_floor_area": 121,
+                    "estimated_flat_count": 2,
                     "flats": [
                         "G01",
-                        "G02",
-                        "G03",
-                        "G04",
-                        "G05",
-                        "G06"
+                        "G02"
                     ],
                     "data_source": "PROTOTYPE_ESTIMATE"
                 },
                 {
                     "floor_number": 1,
                     "floor_label": "Floor 1",
-                    "estimated_floor_area": 447.5,
-                    "estimated_flat_count": 6,
+                    "estimated_floor_area": 121,
+                    "estimated_flat_count": 2,
+                    "flats": [
+                        "101",
+                        "102"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                }
+            ]
+        },
+        "data_sources": {
+            "building_detection": "AI",
+            "height": "TEMPORARY_ESTIMATE",
+            "floor_count": "ESTIMATED"
+        },
+        "validation": {
+            "status": "NOT_VALIDATED",
+            "land_record_match": false
+        },
+        "ulpin": null
+    },
+    {
+        "building_id": "B005",
+        "geometry": {
+            "coordinate_system": "PIXEL",
+            "polygon": [
+                [
+                    99.0,
+                    14.0
+                ],
+                [
+                    113.0,
+                    14.0
+                ],
+                [
+                    113.0,
+                    22.0
+                ],
+                [
+                    99.0,
+                    22.0
+                ]
+            ]
+        },
+        "measurements": {
+            "area_pixels": 112,
+            "height_meters": 6.0,
+            "estimated_floors": 2,
+            "estimated_total_flats": 4,
+            "estimated_flats_per_floor": 2
+        },
+        "apartments": {
+            "total_estimated_flats": 4,
+            "estimated_flats_per_floor": 2,
+            "average_apartment_area_assumption": 70.0,
+            "data_source": "PROTOTYPE_ESTIMATE",
+            "status": "ESTIMATED",
+            "floors": [
+                {
+                    "floor_number": 0,
+                    "floor_label": "Ground Floor",
+                    "estimated_floor_area": 112,
+                    "estimated_flat_count": 2,
+                    "flats": [
+                        "G01",
+                        "G02"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                },
+                {
+                    "floor_number": 1,
+                    "floor_label": "Floor 1",
+                    "estimated_floor_area": 112,
+                    "estimated_flat_count": 2,
+                    "flats": [
+                        "101",
+                        "102"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                }
+            ]
+        },
+        "data_sources": {
+            "building_detection": "AI",
+            "height": "TEMPORARY_ESTIMATE",
+            "floor_count": "ESTIMATED"
+        },
+        "validation": {
+            "status": "NOT_VALIDATED",
+            "land_record_match": false
+        },
+        "ulpin": null
+    },
+    {
+        "building_id": "B006",
+        "geometry": {
+            "coordinate_system": "PIXEL",
+            "polygon": [
+                [
+                    14.0,
+                    31.5
+                ],
+                [
+                    22.0,
+                    31.5
+                ],
+                [
+                    22.0,
+                    44.5
+                ],
+                [
+                    14.0,
+                    44.5
+                ]
+            ]
+        },
+        "measurements": {
+            "area_pixels": 104,
+            "height_meters": 6.0,
+            "estimated_floors": 2,
+            "estimated_total_flats": 2,
+            "estimated_flats_per_floor": 1
+        },
+        "apartments": {
+            "total_estimated_flats": 2,
+            "estimated_flats_per_floor": 1,
+            "average_apartment_area_assumption": 70.0,
+            "data_source": "PROTOTYPE_ESTIMATE",
+            "status": "ESTIMATED",
+            "floors": [
+                {
+                    "floor_number": 0,
+                    "floor_label": "Ground Floor",
+                    "estimated_floor_area": 104,
+                    "estimated_flat_count": 1,
+                    "flats": [
+                        "G01"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                },
+                {
+                    "floor_number": 1,
+                    "floor_label": "Floor 1",
+                    "estimated_floor_area": 104,
+                    "estimated_flat_count": 1,
+                    "flats": [
+                        "101"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                }
+            ]
+        },
+        "data_sources": {
+            "building_detection": "AI",
+            "height": "TEMPORARY_ESTIMATE",
+            "floor_count": "ESTIMATED"
+        },
+        "validation": {
+            "status": "NOT_VALIDATED",
+            "land_record_match": false
+        },
+        "ulpin": null
+    },
+    {
+        "building_id": "B007",
+        "geometry": {
+            "coordinate_system": "PIXEL",
+            "polygon": [
+                [
+                    34.5,
+                    33.0
+                ],
+                [
+                    45.5,
+                    33.0
+                ],
+                [
+                    45.5,
+                    43.0
+                ],
+                [
+                    34.5,
+                    43.0
+                ]
+            ]
+        },
+        "measurements": {
+            "area_pixels": 110,
+            "height_meters": 6.0,
+            "estimated_floors": 2,
+            "estimated_total_flats": 4,
+            "estimated_flats_per_floor": 2
+        },
+        "apartments": {
+            "total_estimated_flats": 4,
+            "estimated_flats_per_floor": 2,
+            "average_apartment_area_assumption": 70.0,
+            "data_source": "PROTOTYPE_ESTIMATE",
+            "status": "ESTIMATED",
+            "floors": [
+                {
+                    "floor_number": 0,
+                    "floor_label": "Ground Floor",
+                    "estimated_floor_area": 110,
+                    "estimated_flat_count": 2,
+                    "flats": [
+                        "G01",
+                        "G02"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                },
+                {
+                    "floor_number": 1,
+                    "floor_label": "Floor 1",
+                    "estimated_floor_area": 110,
+                    "estimated_flat_count": 2,
+                    "flats": [
+                        "101",
+                        "102"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                }
+            ]
+        },
+        "data_sources": {
+            "building_detection": "AI",
+            "height": "TEMPORARY_ESTIMATE",
+            "floor_count": "ESTIMATED"
+        },
+        "validation": {
+            "status": "NOT_VALIDATED",
+            "land_record_match": false
+        },
+        "ulpin": null
+    },
+    {
+        "building_id": "B008",
+        "geometry": {
+            "coordinate_system": "PIXEL",
+            "polygon": [
+                [
+                    55.0,
+                    34.5
+                ],
+                [
+                    69.0,
+                    34.5
+                ],
+                [
+                    69.0,
+                    41.5
+                ],
+                [
+                    55.0,
+                    41.5
+                ]
+            ]
+        },
+        "measurements": {
+            "area_pixels": 98,
+            "height_meters": 6.0,
+            "estimated_floors": 2,
+            "estimated_total_flats": 2,
+            "estimated_flats_per_floor": 1
+        },
+        "apartments": {
+            "total_estimated_flats": 2,
+            "estimated_flats_per_floor": 1,
+            "average_apartment_area_assumption": 70.0,
+            "data_source": "PROTOTYPE_ESTIMATE",
+            "status": "ESTIMATED",
+            "floors": [
+                {
+                    "floor_number": 0,
+                    "floor_label": "Ground Floor",
+                    "estimated_floor_area": 98,
+                    "estimated_flat_count": 1,
+                    "flats": [
+                        "G01"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                },
+                {
+                    "floor_number": 1,
+                    "floor_label": "Floor 1",
+                    "estimated_floor_area": 98,
+                    "estimated_flat_count": 1,
+                    "flats": [
+                        "101"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                }
+            ]
+        },
+        "data_sources": {
+            "building_detection": "AI",
+            "height": "TEMPORARY_ESTIMATE",
+            "floor_count": "ESTIMATED"
+        },
+        "validation": {
+            "status": "NOT_VALIDATED",
+            "land_record_match": false
+        },
+        "ulpin": null
+    },
+    {
+        "building_id": "B009",
+        "geometry": {
+            "coordinate_system": "PIXEL",
+            "polygon": [
+                [
+                    80.0,
+                    32.0
+                ],
+                [
+                    88.0,
+                    32.0
+                ],
+                [
+                    88.0,
+                    44.0
+                ],
+                [
+                    80.0,
+                    44.0
+                ]
+            ]
+        },
+        "measurements": {
+            "area_pixels": 96,
+            "height_meters": 6.0,
+            "estimated_floors": 2,
+            "estimated_total_flats": 2,
+            "estimated_flats_per_floor": 1
+        },
+        "apartments": {
+            "total_estimated_flats": 2,
+            "estimated_flats_per_floor": 1,
+            "average_apartment_area_assumption": 70.0,
+            "data_source": "PROTOTYPE_ESTIMATE",
+            "status": "ESTIMATED",
+            "floors": [
+                {
+                    "floor_number": 0,
+                    "floor_label": "Ground Floor",
+                    "estimated_floor_area": 96,
+                    "estimated_flat_count": 1,
+                    "flats": [
+                        "G01"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                },
+                {
+                    "floor_number": 1,
+                    "floor_label": "Floor 1",
+                    "estimated_floor_area": 96,
+                    "estimated_flat_count": 1,
+                    "flats": [
+                        "101"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                }
+            ]
+        },
+        "data_sources": {
+            "building_detection": "AI",
+            "height": "TEMPORARY_ESTIMATE",
+            "floor_count": "ESTIMATED"
+        },
+        "validation": {
+            "status": "NOT_VALIDATED",
+            "land_record_match": false
+        },
+        "ulpin": null
+    },
+    {
+        "building_id": "B010",
+        "geometry": {
+            "coordinate_system": "PIXEL",
+            "polygon": [
+                [
+                    100.5,
+                    33.5
+                ],
+                [
+                    111.5,
+                    33.5
+                ],
+                [
+                    111.5,
+                    42.5
+                ],
+                [
+                    100.5,
+                    42.5
+                ]
+            ]
+        },
+        "measurements": {
+            "area_pixels": 99,
+            "height_meters": 6.0,
+            "estimated_floors": 2,
+            "estimated_total_flats": 2,
+            "estimated_flats_per_floor": 1
+        },
+        "apartments": {
+            "total_estimated_flats": 2,
+            "estimated_flats_per_floor": 1,
+            "average_apartment_area_assumption": 70.0,
+            "data_source": "PROTOTYPE_ESTIMATE",
+            "status": "ESTIMATED",
+            "floors": [
+                {
+                    "floor_number": 0,
+                    "floor_label": "Ground Floor",
+                    "estimated_floor_area": 99,
+                    "estimated_flat_count": 1,
+                    "flats": [
+                        "G01"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                },
+                {
+                    "floor_number": 1,
+                    "floor_label": "Floor 1",
+                    "estimated_floor_area": 99,
+                    "estimated_flat_count": 1,
+                    "flats": [
+                        "101"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                }
+            ]
+        },
+        "data_sources": {
+            "building_detection": "AI",
+            "height": "TEMPORARY_ESTIMATE",
+            "floor_count": "ESTIMATED"
+        },
+        "validation": {
+            "status": "NOT_VALIDATED",
+            "land_record_match": false
+        },
+        "ulpin": null
+    },
+    {
+        "building_id": "B011",
+        "geometry": {
+            "coordinate_system": "PIXEL",
+            "polygon": [
+                [
+                    11.0,
+                    51.0
+                ],
+                [
+                    25.0,
+                    51.0
+                ],
+                [
+                    25.0,
+                    65.0
+                ],
+                [
+                    11.0,
+                    65.0
+                ]
+            ]
+        },
+        "measurements": {
+            "area_pixels": 196,
+            "height_meters": 6.0,
+            "estimated_floors": 2,
+            "estimated_total_flats": 6,
+            "estimated_flats_per_floor": 3
+        },
+        "apartments": {
+            "total_estimated_flats": 6,
+            "estimated_flats_per_floor": 3,
+            "average_apartment_area_assumption": 70.0,
+            "data_source": "PROTOTYPE_ESTIMATE",
+            "status": "ESTIMATED",
+            "floors": [
+                {
+                    "floor_number": 0,
+                    "floor_label": "Ground Floor",
+                    "estimated_floor_area": 196,
+                    "estimated_flat_count": 3,
+                    "flats": [
+                        "G01",
+                        "G02",
+                        "G03"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                },
+                {
+                    "floor_number": 1,
+                    "floor_label": "Floor 1",
+                    "estimated_floor_area": 196,
+                    "estimated_flat_count": 3,
                     "flats": [
                         "101",
                         "102",
-                        "103",
-                        "104",
-                        "105",
-                        "106"
+                        "103"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                }
+            ]
+        },
+        "data_sources": {
+            "building_detection": "AI",
+            "height": "TEMPORARY_ESTIMATE",
+            "floor_count": "ESTIMATED"
+        },
+        "validation": {
+            "status": "NOT_VALIDATED",
+            "land_record_match": false
+        },
+        "ulpin": null
+    },
+    {
+        "building_id": "B012",
+        "geometry": {
+            "coordinate_system": "PIXEL",
+            "polygon": [
+                [
+                    36.0,
+                    52.5
+                ],
+                [
+                    44.0,
+                    52.5
+                ],
+                [
+                    44.0,
+                    63.5
+                ],
+                [
+                    36.0,
+                    63.5
+                ]
+            ]
+        },
+        "measurements": {
+            "area_pixels": 88,
+            "height_meters": 6.0,
+            "estimated_floors": 2,
+            "estimated_total_flats": 2,
+            "estimated_flats_per_floor": 1
+        },
+        "apartments": {
+            "total_estimated_flats": 2,
+            "estimated_flats_per_floor": 1,
+            "average_apartment_area_assumption": 70.0,
+            "data_source": "PROTOTYPE_ESTIMATE",
+            "status": "ESTIMATED",
+            "floors": [
+                {
+                    "floor_number": 0,
+                    "floor_label": "Ground Floor",
+                    "estimated_floor_area": 88,
+                    "estimated_flat_count": 1,
+                    "flats": [
+                        "G01"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                },
+                {
+                    "floor_number": 1,
+                    "floor_label": "Floor 1",
+                    "estimated_floor_area": 88,
+                    "estimated_flat_count": 1,
+                    "flats": [
+                        "101"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                }
+            ]
+        },
+        "data_sources": {
+            "building_detection": "AI",
+            "height": "TEMPORARY_ESTIMATE",
+            "floor_count": "ESTIMATED"
+        },
+        "validation": {
+            "status": "NOT_VALIDATED",
+            "land_record_match": false
+        },
+        "ulpin": null
+    },
+    {
+        "building_id": "B013",
+        "geometry": {
+            "coordinate_system": "PIXEL",
+            "polygon": [
+                [
+                    56.5,
+                    54.0
+                ],
+                [
+                    67.5,
+                    54.0
+                ],
+                [
+                    67.5,
+                    62.0
+                ],
+                [
+                    56.5,
+                    62.0
+                ]
+            ]
+        },
+        "measurements": {
+            "area_pixels": 88,
+            "height_meters": 6.0,
+            "estimated_floors": 2,
+            "estimated_total_flats": 2,
+            "estimated_flats_per_floor": 1
+        },
+        "apartments": {
+            "total_estimated_flats": 2,
+            "estimated_flats_per_floor": 1,
+            "average_apartment_area_assumption": 70.0,
+            "data_source": "PROTOTYPE_ESTIMATE",
+            "status": "ESTIMATED",
+            "floors": [
+                {
+                    "floor_number": 0,
+                    "floor_label": "Ground Floor",
+                    "estimated_floor_area": 88,
+                    "estimated_flat_count": 1,
+                    "flats": [
+                        "G01"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                },
+                {
+                    "floor_number": 1,
+                    "floor_label": "Floor 1",
+                    "estimated_floor_area": 88,
+                    "estimated_flat_count": 1,
+                    "flats": [
+                        "101"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                }
+            ]
+        },
+        "data_sources": {
+            "building_detection": "AI",
+            "height": "TEMPORARY_ESTIMATE",
+            "floor_count": "ESTIMATED"
+        },
+        "validation": {
+            "status": "NOT_VALIDATED",
+            "land_record_match": false
+        },
+        "ulpin": null
+    },
+    {
+        "building_id": "B014",
+        "geometry": {
+            "coordinate_system": "PIXEL",
+            "polygon": [
+                [
+                    77.0,
+                    51.5
+                ],
+                [
+                    91.0,
+                    51.5
+                ],
+                [
+                    91.0,
+                    64.5
+                ],
+                [
+                    77.0,
+                    64.5
+                ]
+            ]
+        },
+        "measurements": {
+            "area_pixels": 182,
+            "height_meters": 6.0,
+            "estimated_floors": 2,
+            "estimated_total_flats": 6,
+            "estimated_flats_per_floor": 3
+        },
+        "apartments": {
+            "total_estimated_flats": 6,
+            "estimated_flats_per_floor": 3,
+            "average_apartment_area_assumption": 70.0,
+            "data_source": "PROTOTYPE_ESTIMATE",
+            "status": "ESTIMATED",
+            "floors": [
+                {
+                    "floor_number": 0,
+                    "floor_label": "Ground Floor",
+                    "estimated_floor_area": 182,
+                    "estimated_flat_count": 3,
+                    "flats": [
+                        "G01",
+                        "G02",
+                        "G03"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                },
+                {
+                    "floor_number": 1,
+                    "floor_label": "Floor 1",
+                    "estimated_floor_area": 182,
+                    "estimated_flat_count": 3,
+                    "flats": [
+                        "101",
+                        "102",
+                        "103"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                }
+            ]
+        },
+        "data_sources": {
+            "building_detection": "AI",
+            "height": "TEMPORARY_ESTIMATE",
+            "floor_count": "ESTIMATED"
+        },
+        "validation": {
+            "status": "NOT_VALIDATED",
+            "land_record_match": false
+        },
+        "ulpin": null
+    },
+    {
+        "building_id": "B015",
+        "geometry": {
+            "coordinate_system": "PIXEL",
+            "polygon": [
+                [
+                    102.0,
+                    53.0
+                ],
+                [
+                    110.0,
+                    53.0
+                ],
+                [
+                    110.0,
+                    63.0
+                ],
+                [
+                    102.0,
+                    63.0
+                ]
+            ]
+        },
+        "measurements": {
+            "area_pixels": 80,
+            "height_meters": 6.0,
+            "estimated_floors": 2,
+            "estimated_total_flats": 2,
+            "estimated_flats_per_floor": 1
+        },
+        "apartments": {
+            "total_estimated_flats": 2,
+            "estimated_flats_per_floor": 1,
+            "average_apartment_area_assumption": 70.0,
+            "data_source": "PROTOTYPE_ESTIMATE",
+            "status": "ESTIMATED",
+            "floors": [
+                {
+                    "floor_number": 0,
+                    "floor_label": "Ground Floor",
+                    "estimated_floor_area": 80,
+                    "estimated_flat_count": 1,
+                    "flats": [
+                        "G01"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                },
+                {
+                    "floor_number": 1,
+                    "floor_label": "Floor 1",
+                    "estimated_floor_area": 80,
+                    "estimated_flat_count": 1,
+                    "flats": [
+                        "101"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                }
+            ]
+        },
+        "data_sources": {
+            "building_detection": "AI",
+            "height": "TEMPORARY_ESTIMATE",
+            "floor_count": "ESTIMATED"
+        },
+        "validation": {
+            "status": "NOT_VALIDATED",
+            "land_record_match": false
+        },
+        "ulpin": null
+    },
+    {
+        "building_id": "B016",
+        "geometry": {
+            "coordinate_system": "PIXEL",
+            "polygon": [
+                [
+                    12.5,
+                    74.5
+                ],
+                [
+                    23.5,
+                    74.5
+                ],
+                [
+                    23.5,
+                    81.5
+                ],
+                [
+                    12.5,
+                    81.5
+                ]
+            ]
+        },
+        "measurements": {
+            "area_pixels": 77,
+            "height_meters": 6.0,
+            "estimated_floors": 2,
+            "estimated_total_flats": 2,
+            "estimated_flats_per_floor": 1
+        },
+        "apartments": {
+            "total_estimated_flats": 2,
+            "estimated_flats_per_floor": 1,
+            "average_apartment_area_assumption": 70.0,
+            "data_source": "PROTOTYPE_ESTIMATE",
+            "status": "ESTIMATED",
+            "floors": [
+                {
+                    "floor_number": 0,
+                    "floor_label": "Ground Floor",
+                    "estimated_floor_area": 77,
+                    "estimated_flat_count": 1,
+                    "flats": [
+                        "G01"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                },
+                {
+                    "floor_number": 1,
+                    "floor_label": "Floor 1",
+                    "estimated_floor_area": 77,
+                    "estimated_flat_count": 1,
+                    "flats": [
+                        "101"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                }
+            ]
+        },
+        "data_sources": {
+            "building_detection": "AI",
+            "height": "TEMPORARY_ESTIMATE",
+            "floor_count": "ESTIMATED"
+        },
+        "validation": {
+            "status": "NOT_VALIDATED",
+            "land_record_match": false
+        },
+        "ulpin": null
+    },
+    {
+        "building_id": "B017",
+        "geometry": {
+            "coordinate_system": "PIXEL",
+            "polygon": [
+                [
+                    33.0,
+                    72.0
+                ],
+                [
+                    47.0,
+                    72.0
+                ],
+                [
+                    47.0,
+                    84.0
+                ],
+                [
+                    33.0,
+                    84.0
+                ]
+            ]
+        },
+        "measurements": {
+            "area_pixels": 168,
+            "height_meters": 6.0,
+            "estimated_floors": 2,
+            "estimated_total_flats": 4,
+            "estimated_flats_per_floor": 2
+        },
+        "apartments": {
+            "total_estimated_flats": 4,
+            "estimated_flats_per_floor": 2,
+            "average_apartment_area_assumption": 70.0,
+            "data_source": "PROTOTYPE_ESTIMATE",
+            "status": "ESTIMATED",
+            "floors": [
+                {
+                    "floor_number": 0,
+                    "floor_label": "Ground Floor",
+                    "estimated_floor_area": 168,
+                    "estimated_flat_count": 2,
+                    "flats": [
+                        "G01",
+                        "G02"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                },
+                {
+                    "floor_number": 1,
+                    "floor_label": "Floor 1",
+                    "estimated_floor_area": 168,
+                    "estimated_flat_count": 2,
+                    "flats": [
+                        "101",
+                        "102"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                }
+            ]
+        },
+        "data_sources": {
+            "building_detection": "AI",
+            "height": "TEMPORARY_ESTIMATE",
+            "floor_count": "ESTIMATED"
+        },
+        "validation": {
+            "status": "NOT_VALIDATED",
+            "land_record_match": false
+        },
+        "ulpin": null
+    },
+    {
+        "building_id": "B018",
+        "geometry": {
+            "coordinate_system": "PIXEL",
+            "polygon": [
+                [
+                    58.0,
+                    73.5
+                ],
+                [
+                    66.0,
+                    73.5
+                ],
+                [
+                    66.0,
+                    82.5
+                ],
+                [
+                    58.0,
+                    82.5
+                ]
+            ]
+        },
+        "measurements": {
+            "area_pixels": 72,
+            "height_meters": 6.0,
+            "estimated_floors": 2,
+            "estimated_total_flats": 2,
+            "estimated_flats_per_floor": 1
+        },
+        "apartments": {
+            "total_estimated_flats": 2,
+            "estimated_flats_per_floor": 1,
+            "average_apartment_area_assumption": 70.0,
+            "data_source": "PROTOTYPE_ESTIMATE",
+            "status": "ESTIMATED",
+            "floors": [
+                {
+                    "floor_number": 0,
+                    "floor_label": "Ground Floor",
+                    "estimated_floor_area": 72,
+                    "estimated_flat_count": 1,
+                    "flats": [
+                        "G01"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                },
+                {
+                    "floor_number": 1,
+                    "floor_label": "Floor 1",
+                    "estimated_floor_area": 72,
+                    "estimated_flat_count": 1,
+                    "flats": [
+                        "101"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                }
+            ]
+        },
+        "data_sources": {
+            "building_detection": "AI",
+            "height": "TEMPORARY_ESTIMATE",
+            "floor_count": "ESTIMATED"
+        },
+        "validation": {
+            "status": "NOT_VALIDATED",
+            "land_record_match": false
+        },
+        "ulpin": null
+    },
+    {
+        "building_id": "B019",
+        "geometry": {
+            "coordinate_system": "PIXEL",
+            "polygon": [
+                [
+                    78.5,
+                    71.0
+                ],
+                [
+                    89.5,
+                    71.0
+                ],
+                [
+                    89.5,
+                    85.0
+                ],
+                [
+                    78.5,
+                    85.0
+                ]
+            ]
+        },
+        "measurements": {
+            "area_pixels": 154,
+            "height_meters": 6.0,
+            "estimated_floors": 2,
+            "estimated_total_flats": 4,
+            "estimated_flats_per_floor": 2
+        },
+        "apartments": {
+            "total_estimated_flats": 4,
+            "estimated_flats_per_floor": 2,
+            "average_apartment_area_assumption": 70.0,
+            "data_source": "PROTOTYPE_ESTIMATE",
+            "status": "ESTIMATED",
+            "floors": [
+                {
+                    "floor_number": 0,
+                    "floor_label": "Ground Floor",
+                    "estimated_floor_area": 154,
+                    "estimated_flat_count": 2,
+                    "flats": [
+                        "G01",
+                        "G02"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                },
+                {
+                    "floor_number": 1,
+                    "floor_label": "Floor 1",
+                    "estimated_floor_area": 154,
+                    "estimated_flat_count": 2,
+                    "flats": [
+                        "101",
+                        "102"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                }
+            ]
+        },
+        "data_sources": {
+            "building_detection": "AI",
+            "height": "TEMPORARY_ESTIMATE",
+            "floor_count": "ESTIMATED"
+        },
+        "validation": {
+            "status": "NOT_VALIDATED",
+            "land_record_match": false
+        },
+        "ulpin": null
+    },
+    {
+        "building_id": "B020",
+        "geometry": {
+            "coordinate_system": "PIXEL",
+            "polygon": [
+                [
+                    99.0,
+                    72.5
+                ],
+                [
+                    113.0,
+                    72.5
+                ],
+                [
+                    113.0,
+                    83.5
+                ],
+                [
+                    99.0,
+                    83.5
+                ]
+            ]
+        },
+        "measurements": {
+            "area_pixels": 154,
+            "height_meters": 6.0,
+            "estimated_floors": 2,
+            "estimated_total_flats": 4,
+            "estimated_flats_per_floor": 2
+        },
+        "apartments": {
+            "total_estimated_flats": 4,
+            "estimated_flats_per_floor": 2,
+            "average_apartment_area_assumption": 70.0,
+            "data_source": "PROTOTYPE_ESTIMATE",
+            "status": "ESTIMATED",
+            "floors": [
+                {
+                    "floor_number": 0,
+                    "floor_label": "Ground Floor",
+                    "estimated_floor_area": 154,
+                    "estimated_flat_count": 2,
+                    "flats": [
+                        "G01",
+                        "G02"
+                    ],
+                    "data_source": "PROTOTYPE_ESTIMATE"
+                },
+                {
+                    "floor_number": 1,
+                    "floor_label": "Floor 1",
+                    "estimated_floor_area": 154,
+                    "estimated_flat_count": 2,
+                    "flats": [
+                        "101",
+                        "102"
                     ],
                     "data_source": "PROTOTYPE_ESTIMATE"
                 }

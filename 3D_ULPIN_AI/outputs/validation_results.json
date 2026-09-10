@@ -3,28 +3,140 @@
         "building_id": "B001",
         "validation_status": "PARTIAL_MATCH",
         "parcel_id": "P001",
-        "overlap_iou": 0.0914,
-        "building_coverage": 1.0
+        "overlap_iou": 0.0082,
+        "building_coverage": 0.75
     },
     {
         "building_id": "B002",
         "validation_status": "PARTIAL_MATCH",
-        "parcel_id": "P002",
-        "overlap_iou": 0.2408,
-        "building_coverage": 1.0
+        "parcel_id": "P001",
+        "overlap_iou": 0.0087,
+        "building_coverage": 0.8333
     },
     {
         "building_id": "B003",
         "validation_status": "PARTIAL_MATCH",
         "parcel_id": "P003",
-        "overlap_iou": 0.2768,
-        "building_coverage": 1.0
+        "overlap_iou": 0.0202,
+        "building_coverage": 0.2679
     },
     {
         "building_id": "B004",
         "validation_status": "PARTIAL_MATCH",
+        "parcel_id": "P003",
+        "overlap_iou": 0.026,
+        "building_coverage": 0.3182
+    },
+    {
+        "building_id": "B005",
+        "validation_status": "PARTIAL_MATCH",
         "parcel_id": "P001",
-        "overlap_iou": 0.0333,
+        "overlap_iou": 0.0081,
+        "building_coverage": 0.875
+    },
+    {
+        "building_id": "B006",
+        "validation_status": "PARTIAL_MATCH",
+        "parcel_id": "P001",
+        "overlap_iou": 0.0086,
+        "building_coverage": 1.0
+    },
+    {
+        "building_id": "B007",
+        "validation_status": "PARTIAL_MATCH",
+        "parcel_id": "P001",
+        "overlap_iou": 0.0091,
+        "building_coverage": 1.0
+    },
+    {
+        "building_id": "B008",
+        "validation_status": "PARTIAL_MATCH",
+        "parcel_id": "P003",
+        "overlap_iou": 0.0439,
+        "building_coverage": 0.6429
+    },
+    {
+        "building_id": "B009",
+        "validation_status": "PARTIAL_MATCH",
+        "parcel_id": "P003",
+        "overlap_iou": 0.0686,
+        "building_coverage": 1.0
+    },
+    {
+        "building_id": "B010",
+        "validation_status": "PARTIAL_MATCH",
+        "parcel_id": "P001",
+        "overlap_iou": 0.0082,
+        "building_coverage": 1.0
+    },
+    {
+        "building_id": "B011",
+        "validation_status": "PARTIAL_MATCH",
+        "parcel_id": "P001",
+        "overlap_iou": 0.0162,
+        "building_coverage": 1.0
+    },
+    {
+        "building_id": "B012",
+        "validation_status": "PARTIAL_MATCH",
+        "parcel_id": "P002",
+        "overlap_iou": 0.0718,
+        "building_coverage": 1.0
+    },
+    {
+        "building_id": "B013",
+        "validation_status": "PARTIAL_MATCH",
+        "parcel_id": "P002",
+        "overlap_iou": 0.0546,
+        "building_coverage": 0.7727
+    },
+    {
+        "building_id": "B014",
+        "validation_status": "PARTIAL_MATCH",
+        "parcel_id": "P003",
+        "overlap_iou": 0.032,
+        "building_coverage": 0.2692
+    },
+    {
+        "building_id": "B015",
+        "validation_status": "PARTIAL_MATCH",
+        "parcel_id": "P001",
+        "overlap_iou": 0.0066,
+        "building_coverage": 1.0
+    },
+    {
+        "building_id": "B016",
+        "validation_status": "PARTIAL_MATCH",
+        "parcel_id": "P001",
+        "overlap_iou": 0.0064,
+        "building_coverage": 1.0
+    },
+    {
+        "building_id": "B017",
+        "validation_status": "PARTIAL_MATCH",
+        "parcel_id": "P002",
+        "overlap_iou": 0.0874,
+        "building_coverage": 0.6667
+    },
+    {
+        "building_id": "B018",
+        "validation_status": "PARTIAL_MATCH",
+        "parcel_id": "P002",
+        "overlap_iou": 0.0364,
+        "building_coverage": 0.6319
+    },
+    {
+        "building_id": "B019",
+        "validation_status": "PARTIAL_MATCH",
+        "parcel_id": "P001",
+        "overlap_iou": 0.0128,
+        "building_coverage": 1.0
+    },
+    {
+        "building_id": "B020",
+        "validation_status": "PARTIAL_MATCH",
+        "parcel_id": "P001",
+        "overlap_iou": 0.0128,
         "building_coverage": 1.0
     }
 ]

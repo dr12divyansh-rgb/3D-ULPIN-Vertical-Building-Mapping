@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>3D ULPIN — Google Maps Style Cadastral Prototype</title>
+<title>3D ULPIN — City-Scale Vertical Property Mapping + BIPV</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="outputs/frontend_properties.js"></script>
@@ -64,7 +64,7 @@
     border-radius:20px; padding:3px 10px; display:inline-block; margin-top:4px; letter-spacing:0.04em;
   }
 
-  #legend{position:absolute;left:18px;top:235px;background:var(--panel-soft);border:1px solid #ddd;border-radius:3px;padding:12px 14px;z-index:10;width:205px;box-shadow:0 1px 5px rgba(60,64,67,.25)}
+  #legend{position:absolute;left:18px;top:160px;background:var(--panel-soft);border:1px solid #ddd;border-radius:3px;padding:12px 14px;z-index:10;width:205px;box-shadow:0 1px 5px rgba(60,64,67,.25)}
   #legend h3,#citySummary h3,#info h2,#controls h2{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;font-weight:600}
   #legend .item{display:flex;align-items:center;gap:8px;font-size:12px;margin-bottom:7px}
   #legend .item:last-child{margin-bottom:0}
@@ -78,7 +78,25 @@
   #citySummary .row .v{font-family:var(--font-mono);color:var(--text)}
   #citySummary .row .v.hi{color:var(--blue)}
 
+  #bipvPanel{position:absolute;left:18px;top:355px;width:205px;background:var(--panel-soft);border:1px solid #ddd;border-radius:3px;padding:12px 14px;backdrop-filter:blur(5px);z-index:10;box-shadow:0 1px 5px rgba(60,64,67,.25);display:none}
+  #bipvPanel h3{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;font-weight:600}
+  #bipvPanel .bipvGradient{height:9px;border-radius:5px;background:linear-gradient(90deg,#2b4c8c,#2dd4bf,#f5d423,#f5a623,#ef4a5c);margin-bottom:4px}
+  #bipvPanel .bipvGradLabels{display:flex;justify-content:space-between;font-size:9.5px;font-family:var(--font-mono);color:var(--muted)}
+  #bipvPanel .row{margin:11px 0 0}
+  #bipvPanel .hint{font-size:10px;color:var(--muted);line-height:1.35;margin-top:9px}
+
+  .score-bar{height:8px;border-radius:4px;background:#eee;overflow:hidden;margin-top:10px}
+  .score-bar .fill{height:100%;border-radius:4px;transition:width .3s}
+  .score-label{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:5px;font-family:var(--font-mono)}
+
   #controls{position:absolute;left:18px;bottom:24px;width:255px;background:var(--panel-soft);border:1px solid #ddd;border-radius:3px;padding:13px 14px;backdrop-filter:blur(5px);z-index:10;box-shadow:0 1px 5px rgba(60,64,67,.25)}
+  #controls .controlsHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:0}
+  #controls .controlsHead h2{margin-bottom:0}
+  #controls.collapsed .controlsHead h2{margin-bottom:0}
+  #controls #controlsBody{margin-top:11px}
+  #controls.collapsed #controlsBody{display:none}
+  #toggleControls{border:0;background:transparent;color:var(--muted);font-size:15px;line-height:15px;cursor:pointer;padding:2px 5px;border-radius:3px}
+  #toggleControls:hover{background:#f1f3f4;color:var(--text)}
   .row{margin-bottom:11px}
   .row:last-child{margin-bottom:0}
   .row label{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--text);margin-bottom:6px;cursor:pointer}
@@ -118,6 +136,7 @@
     #mapsLogo{display:none}
     #searchBox{width:54vw;left:50%;transform:translateX(-50%)}
     #citySummary{display:none}
+    #bipvPanel{display:none}
     #legend{top:145px;left:10px}
     #header{top:82px;left:10px;max-width:58vw}
     #controls{left:10px;bottom:10px;width:235px}
@@ -193,7 +212,7 @@
 </head>
 <body>
 <div id="app">
-  <div id="loading"><div class="dot">LOADING 3D CADASTRAL PROPERTY DATA…</div></div>
+  <div id="loading"><div class="dot">LOADING 20-BUILDING 3D CADASTRAL + BIPV PROPERTY DATA…</div></div>
   <div id="mapTopbar">
     <div id="mapActions">
       <button class="mapBtn active" id="layersBtn">☷ Layers</button>
@@ -205,7 +224,7 @@
     <div class="brand">
       <div class="eyebrow">SIH 2026 · SIH26011 · Prototype Demo</div>
       <h1>3D ULPIN — City-Scale Vertical Property Mapping</h1>
-      <span id="stepBadge">City view — click a building to inspect floors & estimated flats</span>
+      <span id="stepBadge">City view — 20 backend buildings · floors/flats estimated · BIPV modeled</span>
     </div>
     <div class="team">Team <b>HummingBirds</b> · Smart Automation · Software<br>Drag to orbit · scroll to zoom · click a building</div>
   </div>
@@ -216,12 +235,13 @@
       <span>Layers</span>
       <button id="closeLayers" type="button" aria-label="Close layers">×</button>
     </div>
-    <label class="layerRow"><input type="checkbox" id="layerParcels" checked> <span>Surface parcels</span></label>
+    <label class="layerRow"><input type="checkbox" id="layerParcels" checked> <span>Surface parcel grid</span></label>
     <label class="layerRow"><input type="checkbox" id="layerBuildings" checked> <span>Buildings</span></label>
     <label class="layerRow"><input type="checkbox" id="layerFlats" checked> <span>Floors & flats</span></label>
     <label class="layerRow"><input type="checkbox" id="layerValidation" checked> <span>Validation</span></label>
     <label class="layerRow"><input type="checkbox" id="layerUnderground" checked> <span>Underground assets</span></label>
-    <div class="layersNote">Apartment and floor data are prototype estimates.</div>
+    <label class="layerRow"><input type="checkbox" id="layerBipv"> <span>☀ BIPV solar potential</span></label>
+    <div class="layersNote">Apartment and floor data are prototype estimates. Official ULPIN identifies the land parcel; 3D Property IDs are generated by this system. BIPV roof and wall scores are a simplified sun-angle + shadow-occlusion estimate.</div>
   </div>
 
   <div id="mapControls"><button class="zoomBtn" id="zoomIn">+</button><button class="zoomBtn" id="zoomOut">−</button></div>
@@ -236,51 +256,80 @@
     <div class="item"><span class="sw" style="background:var(--institutional)"></span>Institutional</div>
     <div class="item"><span class="sw" style="background:var(--parking)"></span>Parking (basement)</div>
     <div class="item"><span class="sw" style="background:var(--utility)"></span>Utility / Services</div>
-    <div class="hint">Building height = floor count. Vacant plots are roads / open space.</div>
+    <div class="item"><span class="sw" style="background:linear-gradient(90deg,#2b4c8c,#f5d423,#ef4a5c)"></span>BIPV potential layer</div>
+    <div class="hint">Building height = floor count. BIPV colours represent modeled solar-potential scores, not measured irradiance.</div>
   </div>
 
   <div id="citySummary">
     <h3>City-Scale Cadastral Summary</h3>
-    <div class="row"><span class="k">Surface parcels (plots)</span><span class="v" id="cs-plots">–</span></div>
+    <div class="row"><span class="k">Mapped building footprints</span><span class="v" id="cs-plots">–</span></div>
     <div class="row"><span class="k">Buildings mapped</span><span class="v" id="cs-buildings">–</span></div>
     <div class="row"><span class="k">Floors processed</span><span class="v" id="cs-floors">–</span></div>
-    <div class="row"><span class="k">3D ULPINs generated</span><span class="v hi" id="cs-ulpins">–</span></div>
+    <div class="row"><span class="k">3D Property IDs</span><span class="v hi" id="cs-ulpins">–</span></div>
     <div class="row"><span class="k">Underground assets mapped</span><span class="v" id="cs-under">–</span></div>
     <div class="row"><span class="k">Topology validated</span><span class="v hi" id="cs-valid">–</span></div>
   </div>
 
+  <div id="bipvPanel">
+    <h3>BIPV Solar Potential</h3>
+    <div class="bipvGradient"></div>
+    <div class="bipvGradLabels"><span>Low</span><span>High</span></div>
+    <div class="row">
+      <label>Time of day <span class="val" id="bipvHourVal">12:00</span></label>
+      <input type="range" id="bipvHourSlider" min="6" max="18" step="0.1" value="12">
+    </div>
+    <div class="row">
+      <label>Season</label>
+      <select id="bipvSeasonSel">
+        <option value="summer">Summer (high sun)</option>
+        <option value="equinox" selected>Equinox (mid sun)</option>
+        <option value="winter">Winter (low sun)</option>
+      </select>
+    </div>
+    <div class="stat"><span class="k">Buildings analyzed</span><span class="v" id="bipvBuildings">–</span></div>
+    <div class="stat"><span class="k">Total roof area</span><span class="v" id="bipvRoofArea">–</span></div>
+    <div class="stat"><span class="k">Estimated roof PV</span><span class="v" id="bipvRoofKWp">–</span></div>
+    <div class="stat"><span class="k">Estimated annual yield</span><span class="v" id="bipvAnnualKWh">–</span></div>
+    <div class="hint">Roof and facade colours show a simplified modeled solar-potential score. Click a building to inspect its roof and four facade estimates. Values are prototype estimates until real location, LiDAR/DSM and solar-weather data are connected.</div>
+  </div>
+
   <div id="controls">
-    <h2 id="ctrlTitle">City Controls</h2>
-    <div id="cityControls">
-      <div class="row">
-        <label>Filter by type</label>
-        <select id="typeFilter">
-          <option value="all">All parcel types</option>
-          <option value="residential">Residential</option>
-          <option value="commercial">Commercial</option>
-          <option value="institutional">Institutional</option>
-        </select>
-      </div>
-      <div class="row">
-        <label>Show parcel grid <input type="checkbox" id="gridToggle" checked></label>
-      </div>
+    <div class="controlsHead">
+      <h2 id="ctrlTitle">City Controls</h2>
+      <button id="toggleControls" type="button" title="Collapse panel">－</button>
     </div>
-    <div id="buildingControls" style="display:none;">
-      <div class="row">
-        <label>Underground infrastructure <input type="checkbox" id="underToggle" checked></label>
+    <div id="controlsBody">
+      <div id="cityControls">
+        <div class="row">
+          <label>Filter by type</label>
+          <select id="typeFilter">
+            <option value="all">All parcel types</option>
+            <option value="residential">Residential</option>
+            <option value="commercial">Commercial</option>
+            <option value="institutional">Institutional</option>
+          </select>
+        </div>
+        <div class="row">
+          <label>Show parcel grid <input type="checkbox" id="gridToggle" checked></label>
+        </div>
       </div>
-      <div class="row">
-        <label>Vertical slice <span class="val" id="clipVal">Top</span></label>
-        <input type="range" id="clipSlider" min="-1" max="12" step="1" value="12">
+      <div id="buildingControls" style="display:none;">
+        <div class="row">
+          <label>Underground infrastructure <input type="checkbox" id="underToggle" checked></label>
+        </div>
+        <div class="row">
+          <label>Vertical slice <span class="val" id="clipVal">Top</span></label>
+          <input type="range" id="clipSlider" min="-1" max="12" step="1" value="12">
+        </div>
       </div>
+      <button id="backBtn">← Back to City</button>
     </div>
-    <button id="backBtn">← Back to City</button>
   </div>
 
   <div id="info">
     <h2>Parcel Inspector</h2>
     <div id="infoBody">
-      <div class="hint">Click a building to view its 3D ULPIN, floor count and estimated apartment distribution. Enter the building to inspect individual flats.</div>
+      <div class="hint">Click a building to view its base land ULPIN, 3D Property ID, floor count and estimated apartment distribution. Enter the building to inspect individual flats.</div>
     </div>
   </div>
 </div>
@@ -412,6 +461,8 @@
         type: b.type,
         units: units,
         flatIds: flats,
+        propertyIds: Array.isArray(fd['3d_property_ids']) ? fd['3d_property_ids'] : [],
+        floorId: fd.floor_id || ('F' + String(level).padStart(2,'0')),
         estimated: true
       });
     });
@@ -495,16 +546,66 @@
     );
     mesh.add(outline);
 
+    // Rooftop plane used to color-code BIPV solar irradiance. Separate
+    // from the building mesh so the building material stays untouched
+    // and the roof can be picked / toggled independently.
+    const roofGeo = new THREE.PlaneGeometry(w*0.94, d*0.94);
+    const roofMat = new THREE.MeshBasicMaterial({color:0x2b4c8c, side:THREE.DoubleSide});
+    const roofMesh = new THREE.Mesh(roofGeo, roofMat);
+    roofMesh.rotation.x = -Math.PI/2;
+    roofMesh.position.set(x, h+0.08, z);
+    roofMesh.visible = false;
+    scene.add(roofMesh);
+
+    // Vertical facade overlays — BIPV isn't only rooftop; walls facing the
+    // sun are also viable panel surfaces, so each of the 4 sides gets its
+    // own color-coded plane, offset just outside the building skin.
+    // Orientation convention for this prototype: +z = south, -z = north,
+    // +x = east, -x = west.
+    const wallEps = 0.05;
+    function makeWallMesh(faceWidth){
+      const geo2 = new THREE.PlaneGeometry(faceWidth*0.94, h*0.92);
+      const mat2 = new THREE.MeshBasicMaterial({color:0x2b4c8c, side:THREE.DoubleSide, transparent:true, opacity:0.62});
+      const m = new THREE.Mesh(geo2, mat2);
+      m.visible = false;
+      scene.add(m);
+      return m;
+    }
+    const wallNorth = makeWallMesh(w); // -z face
+    wallNorth.rotation.y = Math.PI;
+    wallNorth.position.set(x, h/2, z - d/2 - wallEps);
+
+    const wallSouth = makeWallMesh(w); // +z face
+    wallSouth.position.set(x, h/2, z + d/2 + wallEps);
+
+    const wallEast = makeWallMesh(d); // +x face
+    wallEast.rotation.y = -Math.PI/2;
+    wallEast.position.set(x + w/2 + wallEps, h/2, z);
+
+    const wallWest = makeWallMesh(d); // -x face
+    wallWest.rotation.y = Math.PI/2;
+    wallWest.position.set(x - w/2 - wallEps, h/2, z);
+
+    const wallMeshes = { north: wallNorth, south: wallSouth, east: wallEast, west: wallWest };
+
     const buildingNumber = String(index + 1).padStart(3,'0');
 
     const b = {
       id: index,
-      x, z, w, d, h, floors, type, hasBasement, mesh,
+      x, z, w, d, h, floors, type, hasBasement, mesh, roofMesh, wallMeshes,
 
       building_id: p.building_id || ('B' + buildingNumber),
 
-      // Backend prototype ULPIN
-      surface: p.ulpin || ('PROTOTYPE-' + (p.building_id || buildingNumber)),
+      // Government/base land identity + our system-generated IDs
+      official_ulpin: p.official_ulpin || 'NOT_AVAILABLE',
+      ulpin_status: p.ulpin_status || 'NOT_AVAILABLE',
+      building_property_id: p.building_property_id ||
+        ((p.official_ulpin || 'NOT_AVAILABLE') + '-' + (p.building_id || buildingNumber)),
+
+      // Keep a display-safe legacy alias for internal code paths.
+      // It is NOT presented as an official ULPIN.
+      surface: p.building_property_id ||
+        ((p.official_ulpin || 'NOT_AVAILABLE') + '-' + (p.building_id || buildingNumber)),
 
       bcode: 'BLD-' + (p.building_id || buildingNumber),
 
@@ -541,7 +642,185 @@
   document.getElementById('cs-floors').textContent = totalFloors;
   document.getElementById('cs-ulpins').textContent = (totalUnits+buildings.length);
   document.getElementById('cs-under').textContent = totalUnderground;
-  document.getElementById('cs-valid').textContent = '100%';
+  const validationStatuses = buildings.map(b =>
+    String((b.validation && b.validation.status) || '').toUpperCase()
+  );
+  const validatedCount = validationStatuses.filter(s =>
+    s === 'MATCH' || s === 'PARTIAL_MATCH'
+  ).length;
+  const validationPercent = buildings.length
+    ? Math.round((validatedCount / buildings.length) * 100)
+    : 0;
+  document.getElementById('cs-valid').textContent =
+    validationPercent + '%';
+
+  // ---------- BIPV solar potential (toggleable layer) ----------
+  // Reuses the sun-position + shadow-occlusion model from the standalone
+  // BIPV prototype, applied to the same building geometry already in
+  // this scene, so it can be shown/hidden per building on demand.
+  let bipvLayerVisible = false;
+  const bipvRaycaster = new THREE.Raycaster();
+
+  function bipvSeasonMaxElevDeg(season){
+    if(season==='summer') return 78;
+    if(season==='winter') return 32;
+    return 58; // equinox
+  }
+  function bipvComputeSunDirection(hour, season){
+    const t = (hour-6)/12; // 0..1 across the day
+    const azimuth = THREE.MathUtils.degToRad(90 + t*180); // east -> west
+    const elevMax = bipvSeasonMaxElevDeg(season);
+    const elevation = THREE.MathUtils.degToRad(Math.sin(t*Math.PI) * elevMax);
+    const r = 140;
+    const dir = new THREE.Vector3(
+      r*Math.cos(elevation)*Math.cos(azimuth),
+      Math.max(r*Math.sin(elevation), 2),
+      r*Math.cos(elevation)*Math.sin(azimuth)
+    );
+    return {pos:dir, elevation, daylight: elevation>0.02};
+  }
+  function bipvIrradianceColor(t){
+    const stops = [
+      {t:0.0, c:new THREE.Color(0x2b4c8c)},
+      {t:0.35, c:new THREE.Color(0x2dd4bf)},
+      {t:0.6, c:new THREE.Color(0xf5d423)},
+      {t:0.8, c:new THREE.Color(0xf5a623)},
+      {t:1.0, c:new THREE.Color(0xef4a5c)}
+    ];
+    for(let i=0;i<stops.length-1;i++){
+      if(t>=stops[i].t && t<=stops[i+1].t){
+        const local = (t-stops[i].t)/(stops[i+1].t-stops[i].t || 1);
+        return stops[i].c.clone().lerp(stops[i+1].c, local);
+      }
+    }
+    return stops[stops.length-1].c;
+  }
+
+  const WALL_FACE_NORMALS = {
+    north: new THREE.Vector3(0,0,-1),
+    south: new THREE.Vector3(0,0,1),
+    east:  new THREE.Vector3(1,0,0),
+    west:  new THREE.Vector3(-1,0,0)
+  };
+
+  function scoreWallFace(b, orientation, sunDirNorm, daylight){
+    let score = 0;
+    if(daylight){
+      const normal = WALL_FACE_NORMALS[orientation];
+      const orientFactor = Math.max(0, sunDirNorm.dot(normal)); // wall facing the sun
+      const origin = b.wallMeshes[orientation].position.clone();
+      bipvRaycaster.set(origin, sunDirNorm);
+      bipvRaycaster.far = 300;
+      const blockers = buildings.filter(o=>o!==b).map(o=>o.mesh);
+      const hits = bipvRaycaster.intersectObjects(blockers, false);
+      const shadowFactor = hits.length>0 ? 0.12 : 1.0;
+      score = orientFactor * shadowFactor;
+    }
+
+    const color = bipvIrradianceColor(score);
+    b.wallMeshes[orientation].material.color.copy(color);
+
+    const faceWidth = (orientation==='north' || orientation==='south') ? b.w : b.d;
+    const faceArea = faceWidth*0.94*b.h*0.92;
+    // Vertical mounts run less efficiently than an optimally tilted roof
+    // array, so the yield model applies a facade de-rate factor.
+    const panelEff = 0.20, perfRatio = 0.8, annualPeakSunHours = 1600, suitableFraction = 0.7, verticalDerate = 0.78;
+    const kWp = faceArea*suitableFraction*panelEff*1.0;
+    const annualKWh = kWp*annualPeakSunHours*perfRatio*verticalDerate*(0.35+score*0.65);
+    const suitability = score>0.6 ? 'High' : score>0.3 ? 'Moderate' : 'Low';
+
+    return { orientation, score, faceArea, kWp, annualKWh, suitability, hex:'#'+color.getHexString() };
+  }
+
+  function updateBipvScores(hour, season){
+    const {pos, daylight} = bipvComputeSunDirection(hour, season);
+    const sunDirNorm = pos.clone().normalize();
+
+    let cityRoofArea = 0;
+    let cityRoofKWp = 0;
+    let cityAnnualKWh = 0;
+
+    buildings.forEach(b=>{
+      let score = 0;
+      if(daylight){
+        const orientFactor = Math.max(0, sunDirNorm.y); // flat roof, normal = up
+        const origin = new THREE.Vector3(b.x, b.h+0.3, b.z);
+        bipvRaycaster.set(origin, sunDirNorm);
+        bipvRaycaster.far = 300;
+        const blockers = buildings.filter(o=>o!==b).map(o=>o.mesh);
+        const hits = bipvRaycaster.intersectObjects(blockers, false);
+        const shadowFactor = hits.length>0 ? 0.12 : 1.0;
+        score = orientFactor * shadowFactor;
+      }
+
+      const color = bipvIrradianceColor(score);
+      b.roofMesh.material.color.copy(color);
+
+      const roofArea = b.w*0.94*b.d*0.94;
+      const panelEff = 0.20, perfRatio = 0.8, annualPeakSunHours = 1600, suitableFraction = 0.75;
+      const kWp = roofArea*suitableFraction*panelEff*1.0;
+      const annualKWh = kWp*annualPeakSunHours*perfRatio*(0.35+score*0.65);
+      const suitability = score>0.6 ? 'High' : score>0.3 ? 'Moderate' : 'Low';
+
+      b.bipv = { score, roofArea, kWp, annualKWh, suitability, hex:'#'+color.getHexString() };
+
+      cityRoofArea += roofArea;
+      cityRoofKWp += kWp;
+      cityAnnualKWh += annualKWh;
+
+      // Facade (vertical wall) BIPV potential — the other half of the idea:
+      // walls facing the sun are viable panel surfaces too, not just roofs.
+      const walls = {
+        north: scoreWallFace(b, 'north', sunDirNorm, daylight),
+        south: scoreWallFace(b, 'south', sunDirNorm, daylight),
+        east:  scoreWallFace(b, 'east', sunDirNorm, daylight),
+        west:  scoreWallFace(b, 'west', sunDirNorm, daylight)
+      };
+      const bestWall = Object.values(walls).sort((a,z2)=>z2.score-a.score)[0];
+      const wallKWp = walls.north.kWp+walls.south.kWp+walls.east.kWp+walls.west.kWp;
+      const wallAnnualKWh = walls.north.annualKWh+walls.south.annualKWh+walls.east.annualKWh+walls.west.annualKWh;
+      b.bipvWalls = { walls, bestWall, wallKWp, wallAnnualKWh };
+    });
+
+    const bipvBuildingsEl = document.getElementById('bipvBuildings');
+    const bipvRoofAreaEl = document.getElementById('bipvRoofArea');
+    const bipvRoofKWpEl = document.getElementById('bipvRoofKWp');
+    const bipvAnnualKWhEl = document.getElementById('bipvAnnualKWh');
+
+    if(bipvBuildingsEl) bipvBuildingsEl.textContent = buildings.length;
+    if(bipvRoofAreaEl) bipvRoofAreaEl.textContent = cityRoofArea.toFixed(1) + ' m²';
+    if(bipvRoofKWpEl) bipvRoofKWpEl.textContent = cityRoofKWp.toFixed(1) + ' kWp';
+    if(bipvAnnualKWhEl) bipvAnnualKWhEl.textContent = cityAnnualKWh.toFixed(0) + ' kWh/yr';
+
+    if(selectedBuilding && mode==='city') selectBuilding(selectedBuilding);
+  }
+
+  function applyBipvLayer(){
+    buildings.forEach(b=>{
+      const show = bipvLayerVisible && mode==='city';
+      b.roofMesh.visible = show;
+      Object.values(b.wallMeshes).forEach(m=> m.visible = show);
+    });
+    document.getElementById('bipvPanel').style.display = bipvLayerVisible ? 'block' : 'none';
+  }
+
+  function bipvFormatHour(h){
+    const hh = Math.floor(h);
+    const mm = Math.round((h-hh)*60);
+    return String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0');
+  }
+
+  document.getElementById('layerBipv').addEventListener('change', e=>{
+    bipvLayerVisible = e.target.checked;
+    applyBipvLayer();
+  });
+  document.getElementById('bipvHourSlider').addEventListener('input', e=>{
+    document.getElementById('bipvHourVal').textContent = bipvFormatHour(parseFloat(e.target.value));
+    updateBipvScores(parseFloat(e.target.value), document.getElementById('bipvSeasonSel').value);
+  });
+  document.getElementById('bipvSeasonSel').addEventListener('change', e=>{
+    updateBipvScores(parseFloat(document.getElementById('bipvHourSlider').value), e.target.value);
+  });
 
   camTarget.set(0,10,0); targetTarget.copy(camTarget);
   camDist = 150; targetDist = 150;
@@ -551,6 +830,7 @@
   const pointer = new THREE.Vector2();
   let mode = 'city'; // 'city' | 'building'
   let selectedBuilding = null;
+  updateBipvScores(12, 'equinox');
   let drillMeshes = []; // unit meshes + slabs for the currently entered building
   let selectedUnitMesh = null;
 
@@ -595,9 +875,33 @@
       `;
     }).join('');
 
+    const WALL_LABEL = { north:'North wall', south:'South wall', east:'East wall', west:'West wall' };
+    const wallRows = b.bipvWalls ? Object.keys(WALL_LABEL).map(o=>{
+      const wd = b.bipvWalls.walls[o];
+      return `
+        <div class="stat">
+          <span class="k">${WALL_LABEL[o]}</span>
+          <span class="v" style="color:${wd.hex}">${(wd.score*100).toFixed(0)}% · ${wd.suitability}</span>
+        </div>
+      `;
+    }).join('') : '';
+
     document.getElementById('infoBody').innerHTML = `
       <div class="bname">${b.building_id} · ${b.type.charAt(0).toUpperCase()+b.type.slice(1)}</div>
-      <div class="ulpin">${b.surface}</div>
+
+      <div style="margin-top:8px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;">
+        Base Land ULPIN
+      </div>
+      <div class="ulpin">${b.official_ulpin}</div>
+      <div class="stat">
+        <span class="k">ULPIN status</span>
+        <span class="v">${b.ulpin_status}</span>
+      </div>
+
+      <div style="margin-top:8px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;">
+        3D Building Property ID
+      </div>
+      <div class="ulpin">${b.building_property_id}</div>
 
       <div class="stat">
         <span class="k">Footprint</span>
@@ -640,16 +944,72 @@
         <span class="v">${b.bcode}</span>
       </div>
 
+      ${bipvLayerVisible && b.bipv ? `
+      <div style="margin-top:10px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;">
+        ☀ BIPV Solar Potential — Prototype Estimate
+      </div>
+      <div class="stat">
+        <span class="k">Roof area</span>
+        <span class="v">${b.bipv.roofArea.toFixed(1)} m²</span>
+      </div>
+      <div class="stat">
+        <span class="k">Current irradiance</span>
+        <span class="v">${(b.bipv.score*100).toFixed(0)}%</span>
+      </div>
+      <div class="stat">
+        <span class="k">Est. PV capacity</span>
+        <span class="v">${b.bipv.kWp.toFixed(1)} kWp</span>
+      </div>
+      <div class="stat">
+        <span class="k">Est. annual yield</span>
+        <span class="v">${b.bipv.annualKWh.toFixed(0)} kWh/yr</span>
+      </div>
+      <div class="stat">
+        <span class="k">Suitability</span>
+        <span class="v" style="color:${b.bipv.hex}">${b.bipv.suitability}</span>
+      </div>
+      <div class="score-bar"><div class="fill" style="width:${b.bipv.score*100}%; background:${b.bipv.hex}"></div></div>
+      <div class="score-label"><span>Low</span><span>High</span></div>
+
+      <div style="margin-top:10px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;">
+        🧱 Facade (Wall) BIPV Potential — Prototype Estimate
+      </div>
+      ${wallRows}
+      <div class="stat">
+        <span class="k">Best-facing wall</span>
+        <span class="v" style="color:${b.bipvWalls.bestWall.hex}">${WALL_LABEL[b.bipvWalls.bestWall.orientation]} · ${b.bipvWalls.bestWall.suitability}</span>
+      </div>
+      <div class="stat">
+        <span class="k">Est. facade PV capacity</span>
+        <span class="v">${b.bipvWalls.wallKWp.toFixed(1)} kWp</span>
+      </div>
+      <div class="stat">
+        <span class="k">Est. facade annual yield</span>
+        <span class="v">${b.bipvWalls.wallAnnualKWh.toFixed(0)} kWh/yr</span>
+      </div>
+      ` : ''}
+
       <button id="enterBtn">Enter Building →</button>
     `;
 
     document.getElementById('enterBtn').addEventListener('click', ()=> enterBuilding(b));
+    syncMapControlsPosition();
   }
 
   function showUnitInfo(u){
     document.getElementById('infoBody').innerHTML = `
-      <div class="bname">${selectedBuilding.bcode} · ${u.floorLabel}</div>
-      <div class="ulpin">${u.ulpin}</div>
+      <div class="bname">${selectedBuilding.building_id} · ${u.floorLabel}</div>
+
+      <div style="margin-top:8px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;">
+        Base Land ULPIN
+      </div>
+      <div class="ulpin">${u.officialUlpIn}</div>
+
+      <div style="margin-top:8px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;">
+        3D Property ID
+      </div>
+      <div class="ulpin">${u.propertyId}</div>
+
       <div class="stat"><span class="k">Floor</span><span class="v">${u.floorName}</span></div>
       <div class="stat"><span class="k">Flat ID</span><span class="v">${u.flatId || ('#'+(u.unitIndex+1))}</span></div>
       <div class="stat"><span class="k">Type</span><span class="v">${u.type}</span></div>
@@ -658,6 +1018,7 @@
       <div class="stat"><span class="k">Elevation</span><span class="v">${u.elevation} m (MSL)</span></div>
       <div class="stat"><span class="k">Data status</span><span class="v">ESTIMATED</span></div>
     `;
+    syncMapControlsPosition();
   }
 
   function clearDrill(){
@@ -678,6 +1039,7 @@
     clearDrill();
     buildings.forEach(o=> o.mesh.visible = buildingsLayerVisible && (o.id!==b.id));
     parcelGrid.visible = false;
+    applyBipvLayer();
 
     const FLOOR_H = 3.2, GAP = 0.4, SLAB_GAP = 0.28;
     const defs = floorDefsForBuilding(b);
@@ -703,7 +1065,15 @@
           const px = b.x - b.w/2 + GAP + uw/2 + c*(uw+GAP);
           const pz = b.z - b.d/2 + GAP + ud/2 + r*(ud+GAP);
           const py = y0 + SLAB_GAP + uh/2;
-          const ulpin = unitULPIN(b.surface, b.bcode, fd.label, idx);
+          const backendPropertyId =
+            (fd.propertyIds && fd.propertyIds[idx])
+              ? fd.propertyIds[idx]
+              : null;
+
+          const ulpin = backendPropertyId ||
+            ('PROTOTYPE_ID-' + b.building_id + '-' + fd.floorId + '-' +
+             String(fd.flatIds && fd.flatIds[idx] ? fd.flatIds[idx] : (idx+1)));
+
           const geo = new THREE.BoxGeometry(uw, uh, ud);
           const mat = new THREE.MeshStandardMaterial({color:TYPE_COLOR[fd.type], roughness:0.55, metalness:0.08, transparent:true, opacity:0.94});
           const mesh = new THREE.Mesh(geo, mat);
@@ -717,6 +1087,8 @@
             flatId: (fd.flatIds && fd.flatIds[idx])
               ? fd.flatIds[idx]
               : (fd.level===0 ? 'G'+String(idx+1).padStart(2,'0') : String(fd.level)+String(idx+1).padStart(2,'0')),
+            propertyId: ulpin,
+            officialUlpIn: b.official_ulpin,
             ulpin,
             area: Math.round(uw*ud*10)/10,
             elevation: (216+y0).toFixed(1)
@@ -756,7 +1128,8 @@
     clipSlider.value = b.floors;
     document.getElementById('clipVal').textContent = 'Top';
 
-    document.getElementById('infoBody').innerHTML = `<div class="hint">Click any floor or flat volume to reveal its individual 3D ULPIN — floor, flat ID, area and elevation. Use the vertical slice to peel back floors.</div>`;
+    document.getElementById('infoBody').innerHTML = `<div class="hint">Click any floor or flat volume to reveal its 3D Property ID — base land ULPIN, floor, flat ID, area and elevation. Use the vertical slice to peel back floors.</div>`;
+    syncMapControlsPosition();
     applyFlatsLayer();
     applyUndergroundLayer();
   }
@@ -778,13 +1151,15 @@
     clearDrill();
     buildings.forEach(o=> o.mesh.visible = buildingsLayerVisible);
     parcelGrid.visible = parcelsLayerVisible;
+    applyBipvLayer();
     targetTarget.set(0,10,0);
     targetDist = 150;
     document.getElementById('ctrlTitle').textContent = 'City Controls';
     document.getElementById('cityControls').style.display = 'block';
     document.getElementById('buildingControls').style.display = 'none';
     document.getElementById('backBtn').style.display = 'none';
-    document.getElementById('infoBody').innerHTML = `<div class="hint">Click a building to view its 3D ULPIN, floor count and estimated apartment distribution. Enter the building to inspect individual flats.</div>`;
+    document.getElementById('infoBody').innerHTML = `<div class="hint">Click a building to view its base land ULPIN, 3D Property ID, floor count and estimated apartment distribution. Enter the building to inspect individual flats.</div>`;
+    syncMapControlsPosition();
     applyTypeFilter();
   }
 
@@ -825,6 +1200,22 @@
     clearTimeout(showToast._timer);
     showToast._timer = setTimeout(()=>toast.classList.remove('show'), 1800);
   }
+
+  // The Parcel Inspector panel is bottom-anchored and grows upward with
+  // its content, sitting in the same corner as the zoom/compass controls.
+  // Rather than fight over fixed pixel offsets, measure the panel after
+  // every content change and float the controls just above it.
+  function syncMapControlsPosition(){
+    const info = document.getElementById('info');
+    const mapControls = document.getElementById('mapControls');
+    const compass = document.getElementById('compass');
+    if(!info || !mapControls || !compass) return;
+    const gap = 14;
+    const clearance = info.offsetHeight + 24 + gap;
+    mapControls.style.bottom = clearance + 'px';
+    compass.style.bottom = (clearance + 1) + 'px';
+  }
+  window.addEventListener('resize', syncMapControlsPosition);
 
   function setLayersOpen(open){
     layersOpen = open;
@@ -939,6 +1330,19 @@
 
   document.getElementById('locateBtn').addEventListener('click', resetView);
 
+  let controlsCollapsed = false;
+  function setControlsCollapsed(collapsed){
+    controlsCollapsed = collapsed;
+    const panel = document.getElementById('controls');
+    const btn = document.getElementById('toggleControls');
+    panel.classList.toggle('collapsed', collapsed);
+    btn.textContent = collapsed ? '+' : '－';
+    btn.title = collapsed ? 'Expand panel' : 'Collapse panel';
+  }
+  document.getElementById('toggleControls').addEventListener('click', ()=>{
+    setControlsCollapsed(!controlsCollapsed);
+  });
+
   document.getElementById('zoomIn').addEventListener('click', ()=>{
     zoomBy(-18);
   });
@@ -987,6 +1391,7 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
 
+  syncMapControlsPosition();
   document.getElementById('loading').style.display = 'none';
 
   function animate(){

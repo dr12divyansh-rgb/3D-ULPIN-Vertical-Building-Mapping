@@ -1,126 +1,682 @@
 [
-    {
-        "building_id": "B001",
-        "area_pixels": 1172.5,
-        "polygon": [
-            [
-                81,
-                59
-            ],
-            [
-                80,
-                75
-            ],
-            [
-                90,
-                82
-            ],
-            [
-                91,
-                103
-            ],
-            [
-                100,
-                113
-            ],
-            [
-                114,
-                113
-            ],
-            [
-                116,
-                86
-            ],
-            [
-                100,
-                80
-            ],
-            [
-                99,
-                59
-            ]
-        ]
-    },
-    {
-        "building_id": "B002",
-        "area_pixels": 322.5,
-        "polygon": [
-            [
-                37,
-                58
-            ],
-            [
-                37,
-                71
-            ],
-            [
-                56,
-                71
-            ],
-            [
-                57,
-                59
-            ],
-            [
-                55,
-                56
-            ],
-            [
-                42,
-                55
-            ]
-        ]
-    },
-    {
-        "building_id": "B003",
-        "area_pixels": 436.0,
-        "polygon": [
-            [
-                66,
-                32
-            ],
-            [
-                67,
-                47
-            ],
-            [
-                90,
-                47
-            ],
-            [
-                90,
-                31
-            ],
-            [
-                68,
-                30
-            ]
-        ]
-    },
-    {
-        "building_id": "B004",
-        "area_pixels": 447.5,
-        "polygon": [
-            [
-                18,
-                25
-            ],
-            [
-                19,
-                41
-            ],
-            [
-                42,
-                40
-            ],
-            [
-                41,
-                23
-            ],
-            [
-                20,
-                23
-            ]
-        ]
-    }
+  {
+    "building_id": "B001",
+    "source_folder": "building01",
+    "source_image_count": 15,
+    "polygon": [
+      [
+        12.5,
+        12.0
+      ],
+      [
+        23.5,
+        12.0
+      ],
+      [
+        23.5,
+        24.0
+      ],
+      [
+        12.5,
+        24.0
+      ]
+    ],
+    "area_pixels": 132,
+    "x": 18,
+    "z": 18,
+    "w": 11,
+    "d": 12,
+    "h": 9.0,
+    "floors": 3,
+    "type": "residential",
+    "hasBasement": false,
+    "detection_status": "DATASET_DERIVED_PROTOTYPE",
+    "geometry_status": "PROTOTYPE_ESTIMATE"
+  },
+  {
+    "building_id": "B002",
+    "source_folder": "building02",
+    "source_image_count": 15,
+    "polygon": [
+      [
+        33.0,
+        13.5
+      ],
+      [
+        47.0,
+        13.5
+      ],
+      [
+        47.0,
+        22.5
+      ],
+      [
+        33.0,
+        22.5
+      ]
+    ],
+    "area_pixels": 126,
+    "x": 40,
+    "z": 18,
+    "w": 14,
+    "d": 9,
+    "h": 12.0,
+    "floors": 4,
+    "type": "residential",
+    "hasBasement": false,
+    "detection_status": "DATASET_DERIVED_PROTOTYPE",
+    "geometry_status": "PROTOTYPE_ESTIMATE"
+  },
+  {
+    "building_id": "B003",
+    "source_folder": "building03",
+    "source_image_count": 15,
+    "polygon": [
+      [
+        58.0,
+        11.0
+      ],
+      [
+        66.0,
+        11.0
+      ],
+      [
+        66.0,
+        25.0
+      ],
+      [
+        58.0,
+        25.0
+      ]
+    ],
+    "area_pixels": 112,
+    "x": 62,
+    "z": 18,
+    "w": 8,
+    "d": 14,
+    "h": 15.0,
+    "floors": 5,
+    "type": "commercial",
+    "hasBasement": false,
+    "detection_status": "DATASET_DERIVED_PROTOTYPE",
+    "geometry_status": "PROTOTYPE_ESTIMATE"
+  },
+  {
+    "building_id": "B004",
+    "source_folder": "building04",
+    "source_image_count": 15,
+    "polygon": [
+      [
+        78.5,
+        12.5
+      ],
+      [
+        89.5,
+        12.5
+      ],
+      [
+        89.5,
+        23.5
+      ],
+      [
+        78.5,
+        23.5
+      ]
+    ],
+    "area_pixels": 121,
+    "x": 84,
+    "z": 18,
+    "w": 11,
+    "d": 11,
+    "h": 18.0,
+    "floors": 6,
+    "type": "residential",
+    "hasBasement": false,
+    "detection_status": "DATASET_DERIVED_PROTOTYPE",
+    "geometry_status": "PROTOTYPE_ESTIMATE"
+  },
+  {
+    "building_id": "B005",
+    "source_folder": "building05",
+    "source_image_count": 15,
+    "polygon": [
+      [
+        99.0,
+        14.0
+      ],
+      [
+        113.0,
+        14.0
+      ],
+      [
+        113.0,
+        22.0
+      ],
+      [
+        99.0,
+        22.0
+      ]
+    ],
+    "area_pixels": 112,
+    "x": 106,
+    "z": 18,
+    "w": 14,
+    "d": 8,
+    "h": 21.0,
+    "floors": 7,
+    "type": "institutional",
+    "hasBasement": true,
+    "detection_status": "DATASET_DERIVED_PROTOTYPE",
+    "geometry_status": "PROTOTYPE_ESTIMATE"
+  },
+  {
+    "building_id": "B006",
+    "source_folder": "building06",
+    "source_image_count": 15,
+    "polygon": [
+      [
+        14.0,
+        31.5
+      ],
+      [
+        22.0,
+        31.5
+      ],
+      [
+        22.0,
+        44.5
+      ],
+      [
+        14.0,
+        44.5
+      ]
+    ],
+    "area_pixels": 104,
+    "x": 18,
+    "z": 38,
+    "w": 8,
+    "d": 13,
+    "h": 6.0,
+    "floors": 2,
+    "type": "residential",
+    "hasBasement": false,
+    "detection_status": "DATASET_DERIVED_PROTOTYPE",
+    "geometry_status": "PROTOTYPE_ESTIMATE"
+  },
+  {
+    "building_id": "B007",
+    "source_folder": "building07",
+    "source_image_count": 15,
+    "polygon": [
+      [
+        34.5,
+        33.0
+      ],
+      [
+        45.5,
+        33.0
+      ],
+      [
+        45.5,
+        43.0
+      ],
+      [
+        34.5,
+        43.0
+      ]
+    ],
+    "area_pixels": 110,
+    "x": 40,
+    "z": 38,
+    "w": 11,
+    "d": 10,
+    "h": 9.0,
+    "floors": 3,
+    "type": "residential",
+    "hasBasement": false,
+    "detection_status": "DATASET_DERIVED_PROTOTYPE",
+    "geometry_status": "PROTOTYPE_ESTIMATE"
+  },
+  {
+    "building_id": "B008",
+    "source_folder": "building08",
+    "source_image_count": 15,
+    "polygon": [
+      [
+        55.0,
+        34.5
+      ],
+      [
+        69.0,
+        34.5
+      ],
+      [
+        69.0,
+        41.5
+      ],
+      [
+        55.0,
+        41.5
+      ]
+    ],
+    "area_pixels": 98,
+    "x": 62,
+    "z": 38,
+    "w": 14,
+    "d": 7,
+    "h": 12.0,
+    "floors": 4,
+    "type": "commercial",
+    "hasBasement": false,
+    "detection_status": "DATASET_DERIVED_PROTOTYPE",
+    "geometry_status": "PROTOTYPE_ESTIMATE"
+  },
+  {
+    "building_id": "B009",
+    "source_folder": "building09",
+    "source_image_count": 15,
+    "polygon": [
+      [
+        80.0,
+        32.0
+      ],
+      [
+        88.0,
+        32.0
+      ],
+      [
+        88.0,
+        44.0
+      ],
+      [
+        80.0,
+        44.0
+      ]
+    ],
+    "area_pixels": 96,
+    "x": 84,
+    "z": 38,
+    "w": 8,
+    "d": 12,
+    "h": 15.0,
+    "floors": 5,
+    "type": "residential",
+    "hasBasement": false,
+    "detection_status": "DATASET_DERIVED_PROTOTYPE",
+    "geometry_status": "PROTOTYPE_ESTIMATE"
+  },
+  {
+    "building_id": "B010",
+    "source_folder": "building10",
+    "source_image_count": 15,
+    "polygon": [
+      [
+        100.5,
+        33.5
+      ],
+      [
+        111.5,
+        33.5
+      ],
+      [
+        111.5,
+        42.5
+      ],
+      [
+        100.5,
+        42.5
+      ]
+    ],
+    "area_pixels": 99,
+    "x": 106,
+    "z": 38,
+    "w": 11,
+    "d": 9,
+    "h": 18.0,
+    "floors": 6,
+    "type": "institutional",
+    "hasBasement": true,
+    "detection_status": "DATASET_DERIVED_PROTOTYPE",
+    "geometry_status": "PROTOTYPE_ESTIMATE"
+  },
+  {
+    "building_id": "B011",
+    "source_folder": "building11",
+    "source_image_count": 15,
+    "polygon": [
+      [
+        11.0,
+        51.0
+      ],
+      [
+        25.0,
+        51.0
+      ],
+      [
+        25.0,
+        65.0
+      ],
+      [
+        11.0,
+        65.0
+      ]
+    ],
+    "area_pixels": 196,
+    "x": 18,
+    "z": 58,
+    "w": 14,
+    "d": 14,
+    "h": 21.0,
+    "floors": 7,
+    "type": "residential",
+    "hasBasement": false,
+    "detection_status": "DATASET_DERIVED_PROTOTYPE",
+    "geometry_status": "PROTOTYPE_ESTIMATE"
+  },
+  {
+    "building_id": "B012",
+    "source_folder": "building12",
+    "source_image_count": 15,
+    "polygon": [
+      [
+        36.0,
+        52.5
+      ],
+      [
+        44.0,
+        52.5
+      ],
+      [
+        44.0,
+        63.5
+      ],
+      [
+        36.0,
+        63.5
+      ]
+    ],
+    "area_pixels": 88,
+    "x": 40,
+    "z": 58,
+    "w": 8,
+    "d": 11,
+    "h": 6.0,
+    "floors": 2,
+    "type": "residential",
+    "hasBasement": false,
+    "detection_status": "DATASET_DERIVED_PROTOTYPE",
+    "geometry_status": "PROTOTYPE_ESTIMATE"
+  },
+  {
+    "building_id": "B013",
+    "source_folder": "building13",
+    "source_image_count": 15,
+    "polygon": [
+      [
+        56.5,
+        54.0
+      ],
+      [
+        67.5,
+        54.0
+      ],
+      [
+        67.5,
+        62.0
+      ],
+      [
+        56.5,
+        62.0
+      ]
+    ],
+    "area_pixels": 88,
+    "x": 62,
+    "z": 58,
+    "w": 11,
+    "d": 8,
+    "h": 9.0,
+    "floors": 3,
+    "type": "commercial",
+    "hasBasement": false,
+    "detection_status": "DATASET_DERIVED_PROTOTYPE",
+    "geometry_status": "PROTOTYPE_ESTIMATE"
+  },
+  {
+    "building_id": "B014",
+    "source_folder": "building14",
+    "source_image_count": 15,
+    "polygon": [
+      [
+        77.0,
+        51.5
+      ],
+      [
+        91.0,
+        51.5
+      ],
+      [
+        91.0,
+        64.5
+      ],
+      [
+        77.0,
+        64.5
+      ]
+    ],
+    "area_pixels": 182,
+    "x": 84,
+    "z": 58,
+    "w": 14,
+    "d": 13,
+    "h": 12.0,
+    "floors": 4,
+    "type": "residential",
+    "hasBasement": false,
+    "detection_status": "DATASET_DERIVED_PROTOTYPE",
+    "geometry_status": "PROTOTYPE_ESTIMATE"
+  },
+  {
+    "building_id": "B015",
+    "source_folder": "building15",
+    "source_image_count": 15,
+    "polygon": [
+      [
+        102.0,
+        53.0
+      ],
+      [
+        110.0,
+        53.0
+      ],
+      [
+        110.0,
+        63.0
+      ],
+      [
+        102.0,
+        63.0
+      ]
+    ],
+    "area_pixels": 80,
+    "x": 106,
+    "z": 58,
+    "w": 8,
+    "d": 10,
+    "h": 15.0,
+    "floors": 5,
+    "type": "institutional",
+    "hasBasement": true,
+    "detection_status": "DATASET_DERIVED_PROTOTYPE",
+    "geometry_status": "PROTOTYPE_ESTIMATE"
+  },
+  {
+    "building_id": "B016",
+    "source_folder": "building16",
+    "source_image_count": 15,
+    "polygon": [
+      [
+        12.5,
+        74.5
+      ],
+      [
+        23.5,
+        74.5
+      ],
+      [
+        23.5,
+        81.5
+      ],
+      [
+        12.5,
+        81.5
+      ]
+    ],
+    "area_pixels": 77,
+    "x": 18,
+    "z": 78,
+    "w": 11,
+    "d": 7,
+    "h": 18.0,
+    "floors": 6,
+    "type": "residential",
+    "hasBasement": false,
+    "detection_status": "DATASET_DERIVED_PROTOTYPE",
+    "geometry_status": "PROTOTYPE_ESTIMATE"
+  },
+  {
+    "building_id": "B017",
+    "source_folder": "building17",
+    "source_image_count": 15,
+    "polygon": [
+      [
+        33.0,
+        72.0
+      ],
+      [
+        47.0,
+        72.0
+      ],
+      [
+        47.0,
+        84.0
+      ],
+      [
+        33.0,
+        84.0
+      ]
+    ],
+    "area_pixels": 168,
+    "x": 40,
+    "z": 78,
+    "w": 14,
+    "d": 12,
+    "h": 21.0,
+    "floors": 7,
+    "type": "residential",
+    "hasBasement": false,
+    "detection_status": "DATASET_DERIVED_PROTOTYPE",
+    "geometry_status": "PROTOTYPE_ESTIMATE"
+  },
+  {
+    "building_id": "B018",
+    "source_folder": "building18",
+    "source_image_count": 15,
+    "polygon": [
+      [
+        58.0,
+        73.5
+      ],
+      [
+        66.0,
+        73.5
+      ],
+      [
+        66.0,
+        82.5
+      ],
+      [
+        58.0,
+        82.5
+      ]
+    ],
+    "area_pixels": 72,
+    "x": 62,
+    "z": 78,
+    "w": 8,
+    "d": 9,
+    "h": 6.0,
+    "floors": 2,
+    "type": "commercial",
+    "hasBasement": false,
+    "detection_status": "DATASET_DERIVED_PROTOTYPE",
+    "geometry_status": "PROTOTYPE_ESTIMATE"
+  },
+  {
+    "building_id": "B019",
+    "source_folder": "building19",
+    "source_image_count": 15,
+    "polygon": [
+      [
+        78.5,
+        71.0
+      ],
+      [
+        89.5,
+        71.0
+      ],
+      [
+        89.5,
+        85.0
+      ],
+      [
+        78.5,
+        85.0
+      ]
+    ],
+    "area_pixels": 154,
+    "x": 84,
+    "z": 78,
+    "w": 11,
+    "d": 14,
+    "h": 9.0,
+    "floors": 3,
+    "type": "residential",
+    "hasBasement": false,
+    "detection_status": "DATASET_DERIVED_PROTOTYPE",
+    "geometry_status": "PROTOTYPE_ESTIMATE"
+  },
+  {
+    "building_id": "B020",
+    "source_folder": "building20",
+    "source_image_count": 15,
+    "polygon": [
+      [
+        99.0,
+        72.5
+      ],
+      [
+        113.0,
+        72.5
+      ],
+      [
+        113.0,
+        83.5
+      ],
+      [
+        99.0,
+        83.5
+      ]
+    ],
+    "area_pixels": 154,
+    "x": 106,
+    "z": 78,
+    "w": 14,
+    "d": 11,
+    "h": 12.0,
+    "floors": 4,
+    "type": "institutional",
+    "hasBasement": true,
+    "detection_status": "DATASET_DERIVED_PROTOTYPE",
+    "geometry_status": "PROTOTYPE_ESTIMATE"
+  }
 ]

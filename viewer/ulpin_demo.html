@@ -283,24 +283,113 @@ const DATASET_REGISTRY = {
     path:        '../ml/results/reconstruction_v2_stpls3d_ra/buildings.json',
     objBase:     '../ml/results/reconstruction_v2_stpls3d_ra/',
   },
-  // AHN4: Amsterdam aerial LiDAR — Session 1 + Session 2 output available
-  // IMPORTANT: cross-domain inference, Building IoU = 0.053 (not fine-tuned on AHN4)
+  // AHN4: Amsterdam aerial LiDAR — Exp007 fine-tuned on AHN4
   ahn4: {
-    label:            'AHN4 Amsterdam (AI — Cross-Domain)',
-    shortLabel:       'AHN4 AI',
-    aiModel:          'PointNet++ Exp006 (STPLS3D+DALES fine-tuned)',
-    aiStatus:         'Predicted — cross-domain drop (IoU 0.053 on AHN4)',
+    label:            'AHN4 Amsterdam (AI — Exp007 Fine-tuned)',
+    shortLabel:       'AHN4 AI 🇳🇱',
+    aiModel:          'PointNet++ Exp007 (STPLS3D→DALES→AHN4 fine-tuned)',
+    aiStatus:         'Predicted (Exp007, AHN4 fine-tuned)',
     dataset:          'AHN4 (Amsterdam tile 25GN2_01, 1.34 km²)',
-    buildingIoU:      '0.053',
-    iouLabel:         'AHN4 Building IoU (cross-domain — NOT fine-tuned on AHN4)',
-    hdrSub:           'AHN4 AI · Exp006 · AHN4 Building IoU 0.053 · DALES IoU 0.763 · Domain gap',
-    path:             '../ml/results/reconstruction_ahn4/buildings.json',
-    objBase:          '../ml/results/reconstruction_ahn4/',
+    buildingIoU:      '0.755',
+    iouLabel:         'AHN4 Test Building IoU (Exp007, held-out test strip)',
+    hdrSub:           'AHN4 AI · Exp007 · Building IoU 0.755 · 71% 3DBAG coverage · Height MAE 1.17m',
+    // Latest research v2 viewer input (356 buildings from the held-out test strip)
+    path:             '../ml/results/final_ahn4_research_v2/viewer_buildings.json',
+    objBase:          '../ml/results/final_ahn4_research_v2/',
     crs:              'EPSG:28992 (Amersfoort / RD New) — Amsterdam',
-    domainGapWarning: 'Model trained on STPLS3D (USA terrestrial) + fine-tuned on DALES (USA aerial). Applied here to AHN4 (Netherlands aerial). Cross-domain drop: DALES IoU 0.763 → AHN4 IoU 0.053. Reconstruction shows predicted buildings only — significant noise expected.',
-    dalesIoU:         '0.763 (on DALES test)',
   },
 };
+
+// ────────────────────────────────────────────────────────────────────────────
+// Building normalization
+//
+// The viewer is fed two backend schemas:
+//   * OLD (buildings.json)        : { building_id, height, floors:[{floor_id,
+//                                    floor_number, z_min, z_max, height, source}],
+//                                    roof_type, ai_model, lod2_like_geometry, ... }
+//   * NEW (viewer_buildings.json) : { id, geometry:{height_m, footprint},
+//                                    floors:{count, source, levels:[...]},
+//                                    roof:{type, slope_deg, n_planes},
+//                                    ai:{model, status}, crs, ... }
+//
+// Both are normalised into one internal shape so the geometry / panel / floor
+// code stays schema-agnostic. No values are invented — missing fields are
+// simply derived (e.g. floor z bands from the fencepost levels array).
+// ────────────────────────────────────────────────────────────────────────────
+function normalizeBuilding(raw) {
+  const isNew = !!(raw.geometry && raw.geometry.height_m !== undefined);
+  const id = raw.building_id || raw.id;
+
+  const footprint = isNew ? raw.geometry.footprint : raw.footprint;
+  const height    = isNew ? raw.geometry.height_m : raw.height;
+
+  // floors[] — uniform array of {floor_number, z_min, z_max, height, floor_id, source}
+  let floors = [];
+  let floorCount = 0;
+  let floorSource = 'estimated';
+  if (isNew) {
+    const f = raw.floors || {};
+    floorCount  = f.count || 0;
+    floorSource = f.source || 'estimated';
+    const levels = f.levels || [];
+    for (let i = 0; i < floorCount && i + 1 < levels.length; i++) {
+      const zmin = levels[i], zmax = levels[i + 1];
+      floors.push({
+        floor_number: i + 1,
+        z_min: zmin, z_max: zmax, height: zmax - zmin,
+        source: floorSource,
+        floor_id: `${id}/F${String(i + 1).padStart(2, '0')}`,
+      });
+    }
+  } else {
+    floorCount  = raw.floor_count || 0;
+    floorSource = raw.floor_count_source || 'estimated';
+    floors = (raw.floors || []).map(fl => ({
+      floor_number: fl.floor_number,
+      z_min: fl.z_min, z_max: fl.z_max, height: fl.height,
+      source: fl.source,
+      floor_id: fl.floor_id || `${id}/F${String(fl.floor_number).padStart(2, '0')}`,
+    }));
+  }
+
+  const roof = isNew ? (raw.roof || {}) : raw;
+  const ai   = isNew ? (raw.ai || {}) : raw;
+
+  return {
+    building_id: id,
+    prototype_ulpin: raw.prototype_ulpin || id,
+    prototype_ulpin_note: raw.prototype_ulpin_note ||
+      'Prototype identifier only. Not an official ULPIN.',
+    source_dataset: raw.source_dataset,
+    scene_id: raw.scene_id,
+    instance_id: raw.instance_id,
+    footprint: footprint,
+    footprint_area_m2: raw.footprint_area_m2,
+    footprint_n_vertices: (footprint || []).length,
+    footprint_source: isNew ? (raw.provenance && raw.provenance.footprint) : raw.footprint_source,
+    height: height,
+    height_source: isNew ? raw.geometry.height_source : raw.height_source,
+    ground_z: raw.ground_z,
+    roof_z: raw.roof_z,
+    floor_count: floorCount,
+    floor_count_source: floorSource,
+    floors: floors,
+    roof_type: isNew ? roof.type : raw.roof_type,
+    roof_type_source: isNew ? roof.source : raw.roof_type_source,
+    roof_slope_deg: isNew ? roof.slope_deg : raw.roof_slope_deg,
+    roof_n_planes: isNew ? roof.n_planes : raw.roof_n_planes,
+    roof_ridge_axis: raw.roof_ridge_axis,
+    ai_model: isNew ? ai.model : raw.ai_model,
+    ai_status: isNew ? ai.status : raw.ai_status,
+    crs: raw.crs,
+    provenance: raw.provenance,
+    point_count: raw.point_count,
+    confidence_mean: raw.confidence_mean,
+    // NEW viewer schema ships LOD1 OBJ only (no LOD2 roof mesh) → fall back to LOD1.
+    lod2_like_geometry: isNew ? null : raw.lod2_like_geometry,
+    lod1_obj_file: isNew ? raw.geometry.lod1_obj_file : null,
+  };
+}
 
 // ────────────────────────────────────────────────────────────────────────────
 // Scene state
@@ -836,8 +925,9 @@ function showFloorDetail(b, fl) {
   document.getElementById('f-model').textContent = b.ai_model || (activeSrc && activeSrc.aiModel) || '—';
 
   const crsRow = document.getElementById('row-f-crs');
-  if (activeSrc && activeSrc.crs) {
-    document.getElementById('f-crs').textContent = activeSrc.crs;
+  const crs = b.crs || (activeSrc && activeSrc.crs);
+  if (crs) {
+    document.getElementById('f-crs').textContent = crs;
     crsRow.style.display = '';
   } else {
     crsRow.style.display = 'none';
@@ -1035,19 +1125,21 @@ async function loadDataset(key, src) {
       throw new Error(`${src.label}: no buildings in response`);
     }
 
-    // Attach buildings to src
-    src.buildings = data.buildings;
+    // Attach buildings to src (normalising across the two backend schemas)
+    src.buildings = data.buildings.map(normalizeBuilding);
     activeSrc     = src;
     activeKey     = key;
+    selBuildingId = null;
+    selFloor      = null;
 
     // Compute scene centroid before building geometry
-    computeCentroid(data.buildings);
+    computeCentroid(src.buildings);
 
     // Update header
     document.getElementById('hdr-sub').textContent = src.hdrSub;
     document.getElementById('mode-label').textContent = src.shortLabel;
     document.getElementById('k-bld').textContent = data.n_buildings;
-    const avgH = data.buildings.reduce((s, b) => s + b.height, 0) / data.buildings.length;
+    const avgH = src.buildings.reduce((s, b) => s + b.height, 0) / src.buildings.length;
     document.getElementById('k-ht').textContent  = `${avgH.toFixed(1)} m`;
     document.getElementById('k-iou').textContent = src.buildingIoU;
     document.getElementById('k-iou-lbl').textContent = src.iouLabel;

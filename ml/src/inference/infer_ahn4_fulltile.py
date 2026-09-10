@@ -74,7 +74,7 @@ def write_merged_ply(path: Path, xyz: np.ndarray, pred: np.ndarray,
         f"ply\nformat binary_little_endian 1.0\n"
         f"comment AHN4 Exp007 full-tile inference (SIH 26011)\n"
         f"comment CRS: EPSG:28992 (Amersfoort / RD New)\n"
-        f"comment Includes training chunks — for reconstruction/demo only\n"
+        f"comment Includes training chunks - for reconstruction/demo only\n"
         f"element vertex {n}\n"
         "property float x\nproperty float y\nproperty float z\n"
         "property uchar red\nproperty uchar green\nproperty uchar blue\n"
@@ -128,7 +128,7 @@ def run_fulltile_inference(
 
     for i, entry in enumerate(all_chunks):
         if (i + 1) % 50 == 0 or i == 0:
-            print(f"  [{i+1}/{n_total}] processing chunk {entry['chunk_idx']} (split={entry['split']})")
+            print(f"  [{i+1}/{n_total}] processing chunk {entry['chunk_idx']} (split={entry['split']})", flush=True)
 
         npz_path = data_root / "chunks" / entry["path"]
         if not npz_path.exists():

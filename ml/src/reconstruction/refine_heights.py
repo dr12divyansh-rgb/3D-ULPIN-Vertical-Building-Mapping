@@ -109,6 +109,8 @@ def refine_buildings(
         b["height"]      = round(new_height, 2)
         b["floor_count"] = new_floors
         b["height_method"] = method
+        b["height_source"] = "ASPRS-class2-ground" if "asprs" in method else b.get("height_source", "LiDAR-derived")
+        b["ground_z_source"] = method
 
         # Update floor bands (simple equal-height bands)
         bands = []

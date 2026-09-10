@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>3D-ULPIN · Building Intelligence · Delhi</title>
+<title>3D-ULPIN · Building Intelligence · SIH 26011</title>
 <script type="importmap">
 {"imports":{"three":"./vendor/three.module.js","three/addons/":"./vendor/addons/"}}
 </script>
@@ -11,7 +11,7 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;height:100%;background:#e8e4dc;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden}
 
-/* ── header (Google-Maps / PLATEAU style — white, clean) ── */
+/* ── header ── */
 #hdr{position:fixed;top:0;left:0;right:0;height:52px;z-index:100;
   background:#fff;border-bottom:1px solid #d0d0d0;
   display:flex;align-items:center;padding:0 16px;gap:12px;
@@ -26,41 +26,82 @@ html,body{width:100%;height:100%;background:#e8e4dc;font-family:'Segoe UI',syste
 
 canvas{position:fixed;top:52px;left:0;right:0;bottom:0}
 
-/* ── PLATEAU-style right info panel ── */
-#panel{position:fixed;top:64px;right:12px;bottom:12px;width:280px;z-index:90;
-  background:#fff;border-radius:8px;border:1px solid #dadce0;
+/* ── right info panel ── */
+#panel{position:fixed;top:64px;right:12px;width:300px;max-height:calc(100vh - 80px);
+  z-index:90;background:#fff;border-radius:8px;border:1px solid #dadce0;
   box-shadow:0 4px 16px rgba(0,0,0,.15);padding:16px;overflow-y:auto;
-  transform:translateX(304px);transition:transform .25s ease}
+  transform:translateX(320px);transition:transform .25s ease}
 #panel.open{transform:translateX(0)}
 #panel .x{position:absolute;top:10px;right:10px;background:none;border:none;
   font-size:18px;color:#80868b;cursor:pointer}
 #panel .x:hover{color:#202124}
 
-.uid-box{background:#e8f0fe;border-radius:6px;padding:10px 12px;margin-bottom:14px;border:1px solid #c5d8fd}
-.uid-box .lbl{font-size:9px;letter-spacing:.1em;color:#1a73e8;font-weight:600;text-transform:uppercase;margin-bottom:3px}
-.uid-box .id{font-size:12px;font-weight:700;font-family:monospace;color:#202124;letter-spacing:.03em}
+.uid-box{background:#f1f8e9;border-radius:6px;padding:10px 12px;margin-bottom:14px;
+  border:1px solid #c5e1a5}
+.uid-box .lbl{font-size:9px;letter-spacing:.1em;color:#558b2f;font-weight:600;
+  text-transform:uppercase;margin-bottom:3px}
+.uid-box .id{font-size:11px;font-weight:700;font-family:monospace;color:#202124;
+  letter-spacing:.03em;word-break:break-all}
+.uid-box .sub-lbl{font-size:9px;color:#8d9e67;margin-top:3px}
 
 .sec{margin-bottom:14px}
 .sec h4{font-size:10px;font-weight:600;color:#80868b;text-transform:uppercase;
   letter-spacing:.07em;border-bottom:1px solid #e8eaed;padding-bottom:4px;margin-bottom:8px}
-.row{display:flex;justify-content:space-between;padding:3px 0}
-.row .k{font-size:12px;color:#5f6368}
-.row .v{font-size:12px;font-weight:500;color:#202124}
+.row{display:flex;justify-content:space-between;padding:3px 0;gap:8px}
+.row .k{font-size:11px;color:#5f6368;flex-shrink:0}
+.row .v{font-size:11px;font-weight:500;color:#202124;text-align:right;flex:1;
+  overflow:hidden;text-overflow:ellipsis}
 .row .v.blue{color:#1a73e8}
-.chip{display:inline-block;padding:1px 8px;border-radius:4px;font-size:11px;
+.row .v.green{color:#34a853}
+.row .v.warn{color:#ea8600}
+.chip{display:inline-block;padding:1px 8px;border-radius:4px;font-size:10px;
   font-weight:500;background:#e8f0fe;color:#1a73e8;border:1px solid #c5d8fd}
-.conf-track{width:100%;height:5px;background:#e8eaed;border-radius:3px;margin-top:6px}
-.conf-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#1a73e8,#34a853)}
+.chip.warn{background:#fff3e0;color:#e65100;border-color:#ffcc80}
+.chip.ok{background:#e8f5e9;color:#2e7d32;border-color:#a5d6a7}
 
-/* ── toolbar (Google Maps style — white pills) ── */
-#tb{position:fixed;top:64px;left:12px;z-index:90;display:flex;flex-direction:column;gap:6px}
-.tbtn{height:36px;padding:0 14px;border-radius:18px;border:none;
+/* ── floor list inside panel ── */
+.floor-item{display:flex;align-items:center;gap:8px;padding:4px 8px;border-radius:4px;
+  margin:3px 0;font-size:11px;cursor:pointer;border:1px solid transparent}
+.floor-item:hover{background:#f1f3f4}
+.floor-item.active{background:#e8f0fe;border-color:#1a73e8;color:#1a73e8}
+.floor-swatch{width:12px;height:12px;border-radius:2px;flex-shrink:0}
+.floor-info{flex:1}
+.floor-note{font-size:9px;color:#ea8600;margin:4px 0 8px;padding:4px 6px;
+  background:#fff3e0;border-radius:4px}
+.floor-entire{display:block;width:100%;margin:2px 0 8px;padding:5px 8px;border:1px solid #dadce0;
+  border-radius:4px;background:#fff;font-size:11px;cursor:pointer;color:#202124;text-align:left}
+.floor-entire:hover{background:#f1f3f4}
+.floor-entire.active{background:#e8f0fe;color:#1a73e8;border-color:#1a73e8}
+.hier{font-family:monospace;font-size:11px;color:#202124;line-height:1.75;margin:8px 0;
+  background:#fafafa;border:1px solid #e8eaed;border-radius:6px;padding:8px 10px}
+.hier .lbl{color:#5f6368}
+
+/* ── demo banner ── */
+#demo-banner{position:fixed;bottom:52px;left:50%;transform:translateX(-50%);z-index:150;
+  background:#e65100;color:#fff;border-radius:6px;padding:8px 20px;
+  font-size:12px;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,.3);
+  display:none;text-align:center}
+
+/* ── toolbar ── */
+#tb{position:fixed;top:64px;left:12px;z-index:90;display:flex;flex-direction:column;gap:5px}
+.tbtn{height:34px;padding:0 12px;border-radius:17px;border:none;
   background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.2);
-  cursor:pointer;font-size:12px;font-weight:500;color:#202124;
+  cursor:pointer;font-size:11px;font-weight:500;color:#202124;
   display:flex;align-items:center;gap:6px;white-space:nowrap;
   transition:background .15s}
 .tbtn:hover{background:#f1f3f4}
 .tbtn.on{background:#e8f0fe;color:#1a73e8}
+.tbtn.disabled{opacity:0.45;cursor:not-allowed;pointer-events:none}
+.tb-sep{height:6px}
+.tb-label{font-size:9px;color:#80868b;text-transform:uppercase;
+  letter-spacing:.06em;padding:0 4px;margin-top:2px}
+
+/* ── dataset mode pill ── */
+#mode-pill{position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:90;
+  background:#fff;border-radius:20px;padding:5px 16px;
+  font-size:11px;font-weight:600;color:#5f6368;
+  box-shadow:0 2px 8px rgba(0,0,0,.2);white-space:nowrap}
+#mode-pill .src-label{color:#1a73e8}
 
 /* ── bottom hint ── */
 #hint{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:90;
@@ -68,7 +109,7 @@ canvas{position:fixed;top:52px;left:0;right:0;bottom:0}
   font-size:12px;color:#5f6368;box-shadow:0 2px 8px rgba(0,0,0,.2);
   pointer-events:none;transition:opacity .3s}
 
-/* ── loading (white, Google style) ── */
+/* ── loading ── */
 #load{position:fixed;inset:0;z-index:200;background:#fff;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
 #load .sp{width:40px;height:40px;border:3px solid #e8eaed;
@@ -83,437 +124,954 @@ canvas{position:fixed;top:52px;left:0;right:0;bottom:0}
 <header id="hdr">
   <span class="logo">🗺</span>
   <div>
-    <h1>3D-ULPIN BUILDING INTELLIGENCE · DELHI NCR</h1>
-    <div class="sub">SIH 26011 · PointNet++ · Building IoU 0.659 · Microsoft Building Footprints 2026</div>
+    <h1>3D-ULPIN BUILDING INTELLIGENCE · SIH 26011</h1>
+    <div class="sub" id="hdr-sub">Loading…</div>
   </div>
   <div class="sep"></div>
   <div class="kpi"><span class="v" id="k-bld">—</span><span class="l">Buildings</span></div>
   <div class="kpi"><span class="v" id="k-ht">—</span><span class="l">Avg Height</span></div>
-  <div class="kpi"><span class="v">0.659</span><span class="l">Building IoU</span></div>
+  <div class="kpi"><span class="v" id="k-iou">—</span><span class="l" id="k-iou-lbl">Dataset IoU</span></div>
 </header>
 
 <canvas id="c"></canvas>
+<div id="mode-pill">Dataset: <span class="src-label" id="mode-label">—</span></div>
 
+<!-- Toolbar -->
 <div id="tb">
-  <button class="tbtn" onclick="resetCam()">🔄 Reset view</button>
+  <span class="tb-label">View</span>
+  <button class="tbtn" onclick="resetCam()">↺ Reset view</button>
   <button class="tbtn" id="btn-rot" onclick="toggleRot()">↻ Auto-rotate</button>
   <button class="tbtn" onclick="setTop()">▣ Top view</button>
   <button class="tbtn" id="btn-wire" onclick="toggleWire()">⬡ Wireframe</button>
+
+  <div class="tb-sep"></div>
+  <span class="tb-label">Dataset</span>
+  <button class="tbtn" id="btn-ds-dales" onclick="switchDataset('dales')">DALES AI</button>
+  <button class="tbtn" id="btn-ds-stpls3d" onclick="switchDataset('stpls3d')">STPLS3D AI</button>
+  <button class="tbtn" id="btn-ds-ahn4" onclick="switchDataset('ahn4')">AHN4 AI 🇳🇱</button>
+
+  <div class="tb-sep"></div>
+  <span class="tb-label">Geometry</span>
+  <button class="tbtn" id="btn-lod" onclick="cycleLOD()">📐 LOD1</button>
+  <button class="tbtn" id="btn-floor" onclick="toggleFloorMode()">📊 Floors: OFF</button>
 </div>
 
+<!-- Building info panel -->
 <div id="panel">
   <button class="x" onclick="closePanel()">✕</button>
+
+  <!-- Building ID -->
   <div class="uid-box">
-    <div class="lbl">Unique Land Parcel ID</div>
+    <div class="lbl">Building Identifier</div>
     <div class="id" id="p-uid">—</div>
+    <div class="sub-lbl" id="p-uid-note">Prototype ID — not official ULPIN</div>
   </div>
+
+  <!-- Geometry -->
   <div class="sec">
     <h4>Building Geometry</h4>
     <div class="row"><span class="k">Height</span><span class="v blue" id="p-h">—</span></div>
-    <div class="row"><span class="k">Floors (est.)</span><span class="v" id="p-fl">—</span></div>
-    <div class="row"><span class="k">Footprint Area</span><span class="v" id="p-a">—</span></div>
-    <div class="row"><span class="k">Roof Type</span><span class="v" id="p-roof">—</span></div>
-    <div class="row"><span class="k">Height Source</span><span class="v blue" id="p-src">—</span></div>
+    <div class="row"><span class="k">Floors (estimate)</span><span class="v" id="p-fl">—</span></div>
+    <div class="row"><span class="k">Footprint area</span><span class="v" id="p-a">—</span></div>
+    <div class="row"><span class="k">Footprint vertices</span><span class="v" id="p-fverts">—</span></div>
+    <div class="row"><span class="k">Roof type</span><span class="v" id="p-roof">—</span></div>
+    <div class="row" id="row-slope" style="display:none"><span class="k">Roof slope</span><span class="v" id="p-slope">—</span></div>
+    <div class="row" id="row-ridge" style="display:none"><span class="k">Ridge axis</span><span class="v" id="p-ridge">—</span></div>
+    <div class="row" id="row-planes" style="display:none"><span class="k">Roof planes (RANSAC)</span><span class="v" id="p-planes">—</span></div>
+    <div class="row"><span class="k">Geometry level</span><span class="v" id="p-lod">—</span></div>
+    <div class="row"><span class="k">Points (LiDAR)</span><span class="v" id="p-pts">—</span></div>
   </div>
+
+  <!-- Provenance -->
   <div class="sec">
-    <h4>AI Segmentation Confidence</h4>
-    <div class="row"><span class="k">Building class</span><span class="v blue" id="p-conf">—</span></div>
-    <div class="conf-track"><div class="conf-fill" id="p-cbar" style="width:0%"></div></div>
+    <h4>Provenance</h4>
+    <div class="row"><span class="k">Source dataset</span><span class="v" id="p-datasrc">—</span></div>
+    <div class="row"><span class="k">Scene</span><span class="v" id="p-scene">—</span></div>
+    <div class="row"><span class="k">Height source</span><span class="v" id="p-hsrc">—</span></div>
+    <div class="row"><span class="k">Floor source</span><span class="v warn" id="p-fsrc">—</span></div>
+    <div class="row"><span class="k">Roof source</span><span class="v" id="p-roofsrc">—</span></div>
+    <div class="row"><span class="k">Footprint source</span><span class="v" id="p-fpsrc">—</span></div>
+    <div class="row"><span class="k">AI model</span><span class="v" id="p-model">—</span></div>
+    <div class="row"><span class="k">AI status</span><span class="v" id="p-ai">—</span></div>
+    <div class="row" id="row-crs" style="display:none"><span class="k">CRS</span><span class="v" id="p-crs">—</span></div>
   </div>
-  <div class="sec">
-    <h4>ULPIN Parcel Details</h4>
-    <div class="row"><span class="k">State</span><span class="v" id="p-st">—</span></div>
-    <div class="row"><span class="k">District Code</span><span class="v" id="p-di">—</span></div>
-    <div class="row"><span class="k">Village Code</span><span class="v" id="p-vi">—</span></div>
-    <div class="row"><span class="k">Plot No.</span><span class="v" id="p-pl">—</span></div>
-    <div class="row"><span class="k">Land Use</span><span class="v" id="p-use">—</span></div>
+
+  <!-- Domain gap warning — shown for AHN4 -->
+  <div class="sec" id="sec-domain-gap" style="display:none">
+    <h4>⚠ Domain Gap Warning</h4>
+    <div class="floor-note" id="p-domain-gap-text" style="font-size:10px;line-height:1.5"></div>
+    <div class="row"><span class="k">On DALES (trained)</span><span class="v green" id="p-dales-iou">0.763</span></div>
+    <div class="row"><span class="k">On AHN4 (cross-domain)</span><span class="v warn" id="p-ahn4-iou">0.053</span></div>
   </div>
+
+  <!-- Dataset metrics -->
   <div class="sec">
-    <h4>AI Pipeline</h4>
-    <div class="row"><span class="k">Model</span><span class="v">PointNet++ Exp-005</span></div>
-    <div class="row"><span class="k">Training Data</span><span class="v">STPLS3D 37 GB</span></div>
-    <div class="row"><span class="k">Footprints</span><span class="v">MS Bldg Ftprints 2026</span></div>
-    <div class="row"><span class="k">Coord System</span><span class="v">WGS84 Mercator</span></div>
+    <h4>Dataset-Level Metrics</h4>
+    <div class="row"><span class="k">Dataset</span><span class="v" id="p-dset">—</span></div>
+    <div class="row"><span class="k">Building IoU (test)</span><span class="v green" id="p-biou">—</span></div>
+    <div class="row"><span class="k">Metric scope</span><span class="v warn">Dataset, not per-building</span></div>
+  </div>
+
+  <!-- Floor decomposition -->
+  <div class="sec" id="sec-floors" style="display:none">
+    <h4>Height-Based Floor Decomposition</h4>
+    <div class="floor-note">⚠ Floor decomposition: height-based estimate — not directly observed from LiDAR</div>
+    <button class="floor-entire active" id="btn-entire" onclick="clearFloorSelection()">🏢 Entire Building</button>
+    <div id="floor-list"></div>
+  </div>
+
+  <!-- Selected floor details -->
+  <div class="sec" id="sec-floor-detail" style="display:none">
+    <h4>Selected Floor</h4>
+    <div class="uid-box" style="background:#eef3fb;border-color:#c5d8fd">
+      <div class="lbl" style="color:#1a73e8">Floor Prototype Identifier</div>
+      <div class="id" id="f-id">—</div>
+      <div class="sub-lbl">Prototype floor ID — not official ULPIN</div>
+    </div>
+    <div class="hier" id="f-hier"></div>
+    <div class="row"><span class="k">Building</span><span class="v" id="f-bid">—</span></div>
+    <div class="row"><span class="k">Floor number</span><span class="v" id="f-num">—</span></div>
+    <div class="row"><span class="k">Floor height</span><span class="v" id="f-h">—</span></div>
+    <div class="row"><span class="k">z_min</span><span class="v" id="f-zmin">—</span></div>
+    <div class="row"><span class="k">z_max</span><span class="v" id="f-zmax">—</span></div>
+    <div class="row"><span class="k">Building height</span><span class="v" id="f-bh">—</span></div>
+    <div class="row"><span class="k">Roof type</span><span class="v" id="f-roof">—</span></div>
+    <div class="row"><span class="k">Source dataset</span><span class="v" id="f-ds">—</span></div>
+    <div class="row"><span class="k">AI model</span><span class="v" id="f-model">—</span></div>
+    <div class="row" id="row-f-crs" style="display:none"><span class="k">CRS</span><span class="v" id="f-crs">—</span></div>
+    <div class="row"><span class="k">Provenance</span><span class="v" id="f-prov">—</span></div>
+    <div class="row"><span class="k">Confidence</span><span class="v warn">Not claimed — height-based estimate</span></div>
   </div>
 </div>
 
-<div id="hint">Click any building to view ULPIN details</div>
-<div id="load"><div class="sp"></div><p id="ltxt">Loading building footprints…</p></div>
+<div id="hint">Click a building to view details</div>
+<div id="demo-banner">⚠ DEMO SAMPLE — synthetic placeholder, not real GIS or AI output</div>
+<div id="load"><div class="sp"></div><p id="ltxt">Loading…</p></div>
 
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-// ── Mercator projection ───────────────────────────────────────────────────────
-const R = 6371000;
-let REF_LON = 77.22, REF_LAT = 28.63;
-function toXZ(lon,lat){
-  const x = R*(lon-REF_LON)*Math.PI/180*Math.cos(REF_LAT*Math.PI/180);
-  const z = -R*(lat-REF_LAT)*Math.PI/180;
-  return [x,z];
-}
+// ────────────────────────────────────────────────────────────────────────────
+// Dataset registry
+// Each entry describes one data source and how to display it.
+// ────────────────────────────────────────────────────────────────────────────
+const DATASET_REGISTRY = {
+  dales: {
+    label:       'DALES Dataset (AI)',
+    shortLabel:  'DALES AI',
+    aiModel:     'PointNet++ Exp006 (STPLS3D→DALES fine-tuned)',
+    aiStatus:    'Predicted (test split)',
+    dataset:     'DALES',
+    buildingIoU: '0.763',
+    iouLabel:    'DALES Test Building IoU',
+    hdrSub:      'DALES AI · PointNet++ Exp006 · Building IoU 0.763',
+    // Path relative to this HTML file (served from viewer/)
+    path:        '../ml/results/reconstruction_v2/buildings.json',
+    // Prefix to resolve lod2_like_geometry.obj_file paths
+    objBase:     '../ml/results/reconstruction_v2/',
+  },
+  stpls3d: {
+    label:       'STPLS3D Dataset (AI)',
+    shortLabel:  'STPLS3D AI',
+    aiModel:     'PointNet++ Exp005 (STPLS3D XYZRGB)',
+    aiStatus:    'Predicted (test split)',
+    dataset:     'STPLS3D',
+    buildingIoU: '0.659',
+    iouLabel:    'STPLS3D Test Building IoU',
+    hdrSub:      'STPLS3D AI · PointNet++ Exp005 · Building IoU 0.659',
+    path:        '../ml/results/reconstruction_v2_stpls3d_ra/buildings.json',
+    objBase:     '../ml/results/reconstruction_v2_stpls3d_ra/',
+  },
+  // AHN4: Amsterdam aerial LiDAR — Session 1 + Session 2 output available
+  // IMPORTANT: cross-domain inference, Building IoU = 0.053 (not fine-tuned on AHN4)
+  ahn4: {
+    label:            'AHN4 Amsterdam (AI — Cross-Domain)',
+    shortLabel:       'AHN4 AI',
+    aiModel:          'PointNet++ Exp006 (STPLS3D+DALES fine-tuned)',
+    aiStatus:         'Predicted — cross-domain drop (IoU 0.053 on AHN4)',
+    dataset:          'AHN4 (Amsterdam tile 25GN2_01, 1.34 km²)',
+    buildingIoU:      '0.053',
+    iouLabel:         'AHN4 Building IoU (cross-domain — NOT fine-tuned on AHN4)',
+    hdrSub:           'AHN4 AI · Exp006 · AHN4 Building IoU 0.053 · DALES IoU 0.763 · Domain gap',
+    path:             '../ml/results/reconstruction_ahn4/buildings.json',
+    objBase:          '../ml/results/reconstruction_ahn4/',
+    crs:              'EPSG:28992 (Amersfoort / RD New) — Amsterdam',
+    domainGapWarning: 'Model trained on STPLS3D (USA terrestrial) + fine-tuned on DALES (USA aerial). Applied here to AHN4 (Netherlands aerial). Cross-domain drop: DALES IoU 0.763 → AHN4 IoU 0.053. Reconstruction shows predicted buildings only — significant noise expected.',
+    dalesIoU:         '0.763 (on DALES test)',
+  },
+};
 
-// ── OSM tile helpers ──────────────────────────────────────────────────────────
-function lonLatToTile(lon,lat,z){
-  const x = Math.floor((lon+180)/360*(1<<z));
-  const sinLat = Math.sin(lat*Math.PI/180);
-  const y = Math.floor((1-Math.log((1+sinLat)/(1-sinLat))/(2*Math.PI))/2*(1<<z));
-  return {x,y,z};
-}
-function tileToLonLat(x,y,z){
-  const lon = x/(1<<z)*360-180;
-  const n   = Math.PI-2*Math.PI*y/(1<<z);
-  const lat = 180/Math.PI*Math.atan(0.5*(Math.exp(n)-Math.exp(-n)));
-  return {lon,lat};
-}
+// ────────────────────────────────────────────────────────────────────────────
+// Scene state
+// ────────────────────────────────────────────────────────────────────────────
+let activeKey = null;        // current dataset key
+let activeSrc = null;        // current DATASET_REGISTRY entry (+ loaded buildings)
+let lodMode = 'lod1';        // 'lod1' | 'lod2'
+let floorMode = false;       // floor band visualization
+let sceneCx = 0, sceneCy = 0;  // scene centroid (LiDAR XY metres)
+let sceneGz = 0;               // scene ground reference Z
 
-// ── ULPIN generator ───────────────────────────────────────────────────────────
-const STATES=['DL','UP','MH','KA','TN','GJ','RJ','WB'];
-const USES  =['Residential','Commercial','Mixed Use','Industrial','Government','Educational'];
-function rng(s){let v=s>>>0;return()=>{v=(v*1664525+1013904223)>>>0;return v/0xffffffff};}
-function makeULPIN(i){
-  const r=rng(i*31337+13);
-  const st=STATES[~~(r()*STATES.length)];
-  const di=String(~~(r()*900+100));
-  const vi=String(~~(r()*9000+1000)).padStart(4,'0');
-  const pl=String(i+1).padStart(6,'0');
-  return{id:`IN/${st}/${di}/${vi}/${pl}`,state:st,district:di,village:vi,plot:pl,
-         use:USES[~~(r()*USES.length)]};
-}
-
-// ── Three.js setup ────────────────────────────────────────────────────────────
+// ────────────────────────────────────────────────────────────────────────────
+// Three.js: single renderer, scene, camera, controls, render loop
+// ────────────────────────────────────────────────────────────────────────────
 const canvas = document.getElementById('c');
-const renderer = new THREE.WebGLRenderer({canvas,antialias:true});
-renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-renderer.setClearColor(0xe8e4dc);   // warm off-white / PLATEAU ground colour
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setClearColor(0xe8e4dc);
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type    = THREE.PCFSoftShadowMap;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-const scene  = new THREE.Scene();
+const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xe8e4dc);
-scene.fog = new THREE.Fog(0xe8e4dc, 3000, 8000);  // subtle, far fog
+scene.fog = new THREE.Fog(0xe8e4dc, 800, 2000);
 
-const camera = new THREE.PerspectiveCamera(50,1,1,10000);
-camera.position.set(0,600,900);
+const camera = new THREE.PerspectiveCamera(50, 1, 0.5, 4000);
+camera.position.set(0, 200, 300);
 
 const ctrl = new OrbitControls(camera, renderer.domElement);
-ctrl.enableDamping=true; ctrl.dampingFactor=0.06;
-ctrl.maxPolarAngle=Math.PI*0.47;
-ctrl.target.set(0,20,0); ctrl.update();
+ctrl.enableDamping = true;
+ctrl.dampingFactor = 0.06;
+ctrl.maxPolarAngle = Math.PI * 0.47;
+ctrl.target.set(0, 10, 0);
+ctrl.update();
 
-// ── Lighting (PLATEAU = bright sun from upper-right) ─────────────────────────
-scene.add(new THREE.AmbientLight(0xffffff,0.7));
-const sun = new THREE.DirectionalLight(0xfffef0,1.4);
-sun.position.set(400,800,300);
-sun.castShadow=true;
-sun.shadow.mapSize.set(2048,2048);
-sun.shadow.camera.near=1; sun.shadow.camera.far=4000;
-sun.shadow.camera.left=sun.shadow.camera.bottom=-2000;
-sun.shadow.camera.right=sun.shadow.camera.top=2000;
+// Lighting
+scene.add(new THREE.AmbientLight(0xffffff, 0.75));
+const sun = new THREE.DirectionalLight(0xfffef0, 1.3);
+sun.position.set(150, 300, 100);
+sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+sun.shadow.camera.near = 1;
+sun.shadow.camera.far = 1500;
+sun.shadow.camera.left = sun.shadow.camera.bottom = -600;
+sun.shadow.camera.right = sun.shadow.camera.top = 600;
 scene.add(sun);
-scene.add(new THREE.HemisphereLight(0xdce8f5,0xc8c4b8,0.4));
+scene.add(new THREE.HemisphereLight(0xdce8f5, 0xc8c4b8, 0.4));
 
-// ── Ground plane (fallback for areas without tiles) ────────────────────────
-const gndMat = new THREE.MeshLambertMaterial({color:0xd8d4cb});
-const gnd = new THREE.Mesh(new THREE.PlaneGeometry(12000,12000),gndMat);
-gnd.rotation.x=-Math.PI/2; gnd.position.y=-0.5; gnd.receiveShadow=true;
+// Ground plane
+const gnd = new THREE.Mesh(
+  new THREE.PlaneGeometry(3000, 3000),
+  new THREE.MeshLambertMaterial({ color: 0xd8d4cb })
+);
+gnd.rotation.x = -Math.PI / 2;
+gnd.position.y = -0.3;
+gnd.receiveShadow = true;
 scene.add(gnd);
 
-// ── OSM tile loader ───────────────────────────────────────────────────────────
-const ZOOM = 15;
-const loader = new THREE.TextureLoader();
-const tileGroup = new THREE.Group();
-scene.add(tileGroup);
+// Grid (for LiDAR local-coord datasets)
+const grid = new THREE.GridHelper(600, 60, 0xbbbbb0, 0xd0cfca);
+grid.position.y = -0.2;
+scene.add(grid);
 
-function loadOSMTiles(bounds) {
-  // bounds = {minLon,maxLon,minLat,maxLat}
-  const t0 = lonLatToTile(bounds.minLon, bounds.maxLat, ZOOM);
-  const t1 = lonLatToTile(bounds.maxLon, bounds.minLat, ZOOM);
-  let loaded=0, total=(t1.x-t0.x+1)*(t1.y-t0.y+1);
-  console.log(`Loading ${total} OSM tiles at zoom ${ZOOM}...`);
+// ────────────────────────────────────────────────────────────────────────────
+// Coordinate transform: LiDAR local XY → Three.js world
+//
+// LiDAR convention:    x = easting, y = northing, z = elevation (up)
+// Three.js convention: x = right,   y = up,       z = toward viewer
+//
+// Mapping (after centering on sceneCx, sceneCy, sceneGz):
+//   three_x = ldr_x - sceneCx
+//   three_y = ldr_z - sceneGz      (elevation → vertical)
+//   three_z = -(ldr_y - sceneCy)   (northing  → depth, negated)
+// ────────────────────────────────────────────────────────────────────────────
+function ldrXY(x, y) {
+  return [x - sceneCx, -(y - sceneCy)];
+}
+function ldrZ(z) {
+  return z - sceneGz;
+}
 
-  for(let tx=t0.x; tx<=t1.x; tx++){
-    for(let ty=t0.y; ty<=t1.y; ty++){
-      const url=`https://tile.openstreetmap.org/${ZOOM}/${tx}/${ty}.png`;
-      const tl = tileToLonLat(tx,   ty,   ZOOM);
-      const br = tileToLonLat(tx+1, ty+1, ZOOM);
-      const [x0,z0] = toXZ(tl.lon, tl.lat);
-      const [x1,z1] = toXZ(br.lon, br.lat);
-      const w=x1-x0, h=z1-z0;
-      const cx=(x0+x1)/2, cz=(z0+z1)/2;
+// ────────────────────────────────────────────────────────────────────────────
+// Compute scene centroid from buildings array
+// ────────────────────────────────────────────────────────────────────────────
+function computeCentroid(buildings) {
+  let sx = 0, sy = 0, n = 0;
+  let minZ = Infinity;
+  buildings.forEach(b => {
+    b.footprint.forEach(([x, y]) => { sx += x; sy += y; n++; });
+    if (b.ground_z < minZ) minZ = b.ground_z;
+  });
+  sceneCx = n ? sx / n : 0;
+  sceneCy = n ? sy / n : 0;
+  sceneGz = isFinite(minZ) ? minZ : 0;
+}
 
-      loader.load(url, tex=>{
-        tex.colorSpace=THREE.SRGBColorSpace;
-        // polygonOffset pushes tile behind buildings at same depth → kills z-fighting
-        const mat = new THREE.MeshLambertMaterial({
-          map:tex, side:THREE.FrontSide,
-          polygonOffset:true, polygonOffsetFactor:2, polygonOffsetUnits:2,
-        });
-        const mesh=new THREE.Mesh(new THREE.PlaneGeometry(Math.abs(w),Math.abs(h)),mat);
-        mesh.rotation.x=-Math.PI/2;
-        mesh.position.set(cx, 0, cz);  // at ground level, polygonOffset handles z-fight
-        tileGroup.add(mesh);
-        loaded++;
-      }, undefined, ()=>loaded++);
+// ────────────────────────────────────────────────────────────────────────────
+// Floor colours (used for floor band visualization)
+// ────────────────────────────────────────────────────────────────────────────
+// Restrained, professional floor palette (muted / GIS-like — no neon).
+const FLOOR_COLORS = [
+  0x8fb3e0, 0x7fbfa8, 0xe6c189, 0xcf9bb8,
+  0x9bb8d3, 0xb3a6d6, 0x8cc8c0, 0xd6b391,
+];
+function floorColor(i) { return FLOOR_COLORS[i % FLOOR_COLORS.length]; }
+
+// ────────────────────────────────────────────────────────────────────────────
+// Materials
+// ────────────────────────────────────────────────────────────────────────────
+function buildingMat(height) {
+  const lightness = Math.max(0.62, 1.0 - height / 60);
+  return new THREE.MeshLambertMaterial({
+    color: new THREE.Color().setHSL(0.08, 0.07, lightness)
+  });
+}
+function selectedMat() {
+  return new THREE.MeshLambertMaterial({
+    color: 0x1a73e8, emissive: 0x0d3c8a, emissiveIntensity: 0.35
+  });
+}
+function hoverMat() {
+  return new THREE.MeshLambertMaterial({ color: 0x4a90d9 });
+}
+
+// ────────────────────────────────────────────────────────────────────────────
+// Geometry helpers
+// ────────────────────────────────────────────────────────────────────────────
+
+// Build a Three.js Shape from a footprint [[ldr_x, ldr_y], ...]
+function footprintShape(footprint) {
+  const s = new THREE.Shape();
+  footprint.forEach(([x, y], i) => {
+    const [tx, tz] = ldrXY(x, y);
+    // Shape is in XY; after rotateX(-PI/2) it becomes the ground XZ plane.
+    // Use tx → shape.x, tz → shape.y (then -PI/2 rotation fixes orientation).
+    if (i === 0) s.moveTo(tx, tz);
+    else s.lineTo(tx, tz);
+  });
+  s.closePath();
+  return s;
+}
+
+// LOD1: simple extrusion, building starts at y=0
+function makeLOD1Group(b) {
+  const h = b.height;
+  if (h <= 0 || b.footprint.length < 3) return null;
+
+  const shape = footprintShape(b.footprint);
+  const geo = new THREE.ExtrudeGeometry(shape, { depth: h, bevelEnabled: false });
+  geo.rotateX(-Math.PI / 2);
+  // After rotateX, extrusion goes in +Y. Translate base to relative elevation.
+  const baseY = ldrZ(b.ground_z);
+  geo.translate(0, baseY, 0);
+
+  const mat = buildingMat(h);
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
+
+  const edges = new THREE.EdgesGeometry(geo, 20);
+  const lines = new THREE.LineSegments(edges,
+    new THREE.LineBasicMaterial({ color: 0x807868, transparent: true, opacity: 0.55 }));
+
+  const grp = new THREE.Group();
+  grp.add(mesh, lines);
+  return grp;
+}
+
+// Inline OBJ parser — no external loader needed
+function parseOBJ(text) {
+  const verts = [];
+  const tris = [];
+  text.split('\n').forEach(raw => {
+    const parts = raw.trim().split(/\s+/);
+    if (parts[0] === 'v') {
+      verts.push([parseFloat(parts[1]), parseFloat(parts[2]), parseFloat(parts[3])]);
+    } else if (parts[0] === 'f') {
+      // Fan-triangulate polygon faces
+      const idx = parts.slice(1).map(p => parseInt(p.split('/')[0]) - 1);
+      for (let i = 1; i < idx.length - 1; i++) {
+        tris.push([idx[0], idx[i], idx[i + 1]]);
+      }
     }
+  });
+  return { verts, tris };
+}
+
+// Convert parsed OBJ to BufferGeometry using correct coordinate mapping
+function objToBufferGeo(objData, groundZ) {
+  const pos = [];
+  objData.tris.forEach(([a, b, c]) => {
+    [a, b, c].forEach(vi => {
+      const [ox, oy, oz] = objData.verts[vi];
+      // OBJ axes: ox=ldr_x, oy=ldr_y, oz=ldr_z
+      const [tx, tz] = ldrXY(ox, oy);
+      const ty = ldrZ(oz);
+      pos.push(tx, ty, tz);
+    });
+  });
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  geo.computeVertexNormals();
+  return geo;
+}
+
+// LOD2-like: load OBJ from Session 2 backend
+async function makeLOD2Group(b, objBase) {
+  const objRelPath = b.lod2_like_geometry && b.lod2_like_geometry.obj_file;
+  if (!objRelPath) return makeLOD1Group(b);  // fallback
+
+  const objUrl = objBase + objRelPath;
+  try {
+    const r = await fetch(objUrl);
+    if (!r.ok) throw new Error(`OBJ fetch failed: ${r.status}`);
+    const text = await r.text();
+    const objData = parseOBJ(text);
+
+    const geo = objToBufferGeo(objData, b.ground_z);
+    const mat = buildingMat(b.height);
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+
+    const edges = new THREE.EdgesGeometry(geo, 20);
+    const lines = new THREE.LineSegments(edges,
+      new THREE.LineBasicMaterial({ color: 0x807868, transparent: true, opacity: 0.55 }));
+
+    const grp = new THREE.Group();
+    grp.add(mesh, lines);
+    return grp;
+  } catch (e) {
+    console.warn(`LOD2 load failed for ${b.building_id}:`, e.message, '— using LOD1 fallback');
+    return makeLOD1Group(b);
   }
 }
 
-// ── Building material (PLATEAU-style: white/cream) ────────────────────────────
-function makeMat(height){
-  // PLATEAU uses white buildings; taller = slightly cooler/darker
-  const lightness = Math.max(0.6, 1.0 - height/120);
-  const c = new THREE.Color().setHSL(0.08, 0.08, lightness); // warm white
-  return new THREE.MeshLambertMaterial({color:c});
-}
-function makeSelectedMat(){
-  return new THREE.MeshLambertMaterial({color:0x1a73e8,emissive:0x0044aa,emissiveIntensity:.3});
-}
+// Floor bands: one colored slab per floor (from backend floors[])
+function makeFloorBands(b) {
+  if (!b.floors || b.floors.length === 0) return null;
+  const grp = new THREE.Group();
+  grp.userData.floors = [];
 
-// ── Build footprint shape ─────────────────────────────────────────────────────
-function makeShape(ring){
-  const s=new THREE.Shape();
-  ring.forEach(([lon,lat],i)=>{
-    const[x,z]=toXZ(lon,lat);
-    if(i===0)s.moveTo(x,-z); else s.lineTo(x,-z);
+  b.floors.forEach((fl, i) => {
+    const fh = fl.z_max - fl.z_min;
+    if (fh <= 0 || b.footprint.length < 3) return;
+
+    const shape = footprintShape(b.footprint);
+    const geo = new THREE.ExtrudeGeometry(shape, { depth: fh, bevelEnabled: false });
+    geo.rotateX(-Math.PI / 2);
+    geo.translate(0, ldrZ(fl.z_min), 0);
+
+    const color = floorColor(i);
+    const mat = new THREE.MeshLambertMaterial({ color, transparent: true, opacity: 0.85 });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+
+    // Floor edge lines
+    const edges = new THREE.EdgesGeometry(geo, 15);
+    const lines = new THREE.LineSegments(edges,
+      new THREE.LineBasicMaterial({ color, linewidth: 1 }));
+
+    const sub = new THREE.Group();
+    sub.add(mesh, lines);
+    sub.userData.floorIndex = i;
+    sub.userData.floor = fl;
+    grp.add(sub);
+    grp.userData.floors.push({ index: i, sub, mesh, mat, floor: fl, color });
   });
-  s.closePath(); return s;
+  return grp;
 }
 
-// ── Raycaster ─────────────────────────────────────────────────────────────────
-const ray=new THREE.Raycaster(), mouse=new THREE.Vector2();
-let sel=null, hov=null;
+// ────────────────────────────────────────────────────────────────────────────
+// Raycaster + interaction
+// ────────────────────────────────────────────────────────────────────────────
+const ray = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+let sel = null, hov = null, selFloor = null;   // selFloor = { item, index } | null
+let selBuildingId = null;                       // survives scene rebuilds (LOD/floor toggles)
+const meshGroups = [];  // {group, lod1, lod2, floorGrp, building}
 
-function ndcOf(e){
-  const rc=renderer.domElement.getBoundingClientRect();
-  mouse.x=(e.clientX-rc.left)/rc.width*2-1;
-  mouse.y=-(e.clientY-rc.top)/rc.height*2+1;
-}
-function hitTest(){
-  ray.setFromCamera(mouse,camera);
-  const all=[];
-  meshes.forEach(g=>g.traverse(c=>{if(c.isMesh)all.push(c);}));
-  const hits=ray.intersectObjects(all);
-  if(!hits.length)return null;
-  let o=hits[0].object;
-  // Walk up to find the Group in meshes[]
-  while(o&&!meshes.includes(o))o=o.parent;
-  return (o&&meshes.includes(o))?o:null;
+function ndcOf(e) {
+  const rc = renderer.domElement.getBoundingClientRect();
+  mouse.x = (e.clientX - rc.left) / rc.width * 2 - 1;
+  mouse.y = -(e.clientY - rc.top) / rc.height * 2 + 1;
 }
 
-renderer.domElement.addEventListener('mousemove',e=>{
+function pick() {
+  ray.setFromCamera(mouse, camera);
+  const candidates = [];
+  meshGroups.forEach(item => {
+    item.group.traverse(c => { if (c.isMesh && c.visible) candidates.push(c); });
+  });
+  const hits = ray.intersectObjects(candidates);
+  if (!hits.length) return null;
+  const obj = hits[0].object;
+  let item = null;
+  for (const m of meshGroups) {
+    let found = false;
+    m.group.traverse(c => { if (c === obj) found = true; });
+    if (found) { item = m; break; }
+  }
+  if (!item) return null;
+  return { item, object: obj, floor: floorEntryOf(item, obj) };
+}
+
+// Walk up from a clicked mesh to its floor sub-group (if in floor mode).
+function floorEntryOf(item, obj) {
+  let o = obj;
+  while (o && o !== item.group) {
+    if (o.userData && o.userData.floor) {
+      return { floor: o.userData.floor, floorIndex: o.userData.floorIndex, sub: o };
+    }
+    o = o.parent;
+  }
+  return null;
+}
+
+function applyMat(item, mat) {
+  if (!item) return;
+  item.group.traverse(c => { if (c.isMesh) c.material = mat; });
+}
+
+// Floor highlight: selected floor prominent, the rest subdued (not removed).
+function applyFloorHighlight(item, floorIndex) {
+  const floors = item.group.userData.floors || [];
+  floors.forEach(f => {
+    if (f.index === floorIndex) {
+      f.mat.opacity = 0.95;
+      f.mat.emissive = new THREE.Color(0x1a73e8);
+      f.mat.emissiveIntensity = 0.28;
+      f.sub.children.forEach(c => { if (c.isLineSegments) c.material.color.set(0x1a73e8); });
+    } else {
+      f.mat.opacity = 0.16;
+      f.mat.emissive = new THREE.Color(0x000000);
+      f.mat.emissiveIntensity = 0;
+      f.sub.children.forEach(c => { if (c.isLineSegments) c.material.color.set(f.color); });
+    }
+  });
+}
+
+function clearFloorHighlight(item) {
+  const floors = item.group.userData.floors || [];
+  floors.forEach(f => {
+    f.mat.opacity = 0.85;
+    f.mat.emissive = new THREE.Color(0x000000);
+    f.mat.emissiveIntensity = 0;
+    f.sub.children.forEach(c => { if (c.isLineSegments) c.material.color.set(f.color); });
+  });
+}
+
+function selectFloor(item, floorIndex, floor) {
+  sel = item;
+  selBuildingId = item.building.building_id;
+  selFloor = { item, index: floorIndex };
+  applyFloorHighlight(item, floorIndex);
+  showPanel(item.building);
+  showFloorDetail(item.building, floor);
+}
+
+function clearFloorSelection() {
+  if (selFloor) {
+    clearFloorHighlight(selFloor.item);
+    selFloor = null;
+    if (sel) showPanel(sel.building);
+  }
+  const btn = document.getElementById('btn-entire');
+  if (btn) btn.classList.add('active');
+}
+window.clearFloorSelection = clearFloorSelection;
+
+renderer.domElement.addEventListener('mousemove', e => {
   ndcOf(e);
-  const h=hitTest();
-  if(h!==hov){
-    if(hov&&hov!==sel)setMat(hov, makeMat(hov.userData.h));
-    if(h&&h!==sel)setMat(h, new THREE.MeshLambertMaterial({color:0x4a90d9}));
-    hov=h; renderer.domElement.style.cursor=h?'pointer':'default';
+  const p = pick();
+  const h = p ? p.item : null;
+  if (h !== hov) {
+    if (hov && hov !== sel && !floorMode) applyMat(hov, buildingMat(hov.building.height));
+    if (h && h !== sel && !floorMode) applyMat(h, hoverMat());
+    hov = h;
+    renderer.domElement.style.cursor = h ? 'pointer' : 'default';
   }
 });
-renderer.domElement.addEventListener('click',e=>{
+
+renderer.domElement.addEventListener('click', e => {
   ndcOf(e);
-  const h=hitTest();
-  if(sel)setMat(sel, makeMat(sel.userData.h));
-  if(h){sel=h; setMat(h,makeSelectedMat()); showPanel(h.userData);}
-  else{sel=null; closePanel();}
+  const p = pick();
+  if (sel && sel !== (p ? p.item : null) && !floorMode) {
+    applyMat(sel, buildingMat(sel.building.height));
+  }
+  if (p) {
+    if (floorMode && p.floor) {
+      selectFloor(p.item, p.floor.floorIndex, p.floor.floor);
+    } else {
+      sel = p.item;
+      selBuildingId = p.item.building.building_id;
+      selFloor = null;
+      if (!floorMode) applyMat(p.item, selectedMat());
+      showPanel(p.item.building);
+    }
+  } else {
+    sel = null;
+    selBuildingId = null;
+    selFloor = null;
+    closePanel();
+  }
 });
 
-function setMat(g,mat){
-  g.traverse(c=>{
-    // Only update Mesh materials, not LineSegments (edge outlines)
-    if(c.isMesh) c.material=mat;
-  });
-}
+// ────────────────────────────────────────────────────────────────────────────
+// Panel
+// ────────────────────────────────────────────────────────────────────────────
+function showPanel(b) {
+  document.getElementById('p-uid').textContent = b.building_id;
+  document.getElementById('p-uid-note').textContent =
+    b.prototype_ulpin_note || 'Prototype ID — not official ULPIN';
 
-// ── Panel ─────────────────────────────────────────────────────────────────────
-function showPanel(ud){
-  const{props,ulpin,h}=ud;
-  const conf=+(props.confidence||0.82).toFixed(2);
-  document.getElementById('p-uid').textContent  = ulpin.id;
-  document.getElementById('p-h').textContent    = `${(props.height_m||h).toFixed(1)} m`;
-  document.getElementById('p-fl').textContent   = `${props.floors||Math.max(1,Math.round(h/3.2))} floors`;
-  document.getElementById('p-a').textContent    = `${+(props.area_m2||0).toFixed(0)} m²`;
-  document.getElementById('p-roof').innerHTML   = `<span class="chip">Flat / Terrace</span>`;
-  document.getElementById('p-src').textContent  = props.has_lidar_height?'LiDAR (AI)':'Modelled';
-  document.getElementById('p-conf').textContent = `${(conf*100).toFixed(1)}%`;
-  document.getElementById('p-cbar').style.width = `${conf*100}%`;
-  document.getElementById('p-st').textContent   = ulpin.state;
-  document.getElementById('p-di').textContent   = ulpin.district;
-  document.getElementById('p-vi').textContent   = ulpin.village;
-  document.getElementById('p-pl').textContent   = ulpin.plot;
-  document.getElementById('p-use').textContent  = ulpin.use;
+  document.getElementById('p-h').textContent  = `${b.height.toFixed(1)} m`;
+  document.getElementById('p-fl').textContent = `${b.floor_count} floor${b.floor_count !== 1 ? 's' : ''}`;
+  document.getElementById('p-a').textContent  = `${Math.round(b.footprint_area_m2)} m²`;
+  document.getElementById('p-fverts').textContent = `${b.footprint_n_vertices} pts`;
+  document.getElementById('p-roof').textContent   = b.roof_type;
+  document.getElementById('p-lod').textContent    = lodMode === 'lod2'
+    ? 'LOD2-like (Session 2 OBJ)' : 'LOD1 (footprint extrusion)';
+  document.getElementById('p-pts').textContent = `${b.point_count}`;
+
+  document.getElementById('p-datasrc').textContent = b.source_dataset;
+  document.getElementById('p-scene').textContent   = b.scene_id;
+  document.getElementById('p-hsrc').textContent    = b.height_source;
+  document.getElementById('p-fsrc').textContent    = b.floor_count_source || 'estimated';
+  document.getElementById('p-roofsrc').textContent = b.roof_type_source;
+  document.getElementById('p-fpsrc').textContent   = b.footprint_source;
+  document.getElementById('p-model').textContent   = b.ai_model;
+
+  const aiEl = document.getElementById('p-ai');
+  const src = activeSrc || {};
+  aiEl.textContent = src.aiStatus || 'AI-derived (segmentation)';
+  aiEl.className   = 'v ' + (src.aiStatus && src.aiStatus.includes('Predicted') ? 'green' : 'warn');
+
+  // CRS — shown when dataset provides it
+  const crsRow = document.getElementById('row-crs');
+  if (src.crs) {
+    document.getElementById('p-crs').textContent = src.crs;
+    crsRow.style.display = '';
+  } else {
+    crsRow.style.display = 'none';
+  }
+
+  // Domain gap warning — shown only for AHN4
+  const gapSec = document.getElementById('sec-domain-gap');
+  if (src.domainGapWarning) {
+    document.getElementById('p-domain-gap-text').textContent = src.domainGapWarning;
+    document.getElementById('p-dales-iou').textContent = src.dalesIoU || '—';
+    document.getElementById('p-ahn4-iou').textContent  = src.buildingIoU || '—';
+    gapSec.style.display = '';
+  } else {
+    gapSec.style.display = 'none';
+  }
+
+  // Roof RANSAC details — shown when building has them (AHN4 with RANSAC roof analysis)
+  const hasSlope = b.roof_slope_deg != null;
+  document.getElementById('row-slope').style.display  = hasSlope ? '' : 'none';
+  document.getElementById('row-ridge').style.display  = hasSlope ? '' : 'none';
+  document.getElementById('row-planes').style.display = hasSlope ? '' : 'none';
+  if (hasSlope) {
+    document.getElementById('p-slope').textContent  = `${b.roof_slope_deg.toFixed(1)}°`;
+    document.getElementById('p-ridge').textContent  = b.roof_ridge_axis || '—';
+    document.getElementById('p-planes').textContent = b.roof_n_planes != null ? b.roof_n_planes : '—';
+  }
+
+  document.getElementById('p-dset').textContent = src.dataset || b.source_dataset;
+  document.getElementById('p-biou').textContent = src.buildingIoU || '—';
+
+  // Floor section
+  const secFloors = document.getElementById('sec-floors');
+  const floorList = document.getElementById('floor-list');
+  if (floorMode && b.floors && b.floors.length > 0) {
+    secFloors.style.display = '';
+    floorList.innerHTML = '';
+    b.floors.forEach((fl, i) => {
+      const div = document.createElement('div');
+      div.className = 'floor-item' + (selFloor && selFloor.index === i ? ' active' : '');
+      const swatch = document.createElement('span');
+      swatch.className = 'floor-swatch';
+      swatch.style.background = '#' + floorColor(i).toString(16).padStart(6, '0');
+      const info = document.createElement('span');
+      info.className = 'floor-info';
+      info.textContent =
+        `Floor ${fl.floor_number}  |  ${fl.z_min.toFixed(1)}–${fl.z_max.toFixed(1)} m  |  ` +
+        `${fl.height.toFixed(1)} m  |  ${fl.source}`;
+      div.appendChild(swatch);
+      div.appendChild(info);
+      div.addEventListener('click', () => selectFloor(sel, i, fl));
+      floorList.appendChild(div);
+    });
+    const btnEntire = document.getElementById('btn-entire');
+    if (btnEntire) btnEntire.classList.toggle('active', !selFloor);
+  } else {
+    secFloors.style.display = 'none';
+  }
+
+  // Floor details are only shown when a floor is explicitly selected
+  const secFloorDetail = document.getElementById('sec-floor-detail');
+  if (secFloorDetail) secFloorDetail.style.display = 'none';
+
   document.getElementById('panel').classList.add('open');
-  document.getElementById('hint').style.opacity='0';
+  document.getElementById('hint').style.opacity = '0';
 }
-window.closePanel=()=>{
+
+// Floor details panel — fed entirely from the backend floors[] entry.
+function showFloorDetail(b, fl) {
+  const sec = document.getElementById('sec-floor-detail');
+  if (!sec) return;
+  sec.style.display = '';
+
+  const fid = fl.floor_id ||
+    `${b.building_id}/F${String(fl.floor_number).padStart(2, '0')}`;
+  const fLabel = `F${String(fl.floor_number).padStart(2, '0')}`;
+
+  document.getElementById('f-id').textContent = fid;
+  document.getElementById('f-hier').innerHTML =
+    `<div><span class="lbl">Building</span> ${b.building_id}</div>` +
+    `<div>└─ <span class="lbl">Floor</span> ${fLabel}</div>` +
+    `<div>└─ <span class="lbl">Floor Prototype ID</span> ${fid}</div>` +
+    `<div>└─ <span class="lbl">Building Prototype ULPIN</span> ${b.prototype_ulpin || b.building_id}</div>`;
+
+  document.getElementById('f-bid').textContent  = b.building_id;
+  document.getElementById('f-num').textContent  = fl.floor_number;
+  document.getElementById('f-h').textContent    = `${fl.height.toFixed(2)} m`;
+  document.getElementById('f-zmin').textContent = `${fl.z_min.toFixed(2)} m`;
+  document.getElementById('f-zmax').textContent = `${fl.z_max.toFixed(2)} m`;
+  document.getElementById('f-bh').textContent   = `${b.height.toFixed(1)} m`;
+  document.getElementById('f-roof').textContent = b.roof_type;
+  document.getElementById('f-ds').textContent   = b.source_dataset;
+  document.getElementById('f-model').textContent = b.ai_model || (activeSrc && activeSrc.aiModel) || '—';
+
+  const crsRow = document.getElementById('row-f-crs');
+  if (activeSrc && activeSrc.crs) {
+    document.getElementById('f-crs').textContent = activeSrc.crs;
+    crsRow.style.display = '';
+  } else {
+    crsRow.style.display = 'none';
+  }
+
+  const prov = b.provenance ? (b.provenance.floors || 'estimated') : (b.floor_count_source || 'estimated');
+  document.getElementById('f-prov').textContent = prov;
+}
+
+window.closePanel = () => {
   document.getElementById('panel').classList.remove('open');
-  document.getElementById('hint').style.opacity='1';
-  if(sel){setMat(sel,makeMat(sel.userData.h));sel=null;}
+  document.getElementById('hint').style.opacity = '1';
+  if (selFloor) { clearFloorHighlight(selFloor.item); selFloor = null; }
+  if (sel) {
+    if (!floorMode) applyMat(sel, buildingMat(sel.building.height));
+    sel = null;
+  }
+  selBuildingId = null;
 };
 
-// ── Controls ──────────────────────────────────────────────────────────────────
-let autoRot=false, wireMode=false;
-window.resetCam=()=>{camera.position.set(0,600,900);ctrl.target.set(0,20,0);ctrl.update();};
-window.setTop=()=>{camera.position.set(0,1500,.1);ctrl.target.set(0,0,0);ctrl.update();};
-window.toggleRot=()=>{autoRot=!autoRot;document.getElementById('btn-rot').classList.toggle('on',autoRot);};
-window.toggleWire=()=>{
-  wireMode=!wireMode;
-  document.getElementById('btn-wire').classList.toggle('on',wireMode);
-  meshes.forEach(g=>g.traverse(c=>{if(c.isMesh)c.material.wireframe=wireMode;}));
+// ────────────────────────────────────────────────────────────────────────────
+// Controls
+// ────────────────────────────────────────────────────────────────────────────
+let autoRot = false, wireMode = false;
+
+window.resetCam = () => {
+  const bbox = new THREE.Box3();
+  meshGroups.forEach(({ group }) => bbox.expandByObject(group));
+  if (!bbox.isEmpty()) {
+    const ctr = bbox.getCenter(new THREE.Vector3());
+    const sz  = bbox.getSize(new THREE.Vector3());
+    const d   = Math.max(sz.x, sz.z) * 0.75;
+    ctrl.target.copy(ctr);
+    camera.position.set(ctr.x + d * 0.4, d * 0.5, ctr.z + d * 0.7);
+  } else {
+    camera.position.set(0, 200, 300);
+    ctrl.target.set(0, 10, 0);
+  }
+  ctrl.update();
 };
 
-// ── Resize ────────────────────────────────────────────────────────────────────
-function resize(){const w=innerWidth,h=innerHeight-52;renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();}
-resize(); window.addEventListener('resize',resize);
+window.setTop = () => {
+  const ctr = ctrl.target.clone();
+  camera.position.set(ctr.x, 500, ctr.z + 0.1);
+  camera.lookAt(ctr);
+  ctrl.update();
+};
 
-// ── Render loop ───────────────────────────────────────────────────────────────
-let t0=Date.now();
-const meshes=[];
-(function tick(){requestAnimationFrame(tick);
-  if(autoRot){const t=(Date.now()-t0)*.00018;const d=Math.hypot(camera.position.x,camera.position.z)||900;
-    camera.position.x=Math.sin(t)*d;camera.position.z=Math.cos(t)*d;camera.lookAt(ctrl.target);}
-  ctrl.update();renderer.render(scene,camera);
+window.toggleRot = () => {
+  autoRot = !autoRot;
+  document.getElementById('btn-rot').classList.toggle('on', autoRot);
+};
+
+window.toggleWire = () => {
+  wireMode = !wireMode;
+  document.getElementById('btn-wire').classList.toggle('on', wireMode);
+  meshGroups.forEach(({ group }) => {
+    group.traverse(c => { if (c.isMesh) c.material.wireframe = wireMode; });
+  });
+};
+
+window.cycleLOD = () => {
+  lodMode = (lodMode === 'lod1') ? 'lod2' : 'lod1';
+  document.getElementById('btn-lod').textContent =
+    lodMode === 'lod1' ? '📐 LOD1' : '🏗 LOD2-like';
+  if (activeSrc && activeSrc.buildings) rebuildScene();
+};
+
+window.toggleFloorMode = () => {
+  floorMode = !floorMode;
+  const btn = document.getElementById('btn-floor');
+  btn.textContent = floorMode ? '📊 Floors: ON' : '📊 Floors: OFF';
+  btn.classList.toggle('on', floorMode);
+  if (activeSrc && activeSrc.buildings) rebuildScene();
+};
+
+// Dataset switcher
+window.switchDataset = async (key) => {
+  if (key === activeKey) return;
+  const src = DATASET_REGISTRY[key];
+  if (!src) return;
+  document.querySelectorAll('[id^="btn-ds-"]').forEach(b => b.classList.remove('on'));
+  const btn = document.getElementById('btn-ds-' + key);
+  if (btn) btn.classList.add('on');
+  await loadDataset(key, src);
+};
+
+// ────────────────────────────────────────────────────────────────────────────
+// Resize + render loop
+// ────────────────────────────────────────────────────────────────────────────
+function resize() {
+  const w = innerWidth, h = innerHeight - 52;
+  renderer.setSize(w, h);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+}
+resize();
+window.addEventListener('resize', resize);
+
+const t0 = Date.now();
+(function tick() {
+  requestAnimationFrame(tick);
+  if (autoRot) {
+    const t = (Date.now() - t0) * 0.00016;
+    const d = Math.hypot(camera.position.x - ctrl.target.x,
+                         camera.position.z - ctrl.target.z) || 300;
+    camera.position.x = ctrl.target.x + Math.sin(t) * d;
+    camera.position.z = ctrl.target.z + Math.cos(t) * d;
+    camera.lookAt(ctrl.target);
+  }
+  ctrl.update();
+  renderer.render(scene, camera);
 })();
 
-// ── Load data and build scene ─────────────────────────────────────────────────
-async function boot(){
-  try{
-    document.getElementById('ltxt').textContent='Downloading Delhi GIS footprints…';
+// ────────────────────────────────────────────────────────────────────────────
+// Scene builder
+// ────────────────────────────────────────────────────────────────────────────
+function clearBuildings() {
+  meshGroups.forEach(({ group }) => scene.remove(group));
+  meshGroups.length = 0;
+  sel = null;
+  hov = null;
+  selFloor = null;
+}
 
-    // Load GeoJSON
-    let feats=null;
-    const srcs=['../ml/results/gis_data/delhi_buildings.geojson',
-                 '../ml/results/stpls3d_real/viewer_data.json'];
-    for(const src of srcs){
-      try{
-        const r=await fetch(src);
-        if(!r.ok)continue;
-        const j=await r.json();
-        const f=j.features||j.buildings;
-        if(f&&f.length){feats=f;break;}
-      }catch(e){}
+async function rebuildScene() {
+  if (!activeSrc || !activeSrc.buildings) return;
+
+  clearBuildings();
+
+  const buildings = activeSrc.buildings;
+  const objBase   = activeSrc.objBase;
+
+  for (const b of buildings) {
+    if (!b.footprint || b.footprint.length < 3 || b.height <= 0) continue;
+
+    let grp;
+
+    if (floorMode) {
+      // Floor band mode: show individual floor slabs
+      grp = makeFloorBands(b) || makeLOD1Group(b);
+    } else if (lodMode === 'lod2') {
+      // LOD2-like: load OBJ from Session 2 output
+      grp = await makeLOD2Group(b, objBase);
+    } else {
+      // LOD1: footprint extrusion
+      grp = makeLOD1Group(b);
     }
-    if(!feats||!feats.length)feats=genSample(800);
 
-    document.getElementById('ltxt').textContent=`Building ${feats.length} 3D models…`;
+    if (!grp) continue;
+    scene.add(grp);
+    meshGroups.push({ group: grp, building: b });
+  }
 
-    // Compute centroid for projection reference
-    let sx=0,sy=0,cn=0;
-    feats.forEach(f=>{
-      const p=f.properties||f;
-      if(p.centroid_lon){sx+=p.centroid_lon;sy+=p.centroid_lat;cn++;}
-      else if(f.geometry){const r=f.geometry.coordinates[0];if(r&&r[0]){sx+=r[0][0];sy+=r[0][1];cn++;}}
-    });
-    if(cn){REF_LON=sx/cn;REF_LAT=sy/cn;}
+  resetCam();
+  restoreSelection();
+}
 
-    // Build geometries
-    let sumH=0, cnt=0;
-    let minLon=Infinity,maxLon=-Infinity,minLat=Infinity,maxLat=-Infinity;
+// Re-select the previously selected building after a scene rebuild (LOD/floor toggle).
+function restoreSelection() {
+  if (!selBuildingId) return;
+  const item = meshGroups.find(m => m.building.building_id === selBuildingId);
+  if (!item) return;
+  sel = item;
+  if (!floorMode) applyMat(item, selectedMat());
+  showPanel(item.building);
+  focusBuilding(item.group);
+}
 
-    // Cap at 5000 to keep WebGL smooth; the MS dataset may have 20k+ buildings
-    const MAX_BLDGS = 5000;
+function focusBuilding(group) {
+  const bbox = new THREE.Box3().setFromObject(group);
+  if (bbox.isEmpty()) return;
+  const ctr = bbox.getCenter(new THREE.Vector3());
+  const sz  = bbox.getSize(new THREE.Vector3());
+  const d   = Math.max(sz.x, sz.z, sz.y) * 1.4;
+  ctrl.target.copy(ctr);
+  camera.position.set(ctr.x + d * 0.5, d * 0.6, ctr.z + d * 0.8);
+  ctrl.update();
+}
 
-    feats.forEach((feat,i)=>{
-      if(cnt>=MAX_BLDGS) return;
-      const geo = feat.geometry;
-      const props = feat.properties||feat;
-      if(!geo||geo.type!=='Polygon')return;
+// ────────────────────────────────────────────────────────────────────────────
+// Dataset loader
+// ────────────────────────────────────────────────────────────────────────────
+async function loadDataset(key, src) {
+  document.getElementById('load').classList.remove('gone');
+  document.getElementById('ltxt').textContent = `Loading ${src.label}…`;
+  document.getElementById('demo-banner').style.display = 'none';
 
-      const ring = geo.coordinates[0];
-      if(!ring||ring.length<4)return;
+  try {
+    const r = await fetch(src.path);
+    if (!r.ok) throw new Error(`${src.label}: HTTP ${r.status}`);
+    const data = await r.json();
 
-      // ── Size filter: reject merged / oversized footprints ───────────────
-      const lons=ring.map(p=>p[0]), lats=ring.map(p=>p[1]);
-      const lonSpan=Math.max(...lons)-Math.min(...lons);
-      const latSpan=Math.max(...lats)-Math.min(...lats);
-      const wMetres = lonSpan*111320*Math.cos(REF_LAT*Math.PI/180);
-      const hMetres = latSpan*111320;
-      // Indian residential: rarely exceed 40m × 40m; commercial: 60m × 60m
-      if(wMetres>65||hMetres>65) return;   // skip merged clusters
-      if(wMetres<2 ||hMetres<2)  return;   // skip noise slivers
+    if (!data.buildings || !data.buildings.length) {
+      throw new Error(`${src.label}: no buildings in response`);
+    }
 
-      // Track bounds for OSM tiles
-      lons.forEach(lon=>{if(lon<minLon)minLon=lon;if(lon>maxLon)maxLon=lon;});
-      lats.forEach(lat=>{if(lat<minLat)minLat=lat;if(lat>maxLat)maxLat=lat;});
+    // Attach buildings to src
+    src.buildings = data.buildings;
+    activeSrc     = src;
+    activeKey     = key;
 
-      const h = Math.max(3.2, +(props.height_m||props.height||0)||
-                Math.max(3.2, Math.round(Math.sqrt(wMetres*hMetres)/8)*3.2));
-
-      let shape;
-      try{shape=makeShape(ring);}catch(e){return;}
-
-      const extGeo = new THREE.ExtrudeGeometry(shape,{depth:h,bevelEnabled:false});
-      extGeo.rotateX(-Math.PI/2);
-
-      const mat  = makeMat(h);
-      const mesh = new THREE.Mesh(extGeo, mat);
-      mesh.castShadow=true; mesh.receiveShadow=true;
-
-      // ── Edge outline (shows true polygon shape, not just the bounding box) ──
-      const edges = new THREE.EdgesGeometry(extGeo, 25); // 25° threshold
-      const line  = new THREE.LineSegments(edges,
-        new THREE.LineBasicMaterial({color:0x808070,linewidth:1,transparent:true,opacity:.6}));
-
-      const grp = new THREE.Group();
-      grp.add(mesh, line);
-
-      const ulpin = makeULPIN(i);
-      grp.userData={h,props,ulpin};
-      scene.add(grp);
-      meshes.push(grp);
-      sumH+=h; cnt++;
-    });
+    // Compute scene centroid before building geometry
+    computeCentroid(data.buildings);
 
     // Update header
-    document.getElementById('k-bld').textContent = cnt;
-    document.getElementById('k-ht').textContent  = cnt?`${(sumH/cnt).toFixed(1)}m`:'—';
+    document.getElementById('hdr-sub').textContent = src.hdrSub;
+    document.getElementById('mode-label').textContent = src.shortLabel;
+    document.getElementById('k-bld').textContent = data.n_buildings;
+    const avgH = data.buildings.reduce((s, b) => s + b.height, 0) / data.buildings.length;
+    document.getElementById('k-ht').textContent  = `${avgH.toFixed(1)} m`;
+    document.getElementById('k-iou').textContent = src.buildingIoU;
+    document.getElementById('k-iou-lbl').textContent = src.iouLabel;
 
-    // Load OSM tiles
-    if(minLon<Infinity){
-      // Add small padding
-      loadOSMTiles({minLon:minLon-.002,maxLon:maxLon+.002,
-                    minLat:minLat-.002,maxLat:maxLat+.002});
-    }
-
-    // Camera: fit scene
-    const box=new THREE.Box3();
-    meshes.forEach(m=>box.expandByObject(m));
-    if(!box.isEmpty()){
-      const ctr=box.getCenter(new THREE.Vector3());
-      const sz =box.getSize(new THREE.Vector3());
-      const d  =Math.max(sz.x,sz.z)*.7;
-      ctrl.target.copy(ctr);
-      camera.position.set(ctr.x+d*.5,d*.45,ctr.z+d*.7);
-      ctrl.update();
-    }
-  }catch(err){
-    console.error(err);
-    document.getElementById('ltxt').textContent='Error: '+err.message;
-    document.getElementById('ltxt').style.color='#d93025';
-  }finally{
+    await rebuildScene();
+  } catch (err) {
+    console.error('Dataset load error:', err);
+    document.getElementById('ltxt').textContent = 'Error: ' + err.message;
+    document.getElementById('ltxt').style.color = '#d93025';
+    // Do not fall back to demo silently — show the error explicitly
+    return;
+  } finally {
     document.getElementById('load').classList.add('gone');
   }
 }
 
-// ── Sample fallback ───────────────────────────────────────────────────────────
-function genSample(n){
-  const r=rng(26011); const BLOCK=60,ST=12; const feats=[];
-  for(let i=0;i<n;i++){
-    const col=i%12, row=Math.floor(i/12);
-    const bx=col*(BLOCK+ST)+(r()-.5)*6, bz=row*(BLOCK+ST)+(r()-.5)*6;
-    const w=10+r()*40, d=10+r()*40, h=(1+~~(r()*9))*3.2;
-    const dlat=d/111320, dlon=w/111320/Math.cos(REF_LAT*Math.PI/180);
-    const lon0=REF_LON+bx/111320/Math.cos(REF_LAT*Math.PI/180);
-    const lat0=REF_LAT-bz/111320;
-    feats.push({
-      type:'Feature',
-      geometry:{type:'Polygon',coordinates:[[[lon0,lat0],[lon0+dlon,lat0],[lon0+dlon,lat0+dlat],[lon0,lat0+dlat],[lon0,lat0]]]},
-      properties:{height_m:+h.toFixed(1),floors:~~(h/3.2),area_m2:+(w*d).toFixed(0),
-        confidence:+(0.65+r()*.3).toFixed(2),has_lidar_height:r()>.5,
-        centroid_lon:lon0+dlon/2,centroid_lat:lat0+dlat/2}
-    });
-  }
-  return feats;
+// ────────────────────────────────────────────────────────────────────────────
+// Boot
+// ────────────────────────────────────────────────────────────────────────────
+async function boot() {
+  // Highlight DALES button as default
+  document.getElementById('btn-ds-dales').classList.add('on');
+  // Load DALES first — it has real Session 2 backend data
+  await loadDataset('dales', DATASET_REGISTRY.dales);
 }
 
 boot();

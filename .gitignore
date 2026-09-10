@@ -24,6 +24,24 @@ ml/results/plateau_demo/
 ml/results/stpls3d_real/
 ml/results/gis_data/
 
+# AHN4 real-world inference outputs (generated, large)
+ml/results/ahn4_*/
+ml/results/final_ahn4/
+ml/results/final_ahn4_improved/
+ml/results/final_ahn4_research_v2/
+ml/results/reconstruction_ahn4/
+
+# Reconstruction pipeline outputs (generated OBJ/JSON results)
+ml/results/reconstruction_v2/
+ml/results/reconstruction_v2_improved/
+ml/results/reconstruction_v2_stpls3d_ra/
+ml/results/reconstruction_v3/
+ml/results/reconstruction_v3_future/
+
+# DALES evaluation outputs
+ml/results/dales_baseline/
+ml/results/dales_exp006_eval/
+
 # Blender
 *.blend1
 *.blend

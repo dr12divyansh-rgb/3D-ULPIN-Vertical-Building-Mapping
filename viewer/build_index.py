@@ -23,7 +23,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "ml" / "data" / "synthetic"
 RESULTS = ROOT / "ml" / "results"
 SPLITS = ("train", "validation", "test")
-
+#yup
 
 def _rel(p: Path) -> str:
     return p.relative_to(ROOT).as_posix()

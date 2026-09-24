@@ -53,3 +53,5 @@ Thumbs.db
 # AI assistant
 .claude/
 opencode.json
+
+CLAUDE.md
